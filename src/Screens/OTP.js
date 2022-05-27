@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import { useBackHandler } from "@react-native-community/hooks";
 import {
   View,
   Text,
@@ -9,6 +11,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  BackHandler,
+  Alert,
   SafeAreaView,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -24,41 +28,61 @@ const { height, width } = Dimensions.get("window");
 const CELL_COUNT = 4;
 
 export default function OTP({ navigation, route }) {
+  // function backActionHandler() {
+  //   Alert.alert("", "Are you sure to exit the App?", [
+  //     {
+  //       text: "No",
+  //       onPress: () => null,
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Yes",
+  //       onPress: () => BackHandler.exitApp(),
+  //     },
+  //   ]);
+
+  //   return true;
+  // }
+
+  // useBackHandler(backActionHandler);
+
   const [value, setValue] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
-
+  console.log("key otp", route.params.paramKey);
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      mail: "",
-      otp: route.params.paramKey,
+      mail: route.params.paramKey,
+      otp: value,
     }),
   };
 
-  console.log("otpcode", route.params.paramKey);
+  // console.log("otpcode", route.params.paramKey);
   const onSubmitHandler = async () => {
+    console.log("requestoption", requestOptions);
     try {
       await fetch("http://3.215.18.129/verify_otp/", requestOptions).then(
         (response) => {
           response.json().then((data) => {
-            console.log("***********");
-            if (response.Success === 1) {
-              alert("Login Successfully");
-            } else if (response.Success === 0) {
-              alert("Please fill the correct OTP");
+            console.log("dataa", data);
+            if (data.status_code === 0) {
+              // alert("Login Sucessfully");
+              navigation.navigate("MyTabs");
+            } else if (data.status_code === 1) {
+              alert("Wrong credentials");
+            } else {
+              alert("Something went wrong!");
             }
-            console.log("Otp Api Call", data);
 
             // console.log("otp", otp);
 
             // Alert.alert("Post created at : ", data);
           });
-          navigation.navigate("MyTabs");
         }
       );
     } catch (error) {

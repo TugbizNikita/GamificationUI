@@ -34,6 +34,7 @@ export default function LoginOnboarding() {
         style={{
           justifyContent: "flex-start",
           paddingTop: 20,
+          // top: 150,
           backgroundColor: "#0084D6",
         }}
       >

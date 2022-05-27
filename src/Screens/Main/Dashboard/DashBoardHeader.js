@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,10 @@ import {
   Picker,
   Image,
   ScrollView,
+  Alert,
+  BackHandler,
 } from "react-native";
-
+import { useBackHandler } from "@react-native-community/hooks";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Feather from "react-native-vector-icons/Feather";
@@ -24,6 +26,40 @@ import TransformationCard from "../../../Components/TransformationCard";
 const { width, height } = Dimensions.get("window");
 
 export function CircleCard({ name }) {
+  const dashboardData = "http://3.215.18.129/dashboard/?file-name=S1";
+  const [marksobtain, setMarksObtaion] = useState("");
+
+  useEffect(() => {
+    fetch(dashboardData)
+      .then((response) => response.json())
+      .then((json) => {
+        setMarksObtaion(json.Skill_Dashboard.sheet_json);
+        console.log("datamarks", json.Skill_Dashboard.sheet_json);
+      })
+      .catch((error) => alert(error));
+  }, []);
+
+  // const getDataUsingGet = () => {
+  //   //GET request
+  //   fetch("http://3.215.18.129/dashboard/?file-name=S1", {
+  //     method: "GET",
+  //     //Request Type
+  //   })
+  //     .then((response) => response.json())
+  //     // ,setMarksObtaion(response)
+  //     //If response is in json then in success
+  //     .then((responseJson) => {
+  //       //Success
+  //       alert(JSON.stringify(responseJson));
+  //       console.log(responseJson);
+  //     })
+  //     //If response is not in json then in error
+  //     .catch((error) => {
+  //       //Error
+  //       alert(JSON.stringify(error));
+  //       console.error(error);
+  //     });
+  // };
   return (
     <View
       style={{
@@ -38,12 +74,12 @@ export function CircleCard({ name }) {
     >
       <Text style={{ fontSize: 15, fontWeight: "bold" }}>{name}</Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <AntDesign
+        {/* <AntDesign
           size={25}
           color="#0084D6"
           style={{ marginTop: 50 }}
           name="minuscircle"
-        />
+        /> */}
         <AnimatedCircularProgress
           size={80}
           width={5}
@@ -51,7 +87,7 @@ export function CircleCard({ name }) {
           tintColor="#A9A9A9"
           onAnimationComplete={() => console.log("onAnimationComplete")}
           backgroundColor="#0084D6"
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, left: 15 }}
         />
         <Image
           style={{
@@ -62,25 +98,26 @@ export function CircleCard({ name }) {
             justifyContent: "center",
             alignItems: "center",
             top: 38,
-            right: 60,
-            // left: 25,
+            // right: 20,
+            left: 40,
           }}
           source={require("../../../../assets/Images/assessment.png")}
         />
         <Entypo
           size={28}
           color="#0084D6"
-          style={{ marginTop: 50 }}
+          style={{ marginTop: 50, right: 10 }}
           name="circle-with-plus"
         />
       </View>
       <Text
         style={{
           fontWeight: "bold",
-          textAlign: "center",
+          // textAlign: "center",
           justifyContent: "center",
           alignItems: "center",
           top: 10,
+          left: 30,
         }}
       >
         {" "}
@@ -94,6 +131,24 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function DashBoardHeader({ navigation }) {
   const [selectedValue, setSelectedValue] = useState("Today");
+  // function backActionHandler() {
+  //   Alert.alert("", "Are you sure to exit the App?", [
+  //     {
+  //       text: "No",
+  //       onPress: () => null,
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Yes",
+  //       onPress: () => BackHandler.exitApp(),
+  //     },
+  //   ]);
+
+  //   return true;
+  // }
+
+  // useBackHandler(backActionHandler);
+
   return (
     <ScrollView
       style={{ backgroundColor: "white", flex: 1 }}
@@ -167,7 +222,7 @@ export default function DashBoardHeader({ navigation }) {
               source={require("../../../../assets/Images/personal-development.png")}
             />
             <Text style={{ marginTop: 60, marginLeft: 10, fontSize: 20 }}>
-              758 of 1400
+              700 of 1400
             </Text>
             <View
               style={{
@@ -298,7 +353,7 @@ export default function DashBoardHeader({ navigation }) {
               <Text style={{ marginTop: 40, textAlign: "left", fontSize: 20 }}>
                 758 of 1400
               </Text>
-              <Text style={{ textAlign: "left" }}>Cal Burnt</Text>
+              {/* <Text style={{ textAlign: "left" }}>Cal Burnt</Text> */}
             </View>
             <View
               style={{
@@ -324,8 +379,8 @@ export default function DashBoardHeader({ navigation }) {
           </View>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <CircleCard name="Assesment" />
           <CircleCard name="Soft Skill" />
+          <CircleCard name="Technical" />
         </View>
         {/* <View
           style={{
