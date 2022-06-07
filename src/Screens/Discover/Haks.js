@@ -3,6 +3,8 @@ import { View, Text, Image, Button, StyleSheet } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import YoutubePlayer from "react-native-youtube-iframe";
+import Entypo from "react-native-vector-icons/Entypo";
+
 export default function Haks() {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
@@ -23,24 +25,36 @@ export default function Haks() {
           backgroundColor: "white",
           top: 30,
           flexDirection: "row",
-          justifyContent: "space-between",
+          // justifyContent: "space-between",
           padding: 10,
         }}
       >
-        <View style={{ flexDirection: "row" }}>
-          <Fontisto
-            name="blogger"
+        <View
+          style={{
+            height: 40,
+            width: 40,
+            backgroundColor: "#6EE80E",
+            borderRadius: 40,
+            borderWidth: 0,
+            elevation: 1,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Entypo
+            name="light-bulb"
+            color="white"
             size={30}
             style={{
               justifyContent: "center",
               alignItems: "center",
-
               //   backgroundColor: "#0084D6",
             }}
           />
-          <Text style={{ left: 5, top: 5, fontSize: 15 }}>All</Text>
         </View>
-        <Text>Today</Text>
+        <Text style={{ left: 10, top: 10, fontSize: 15 }}>Hacks</Text>
+        <Text style={{ left: 200, top: 10, fontSize: 15 }}>Today</Text>
       </View>
       <View
         style={{

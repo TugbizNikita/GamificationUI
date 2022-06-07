@@ -1,18 +1,20 @@
+import { element } from "prop-types";
 import react from "react";
 import { Text, Image, View, TouchableOpacity } from "react-native";
 
-export default function TransformationCard() {
+export default function TransformationCard({ name, marks, name1, marks1 }) {
   return (
     <View
       style={{
         height: "100%",
         width: 300,
         marginLeft: 11,
+        // bottom: 70,
       }}
     >
       <View
         style={{
-          height: "70%",
+          height: "60%",
           width: "100%",
           flexDirection: "row",
         }}
@@ -34,10 +36,13 @@ export default function TransformationCard() {
               fontWeight: "bold",
               position: "absolute",
               bottom: 7,
-              left: 22,
+              left: 17,
             }}
           >
-            Pre Assesment
+            {name}
+            {marks}
+
+            {/* {element.Pre_Assessment} */}
           </Text>
         </>
         <>
@@ -60,7 +65,8 @@ export default function TransformationCard() {
               right: 22,
             }}
           >
-            Post Assesment
+            {name1}
+            {marks1}
           </Text>
         </>
       </View>

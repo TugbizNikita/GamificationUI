@@ -46,7 +46,7 @@ export default function OTP({ navigation, route }) {
 
   // useBackHandler(backActionHandler);
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState();
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -62,7 +62,7 @@ export default function OTP({ navigation, route }) {
     }),
   };
 
-  // console.log("otpcode", route.params.paramKey);
+  console.log("mail", route.params.paramKey);
   const onSubmitHandler = async () => {
     console.log("requestoption", requestOptions);
     try {
@@ -91,119 +91,119 @@ export default function OTP({ navigation, route }) {
   };
   console.log("otpNumber", value);
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: "white" }}
-      showsVerticalScrollIndicator={false}
+    // <ScrollView
+    //   style={{ flex: 1, backgroundColor: "white" }}
+    //   showsVerticalScrollIndicator={false}
+    // >
+    <View
+      style={{
+        height: height,
+        width: width,
+        alignItems: "center",
+        justifyContent: "flex-end",
+        backgroundColor: "white",
+        // flex: 1,
+        paddingBottom: 0,
+      }}
     >
       <View
         style={{
-          height: height,
           width: width,
+          flex: 0.4,
+          paddingTop: 0,
+          backgroundColor: "transparent",
           alignItems: "center",
-          justifyContent: "flex-end",
-          backgroundColor: "white",
-          // flex: 1,
-          paddingBottom: 0,
+          justifyContent: "center",
         }}
       >
         <View
           style={{
             width: width,
-            flex: 0.4,
-            paddingTop: 0,
+            flex: 0.3,
+            paddingTop: 10,
             backgroundColor: "transparent",
             alignItems: "center",
             justifyContent: "center",
+            marginTop: 40,
           }}
         >
-          <View
-            style={{
-              width: width,
-              flex: 0.3,
-              paddingTop: 10,
-              backgroundColor: "transparent",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 40,
-            }}
-          >
-            {/* <Image
+          {/* <Image
               source={require("../../../assets/Images/otp.png")}
               style={{ height: 120, width: 120, borderRadius: 0 }}
             /> */}
 
-            <Image
-              source={require("../../assets/Images/NovelLogo.png")}
-              style={{ height: 65, width: 281, top: 0 }}
-            />
-          </View>
+          <Image
+            source={require("../../assets/Images/NovelLogo.png")}
+            style={{ height: 65, width: 281, top: 0 }}
+          />
         </View>
+      </View>
+      <View
+        style={{
+          flex: 0.7,
+          backgroundColor: "#0084D6",
+          width: width,
+          borderTopStartRadius: 100,
+          alignItems: "center",
+        }}
+      >
         <View
           style={{
-            flex: 0.7,
-            backgroundColor: "#0084D6",
-            width: width,
-            borderTopStartRadius: 100,
+            width: "60%",
             alignItems: "center",
+            justifyContent: "center",
+            height: 70,
+            marginTop: 20,
           }}
         >
-          <View
+          <Text
             style={{
-              width: "60%",
-              alignItems: "center",
-              justifyContent: "center",
-              height: 70,
-              marginTop: 20,
+              color: "white",
+              lineHeight: 20,
+              fontSize: 15,
+              textAlign: "center",
+              fontFamily: "Helvetica",
             }}
           >
-            <Text
-              style={{
-                color: "white",
-                lineHeight: 20,
-                fontSize: 15,
-                textAlign: "center",
-                fontFamily: "Helvetica",
-              }}
-            >
-              Enter 4 digit OTP sent to your Email
-            </Text>
-          </View>
+            Enter 4 digit OTP sent to your Email
+          </Text>
+        </View>
 
-          <SafeAreaView style={styles.root}>
-            <CodeField
-              ref={ref}
-              {...props}
-              value={value}
-              onChangeText={setValue}
-              cellCount={CELL_COUNT}
-              rootStyle={styles.codeFieldRoot}
-              keyboardType="number-pad"
-              textContentType="oneTimeCode"
-              placeholder="0"
-              renderCell={({ index, symbol, isFocused }) => (
-                <View
-                  // Make sure that you pass onLayout={getCellOnLayoutHandler(index)} prop to root component of "Cell"
-                  onLayout={getCellOnLayoutHandler(index)}
-                  key={index}
-                  style={[styles.cellRoot, isFocused && styles.focusCell]}
-                >
-                  <Text style={styles.cellText}>
-                    {symbol || (isFocused ? <Cursor /> : null)}
-                  </Text>
-                </View>
-              )}
-            />
-          </SafeAreaView>
-          <View
-            style={{
-              height: 50,
-              flexDirection: "row",
-              width: width,
-              alignItems: "center",
-              justifyContent: "flex-end",
-            }}
-          >
-            {/* <Text
+        <SafeAreaView style={styles.root}>
+          <CodeField
+            ref={ref}
+            {...props}
+            value={value}
+            onChangeText={setValue}
+            cellCount={CELL_COUNT}
+            rootStyle={styles.codeFieldRoot}
+            keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            placeholder="0"
+            renderCell={({ index, symbol, isFocused }) => (
+              <View
+                // Make sure that you pass onLayout={getCellOnLayoutHandler(index)} prop to root component of "Cell"
+                onLayout={getCellOnLayoutHandler(index)}
+                key={index}
+                style={[styles.cellRoot, isFocused && styles.focusCell]}
+              >
+                <Text style={styles.cellText}>
+                  {symbol || (isFocused ? <Cursor /> : null)}
+                </Text>
+              </View>
+            )}
+          />
+        </SafeAreaView>
+        <View
+          style={{
+            height: 50,
+            flexDirection: "row",
+            width: width,
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          {/* <Text
               style={{
                 right: 33,
                 fontFamily: "Helvetica",
@@ -213,43 +213,43 @@ export default function OTP({ navigation, route }) {
             >
               Resend
             </Text> */}
-            <Text
-              style={{
-                right: 33,
-                fontSize: 20,
-                color: "white",
-                marginLeft: 8,
-                fontFamily: "Helvetica-Bold",
-              }}
-            >
-              (60)
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={onSubmitHandler}
+          {/* <Text
             style={{
-              height: 40,
-              width: width - 80,
-              backgroundColor: "white",
-              borderRadius: 20,
-              justifyContent: "center",
-              marginTop: 0,
+              right: 33,
+              fontSize: 20,
+              color: "white",
+              marginLeft: 8,
+              fontFamily: "Helvetica-Bold",
             }}
           >
-            <Text
-              style={{
-                color: "#0084D6",
-                fontFamily: "bold",
-                textAlign: "center",
-                fontSize: 17,
-              }}
-            >
-              Submit
-            </Text>
-          </TouchableOpacity>
+            (60)
+          </Text> */}
         </View>
+        <TouchableOpacity
+          onPress={onSubmitHandler}
+          style={{
+            height: 40,
+            width: width - 80,
+            backgroundColor: "white",
+            borderRadius: 20,
+            justifyContent: "center",
+            marginTop: 0,
+          }}
+        >
+          <Text
+            style={{
+              color: "#0084D6",
+              fontFamily: "bold",
+              textAlign: "center",
+              fontSize: 17,
+            }}
+          >
+            Submit
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
+    // </ScrollView>
   );
 }
 

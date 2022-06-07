@@ -2,11 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import All from "../Screens/Discover/All";
+import AllTab from "../Screens/Discover/AllTab";
 import Blog from "../Screens/Discover/Blog";
 import Q from "../Screens/Discover/Q";
 import Haks from "../Screens/Discover/Haks";
 import DailyQ from "../Screens/Discover/DailyQ";
 import Entypo from "react-native-vector-icons/Entypo";
+import Foundation from "react-native-vector-icons/Foundation";
+import BlogLink from "../Screens/Discover/BlogLink";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 // import NewRequest from "./NewRequest";
@@ -19,9 +22,7 @@ export default function OrderHeader() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-
         tabBarStyle: {
-          //   backgroundColor: "#253F67",
           height: 100,
         },
       }}
@@ -33,34 +34,98 @@ export default function OrderHeader() {
             <View>
               <View
                 style={{
-                  height: 55,
-                  width: 55,
-                  backgroundColor: "#F54738",
-                  borderRadius: 10,
-                  borderWidth: 0,
-                  elevation: 1,
+                  borderWidth: 2,
+                  height: 45,
+                  width: 45,
+                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
+                  borderColor: "#0084D6",
                 }}
               >
-                <Entypo
-                  name="text-document"
-                  color="white"
-                  size={40}
+                <View
                   style={{
+                    height: 35,
+                    width: 35,
+                    backgroundColor: "black",
+                    borderRadius: 40,
+                    borderWidth: 0,
+                    elevation: 1,
                     justifyContent: "center",
                     alignItems: "center",
-                    //   backgroundColor: "#0084D6",
                   }}
-                />
+                >
+                  <Foundation
+                    name="compass"
+                    color="white"
+                    size={30}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //   backgroundColor: "#0084D6",
+                    }}
+                  />
+                </View>
               </View>
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 11,
-                  fontWeight: "bold",
-                  fontSize: 11,
-                  fontWeight: "bold",
+                  fontSize: 9,
+                  // fontWeight: "bold",
+                }}
+              >
+                All
+              </Text>
+            </View>
+          ),
+        }}
+        name="AllTab"
+        component={AllTab}
+      />
+      <Tab.Screen
+        options={{
+          title: ({ focused }) => (
+            <View>
+              <View
+                style={{
+                  borderWidth: 2,
+                  height: 45,
+                  width: 45,
+                  borderRadius: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderColor: "#0084D6",
+                }}
+              >
+                <View
+                  style={{
+                    height: 35,
+                    width: 35,
+                    backgroundColor: "#F54738",
+                    borderRadius: 40,
+                    borderWidth: 0,
+                    elevation: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Entypo
+                    name="text-document"
+                    color="white"
+                    size={28}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //   backgroundColor: "#0084D6",
+                    }}
+                  />
+                </View>
+              </View>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 9,
+                  // fontWeight: "bold",
                 }}
               >
                 Blog
@@ -78,32 +143,44 @@ export default function OrderHeader() {
             <View>
               <View
                 style={{
-                  height: 55,
-                  width: 55,
-                  backgroundColor: "#0084D6",
-                  borderRadius: 10,
-                  borderWidth: 0,
-                  elevation: 1,
+                  borderWidth: 2,
+                  height: 45,
+                  width: 45,
+                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
+                  borderColor: "#0084D6",
                 }}
               >
-                <Entypo
-                  name="chat"
-                  color="white"
-                  size={40}
+                <View
                   style={{
+                    height: 35,
+                    width: 35,
+                    backgroundColor: "#0084D6",
+                    borderRadius: 40,
+                    borderWidth: 0,
+                    elevation: 1,
                     justifyContent: "center",
                     alignItems: "center",
-                    //   backgroundColor: "#0084D6",
                   }}
-                />
+                >
+                  <Entypo
+                    name="chat"
+                    color="white"
+                    size={28}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //   backgroundColor: "#0084D6",
+                    }}
+                  />
+                </View>
               </View>
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 11,
-                  fontWeight: "bold",
+                  fontSize: 9,
+                  // fontWeight: "bold",
                 }}
               >
                 {" "}
@@ -122,37 +199,49 @@ export default function OrderHeader() {
             <View>
               <View
                 style={{
-                  height: 55,
-                  width: 55,
-                  backgroundColor: "#6EE80E",
-
-                  borderRadius: 10,
-                  borderWidth: 0,
-                  elevation: 1,
+                  borderWidth: 2,
+                  height: 45,
+                  width: 45,
+                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
+                  borderColor: "#0084D6",
                 }}
               >
-                <Entypo
-                  name="light-bulb"
-                  color="white"
-                  size={40}
+                <View
                   style={{
+                    height: 35,
+                    width: 35,
+                    backgroundColor: "#6EE80E",
+
+                    borderRadius: 40,
+                    borderWidth: 0,
+                    elevation: 1,
                     justifyContent: "center",
                     alignItems: "center",
-                    //   backgroundColor: "#0084D6",
                   }}
-                />
+                >
+                  <Entypo
+                    name="light-bulb"
+                    color="white"
+                    size={30}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //   backgroundColor: "#0084D6",
+                    }}
+                  />
+                </View>
               </View>
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 11,
-                  fontWeight: "bold",
+                  fontSize: 9,
+                  // fontWeight: "bold",
                 }}
               >
                 {" "}
-                Haks{" "}
+                Hacks{" "}
               </Text>
             </View>
           ),
@@ -167,34 +256,46 @@ export default function OrderHeader() {
             <View>
               <View
                 style={{
-                  height: 55,
-                  width: 55,
-                  top: 3,
-                  backgroundColor: "#0084D6",
-                  borderRadius: 10,
-                  borderWidth: 0,
-                  elevation: 1,
+                  borderWidth: 2,
+                  height: 45,
+                  width: 45,
+                  top: 5,
+                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
+                  borderColor: "#0084D6",
                 }}
               >
-                <MaterialCommunityIcons
-                  name="access-point"
-                  color="white"
-                  size={40}
+                <View
                   style={{
+                    height: 35,
+                    width: 35,
+                    // top: 5,
+                    backgroundColor: "#0084D6",
+                    borderRadius: 40,
+                    borderWidth: 0,
+                    elevation: 1,
                     justifyContent: "center",
                     alignItems: "center",
-                    //   backgroundColor: "#0084D6",
                   }}
-                />
+                >
+                  <MaterialCommunityIcons
+                    name="access-point"
+                    color="white"
+                    size={30}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      //   backgroundColor: "#0084D6",
+                    }}
+                  />
+                </View>
               </View>
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 10,
-                  top: 4,
-                  fontWeight: "bold",
+                  fontSize: 9,
+                  top: 5,
                 }}
               >
                 E-learning
@@ -211,18 +312,30 @@ export default function OrderHeader() {
             <View>
               <View
                 style={{
-                  height: 55,
-                  width: 55,
-                  backgroundColor: "#FBEE24",
-
-                  borderRadius: 10,
-                  borderWidth: 0,
-                  elevation: 1,
+                  borderWidth: 2,
+                  height: 45,
+                  width: 45,
+                  // top: 5,
+                  borderRadius: 50,
                   justifyContent: "center",
                   alignItems: "center",
+                  borderColor: "#0084D6",
                 }}
               >
-                {/* <Entypo
+                <View
+                  style={{
+                    height: 35,
+                    width: 35,
+                    backgroundColor: "#FBEE24",
+
+                    borderRadius: 40,
+                    borderWidth: 0,
+                    elevation: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* <Entypo
                   name="light-bulb"
                   color="white"
                   size={40}
@@ -233,13 +346,15 @@ export default function OrderHeader() {
                   }}
                 /> */}
 
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>Q</Text>
+                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>Q</Text>
+                </View>
               </View>
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 11,
-                  fontWeight: "bold",
+                  fontSize: 9,
+
+                  // fontWeight: "bold",
                 }}
               >
                 {" "}

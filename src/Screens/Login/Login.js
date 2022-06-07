@@ -40,6 +40,7 @@ const validationSchema = yup.object().shape({
     // .email("Please enter official email")
     // .required("Your official email address is required"),
     .string()
+    .trim()
     .required("Your official email address is required")
     .email("Please enter official email"),
 });
@@ -47,48 +48,53 @@ const validationSchema = yup.object().shape({
 const { width } = Dimensions.get("window");
 
 export default function Login({ navigation }) {
-  const [to, setTo] = useState("");
-  const [email, setEmail] = useState("");
+  const [checked, setChecked] = React.useState(false);
+  // const [to, setTo] = useState("");
+  // const [email, setEmail] = useState();
 
   const onSubmitHandler = async (data) => {
-    setEmail(data.to);
-    // console.log("emailll".email);
+    // setEmail(data.to);
+    let emailInfo = data.to;
+    console.log("emailInfo", emailInfo);
+    console.log("ash33", data.to);
     // console.log("data11333====", data.to);
     let formData = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify([
         {
-          to: [data.to],
+          to: [data.to.trim()],
         },
       ]),
     };
     // console.log("formdata12", formData);
-    try {
-      await fetch("http://3.215.18.129/generate_otp/", formData).then(
-        (response) => {
-          response.json().then((data) => {
-            // console.log("dataaa", data);
 
-            // Alert.alert("Post created at : ", data);
-            if (data.status_code === 0) {
-              // alert("Mail Sent Sucessfully");
-              navigation.navigate("OTP", {
-                paramKey: email,
-              });
-            } else if (data.status_code === 1) {
-              alert("Wrong credentials");
-            } else {
-              alert("Something went wrong!");
-            }
-          });
-        }
-      );
-    } catch (error) {
-      console.error(error);
+    if (checked == true) {
+      try {
+        await fetch("http://3.215.18.129/generate_otp/", formData).then(
+          (response) => {
+            response.json().then((data) => {
+              // console.log("dataaa", data);
+
+              // Alert.alert("Post created at : ", data);
+              if (data.status_code === 0 && checked == true) {
+                // alert("Mail Sent Sucessfully");
+                navigation.navigate("OTP", {
+                  paramKey: emailInfo.trim(),
+                });
+              } else if (data.status_code === 1) {
+                alert("User is not registered. Please register first.");
+              }
+            });
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      alert("Please select the checkbox to continue");
     }
   };
-  const [checked, setChecked] = React.useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -131,7 +137,7 @@ export default function Login({ navigation }) {
             style={{ height: 55, width: 221, top: 40 }}
           />
 
-          <View style={{ padding: 20, top: 20 }}>
+          <View style={{ padding: 20, top: 20, width: "100%" }}>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -140,17 +146,19 @@ export default function Login({ navigation }) {
               {(props) => (
                 <View
                   style={{
-                    width: 350,
                     justifyContent: "space-between",
                     top: 20,
                     alignItems: "center",
                   }}
                 >
-                  {console.log(" ____retutn ______ " + JSON.stringify(props))}
+                  {/* {console.log(" ____retutn ______ " + JSON.stringify(props))} */}
                   <TextInput
                     placeholder="Email ID"
+                    mode="outlined"
+                    theme={{ colors: { primary: "#0084D6" } }}
+                    label="Email ID"
                     onChangeText={props.handleChange("to")}
-                    value={props.values.to}
+                    value={props.values.to.trim()}
                     name="to" // added this
                     type="to"
                     setFieldTouched="to"
@@ -159,9 +167,11 @@ export default function Login({ navigation }) {
                     returnKeyType="next"
                     style={{
                       height: 40,
-                      width: width - 80,
+                      width: "90%",
                       lineHeight: 20,
                       top: 20,
+                      borderRadius: 30,
+                      backgroundColor: "white",
                     }}
                     onBlur={() => props.setFieldTouched("to")}
                   />
@@ -172,11 +182,14 @@ export default function Login({ navigation }) {
                     </Text>
                   )}
 
-                  <View style={{ margin: 20, top: 20, width: "96%" }}>
+                  <View style={{ margin: 20, top: 20, width: "90%" }}>
                     <Button
                       title="Log In"
                       color="#0084D6"
-                      onPress={props.handleSubmit}
+                      onPress={
+                        // {() => navigation.navigate("MyTabs")}
+                        props.handleSubmit
+                      }
                       disabled={props.isSubmitting}
                     />
                   </View>
@@ -288,7 +301,7 @@ export default function Login({ navigation }) {
             }}
           >
             <Checkbox
-              color="#253f67"
+              color="#0084D6"
               style={{ color: "red" }}
               status={checked ? "checked" : "unchecked"}
               onPress={() => {

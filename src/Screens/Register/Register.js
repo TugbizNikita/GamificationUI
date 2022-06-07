@@ -31,21 +31,25 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   student_name: yup
     .string()
+    .trim()
     .min(2, "Mininum 2 characters")
     .max(30, "Maximum 30 characters")
     .required("Your name is required"),
+
   student_corp_emailId: yup
     // .string()
     // .email("Please enter official email")
     // .required("Your official email address is required"),
     .string()
+    .trim()
     .required("Your official email address is required")
     .email("Please enter official email"),
   student_mob_no: yup
     .string()
+    .trim()
     .matches(/^[0-9]+$/, "Only numbers allowed.")
-    .min(8, "Mobile Number must be minimum 8 digits")
-    .max(8, "Mobile Number must be maximum 8 digits")
+    .min(10, "Mobile Number must be minimum 10 digits")
+    .max(10, "Mobile Number must be maximum 10 digits")
     .required("Your mobile number is required"),
 });
 
@@ -136,21 +140,15 @@ export default function Register({ navigation }) {
         <View
           style={{
             // height: 300,
-            // marginTop: 170,
             borderBottomLeftRadius: 70,
             // width: "100%",
             // bottom: 100,
             flex: 0.4,
             justifyContent: "center",
-            alignItems: "center",
           }}
         >
-          <Image
-            source={require("../../../assets/Images/NovelLogo.png")}
-            style={{ height: 70, width: 291, top: 20 }}
-          />
+          <LoginOnboarding />
         </View>
-
         <View
           style={{
             // width: "100%",
@@ -178,9 +176,12 @@ export default function Register({ navigation }) {
               >
                 {console.log(" ____retutn ______ " + JSON.stringify(props))}
                 <TextInput
-                  placeholder="Canididate Name"
+                  mode="outlined"
+                  theme={{ colors: { primary: "#0084D6" } }}
+                  label="Candidate Name"
+                  placeholder="Candidate Name"
                   onChangeText={props.handleChange("student_name")}
-                  value={props.values.student_name}
+                  value={props.values.student_name.trim()}
                   name="student_name" // added this
                   type="student_name"
                   setFieldTouched="student_name"
@@ -189,9 +190,10 @@ export default function Register({ navigation }) {
                   returnKeyType="next"
                   style={{
                     height: 40,
-                    width: width - 80,
+                    width: "90%",
                     lineHeight: 20,
                     top: 20,
+                    backgroundColor: "white",
                   }}
                   onBlur={() => props.setFieldTouched("student_name")}
                 />
@@ -203,9 +205,12 @@ export default function Register({ navigation }) {
                 )}
 
                 <TextInput
-                  placeholder="Orgnization Email ID"
+                  mode="outlined"
+                  theme={{ colors: { primary: "#0084D6" } }}
+                  label="Organization Email ID"
+                  placeholder="Organization Email ID"
                   onChangeText={props.handleChange("student_corp_emailId")}
-                  value={props.values.student_corp_emailId}
+                  value={props.values.student_corp_emailId.trim()}
                   name="student_corp_emailId" // added this
                   type="student_corp_emailId"
                   setFieldTouched="student_corp_emailId"
@@ -214,9 +219,10 @@ export default function Register({ navigation }) {
                   returnKeyType="next"
                   style={{
                     height: 40,
-                    width: width - 80,
+                    width: "90%",
                     lineHeight: 20,
                     top: 30,
+                    backgroundColor: "white",
                   }}
                   onBlur={() => props.setFieldTouched("student_corp_emailId")}
                 />
@@ -228,9 +234,12 @@ export default function Register({ navigation }) {
                     </Text>
                   )}
                 <TextInput
+                  mode="outlined"
+                  theme={{ colors: { primary: "#0084D6" } }}
+                  label="Mobile Number"
                   placeholder="Mobile Number"
                   onChangeText={props.handleChange("student_mob_no")}
-                  value={props.values.student_mob_no}
+                  value={props.values.student_mob_no.trim()}
                   name="student_mob_no" // added this
                   type="student_mob_no"
                   setFieldTouched="student_mob_no"
@@ -239,9 +248,10 @@ export default function Register({ navigation }) {
                   returnKeyType="next"
                   style={{
                     height: 40,
-                    width: width - 80,
+                    width: "90%",
                     lineHeight: 20,
                     top: 40,
+                    backgroundColor: "white",
                   }}
                   onBlur={() => props.setFieldTouched("student_mob_no")}
                 />
@@ -252,10 +262,18 @@ export default function Register({ navigation }) {
                       {props.errors.student_mob_no}
                     </Text>
                   )}
-                <View style={{ margin: 20, top: 40, width: "96%" }}>
+                <View
+                  style={{
+                    margin: 20,
+                    top: 40,
+                    width: "90%",
+                    borderRadius: 40,
+                  }}
+                >
                   <Button
-                    title="Submit"
+                    title="REGISTER"
                     color="#0084D6"
+                    borderRadius={30}
                     onPress={props.handleSubmit}
                     disabled={props.isSubmitting}
                   />
@@ -422,7 +440,7 @@ export default function Register({ navigation }) {
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <View style={{ left: 5, borderBottomWidth: 2 }}>
-                <Text style={styles.Register}>Login</Text>
+                <Text style={styles.Register}>Log In</Text>
               </View>
             </TouchableOpacity>
           </View>

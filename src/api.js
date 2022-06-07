@@ -18,8 +18,5 @@ export default {
       console.log("key Status", res.status);
       return res;
     },
-
-
-    
   },
 };

@@ -39,8 +39,12 @@ import MyTabs from "./src/Screens/Main/BottomTabs";
 import { Provider } from "react-redux";
 import store from "./src/redux/Store";
 import Routes from "./src/Navigations/Routes";
+import DashBoardHeader from "./src/Screens/Main/Dashboard/DashBoardHeader";
 export default function App() {
   return (
+    // <NavigationContainer>
+    //   <DashBoardHeader />
+    // </NavigationContainer>
     <Provider store={store}>
       <Routes />
     </Provider>

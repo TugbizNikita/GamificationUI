@@ -1,8 +1,18 @@
 import React from "react";
-import { View, Text, Image, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Button,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import YoutubePlayer from "react-native-youtube-iframe";
+import Entypo from "react-native-vector-icons/Entypo";
+const { width, height } = Dimensions.get("window");
+
 export default function Q() {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
@@ -23,14 +33,27 @@ export default function Q() {
           backgroundColor: "white",
           top: 30,
           flexDirection: "row",
-          justifyContent: "space-between",
+          // justifyContent: "space-between",
           padding: 10,
         }}
       >
-        <View style={{ flexDirection: "row" }}>
-          <Fontisto
-            name="blogger"
-            size={30}
+        <View
+          style={{
+            height: 40,
+            width: 40,
+            backgroundColor: "#0084D6",
+            borderRadius: 40,
+            borderWidth: 0,
+            elevation: 1,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Entypo
+            name="chat"
+            color="white"
+            size={25}
             style={{
               justifyContent: "center",
               alignItems: "center",
@@ -38,9 +61,9 @@ export default function Q() {
               //   backgroundColor: "#0084D6",
             }}
           />
-          <Text style={{ left: 5, top: 5, fontSize: 15 }}>All</Text>
         </View>
-        <Text>Today</Text>
+        <Text style={{ left: 5, top: 10, fontSize: 15 }}>Q & A</Text>
+        <Text style={{ left: 200, top: 10, fontSize: 15 }}>Today</Text>
       </View>
       <View
         style={{
@@ -52,9 +75,9 @@ export default function Q() {
           <Video
             ref={video}
             style={styles.video}
-            source={{
-              uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-            }}
+            // source={{
+            //   uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+            // }}
             useNativeControls
             resizeMode="contain"
             isLooping

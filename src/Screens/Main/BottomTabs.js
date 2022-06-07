@@ -18,6 +18,7 @@ import Discussion from "./Dashboard/Discussion/Discussion";
 import Me from "./Dashboard/Me/Me";
 import Studio from "./Dashboard/Studio/Studio";
 import More from "./Dashboard/More/More";
+import AppPageStack from "../../Navigations/AppPageStack";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -35,8 +36,8 @@ function MyTabs() {
       }}
     >
       <Tab.Screen
-        name="DashBoardHeader"
-        component={DashBoardHeader}
+        name="AppPageStack"
+        component={AppPageStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

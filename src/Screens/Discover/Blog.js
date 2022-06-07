@@ -1,86 +1,199 @@
-import React from "react";
-import { View, Text, Image, Button, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  Button,
+  StyleSheet,
+  Linking,
+  Dimensions,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import Entypo from "react-native-vector-icons/Entypo";
+import WebView from "react-native-webview";
+const { width, height } = Dimensions.get("window");
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import VideoLink from "./VideoLink";
 import YoutubePlayer from "react-native-youtube-iframe";
-export default function Blog() {
-  const video = React.useRef(null);
-  const [status, setStatus] = React.useState({});
+import { ScrollView } from "react-native-gesture-handler";
+import BlogLink from "../Discover/BlogLink";
+// import VideoLink from "./VideoLink";
+import Videos from "./VideoLinkImage";
 
-  return (
-    <View
+const DATA = [
+  {
+    uri: "https://novelvista-my.sharepoint.com/:v:/p/utfbatch04jan/ET8Ts6uc-E9DknFHUT9WobgBi7aDbzGXYq5nzGiEf3fBWA?e=809zlk",
+    id: "1",
+  },
+  {
+    uri: "https://novelvista-my.sharepoint.com/:v:/p/utfbatch04jan/ET8Ts6uc-E9DknFHUT9WobgBi7aDbzGXYq5nzGiEf3fBWA?e=809zlk",
+    id: "2",
+  },
+];
+
+const Item = ({ onPress }) => (
+  <View style={{ justifyContent: "space-between" }}>
+    <TouchableOpacity
+      onPress={onPress}
       style={{
-        height: "100%",
         width: "100%",
-        // marginLeft: 11,
-        bottom: 22,
+        top: 10,
 
-        backgroundColor: "white",
+        marginVertical: 8,
       }}
     >
+      <View>
+        <Image
+          style={{ height: 190, width: "100%" }}
+          source={require("../../../assets/Images/video.webp")}
+        />
+      </View>
+    </TouchableOpacity>
+  </View>
+);
+export default function Blog({ navigation }) {
+  const Item = ({ onPress, source, item, img }) => {
+    let CourseID = item.uri;
+    console.log("====", CourseID);
+
+    return (
+      <View style={{ justifyContent: "space-between" }}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("VideoLink", { paramKey: CourseID })
+          }
+          style={{
+            width: "100%",
+            top: 10,
+
+            marginVertical: 8,
+          }}
+        >
+          <View>
+            <Image
+              style={{ height: 190, width: "100%" }}
+              // source={require("../../../assets/Images/blog.jpg")}
+              source={item.img}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  const renderItem = ({ item }) => (
+    <Item onPress={() => navigation.navigate("VideoLink")} />
+  );
+
+  const [videolink, setVideolink] = useState([]);
+  const dashboardData = "http://3.215.18.129/dashboard/?file-name=S1";
+
+  useEffect(() => {
+    fetch(dashboardData)
+      .then((response) => response.json())
+      .then((json) => {
+        // setMarksObtaion(json.Skill_Dashboard.sheet_json);
+        setVideolink(json.Skill_Dashboard.video_json);
+        console.log("video11", json.Skill_Dashboard.video_json);
+        console.log("datamarkss", json.Skill_Dashboard.sheet_json);
+      })
+
+      .catch((error) => alert(error));
+  }, []);
+  let BlogLink = videolink;
+  console.log("video", BlogLink);
+
+  let array = [];
+  videolink.map((data, idx) => (
+    <>
+      {array.push({
+        img: require("../../../assets/Images/video.webp"),
+        id: idx,
+        uri: data.Video_Link,
+      })}
+    </>
+  ));
+  return (
+    <>
       <View
         style={{
-          backgroundColor: "white",
-          top: 30,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          padding: 10,
+          // marginTop: 50,
+          // backgroundColor: "red",
+          // flex: 1,
+          width: "100%",
         }}
       >
-        <View style={{ flexDirection: "row" }}>
-          <Fontisto
-            name="blogger"
-            size={30}
+        <View
+          style={{
+            // backgroundColor: "white",
+            top: 10,
+            flexDirection: "row",
+            // justifyContent: "space-between",
+            padding: 10,
+          }}
+        >
+          <View
             style={{
+              height: 40,
+              width: 40,
+              backgroundColor: "#0084D6",
+              borderRadius: 40,
+              borderWidth: 0,
+              elevation: 1,
+              flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-
-              //   backgroundColor: "#0084D6",
             }}
-          />
-          <Text style={{ left: 5, top: 5, fontSize: 15 }}>All</Text>
+          >
+            <MaterialCommunityIcons
+              name="access-point"
+              color="white"
+              size={30}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+          </View>
+          <Text
+            style={{
+              left: 10,
+              fontSize: 14,
+              justifyContent: "flex-start",
+              top: 10,
+            }}
+          >
+            E-learning
+          </Text>
+          <Text
+            style={{
+              left: 165,
+              top: 10,
+              fontSize: 15,
+              justifyContent: "flex-end",
+            }}
+          >
+            Today
+          </Text>
         </View>
-        <Text>Today</Text>
       </View>
       <View
         style={{
-          height: "70%",
-          width: "100%",
+          marginVertical: 18,
         }}
       >
-        <>
-          <Video
-            ref={video}
-            style={styles.video}
-            source={{
-              uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-            }}
-            useNativeControls
-            resizeMode="contain"
-            isLooping
-            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-          />
-          <View style={styles.buttons}></View>
-        </>
+        <FlatList
+          data={array}
+          renderItem={Item}
+          keyExtractor={(item) => item.id}
+          // data={Videos}
+          // renderItem={Item}
+          // keyExtractor={(item) => item.uri}
+        />
       </View>
-      <View
-        style={{
-          height: "30%",
-          width: "100%",
-          backgroundColor: "#0084D6",
-          borderBottomEndRadius: 20,
-          borderBottomStartRadius: 20,
-          padding: 10,
-        }}
-      >
-        <Text
-          style={{ top: 5, textAlign: "center", color: "white", fontSize: 16 }}
-        >
-          Tap to watch Deepak's incredible story of recovery and his journey to
-          fitness!
-        </Text>
-      </View>
-    </View>
+    </>
   );
 }
 
