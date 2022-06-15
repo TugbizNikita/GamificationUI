@@ -1,11 +1,15 @@
-import { DashBoardHeader } from "../";
-import AppPageStack from "./AppPageStack";
+import MyTabs from "../Screens/Main/BottomTabs";
+import { createStackNavigator } from "@react-navigation/stack";
 
-export default function (Stack) {
+const Stack = createStackNavigator();
+
+export default function MainStack() {
   return (
-    <>
-      <Stack.Screen name="DashBoardHeader" component={DashBoardHeader} />
-      <Stack.Screen name="AppPageStack" component={AppPageStack} />
-    </>
+    <Stack.Navigator
+      screenOptions={{ headerShown: null }}
+      initialRouteName="MyTabs"
+    >
+      <Stack.Screen name="MyTabs" component={MyTabs} />
+    </Stack.Navigator>
   );
 }

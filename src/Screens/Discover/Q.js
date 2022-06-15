@@ -71,7 +71,7 @@ export default function Q() {
           width: "100%",
         }}
       >
-        <>
+        {/* <>
           <Video
             ref={video}
             style={styles.video}
@@ -84,9 +84,9 @@ export default function Q() {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
           />
           <View style={styles.buttons}></View>
-        </>
+        </> */}
       </View>
-      <View
+      {/* <View
         style={{
           height: "30%",
           width: "100%",
@@ -95,14 +95,14 @@ export default function Q() {
           borderBottomStartRadius: 20,
           padding: 10,
         }}
-      >
-        <Text
+      > */}
+      {/* <Text
           style={{ top: 5, textAlign: "center", color: "white", fontSize: 16 }}
         >
           Tap to watch Deepak's incredible story of recovery and his journey to
           fitness!
-        </Text>
-      </View>
+        </Text> */}
+      {/* </View> */}
     </View>
   );
 }

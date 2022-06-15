@@ -1,5 +1,13 @@
-import React from "react";
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  Alert,
+  BackHandler,
+} from "react-native";
 import { Octicons } from "react-native-vector-icons";
 import Action from "react-native-vector-icons/MaterialIcons";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -10,7 +18,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Profile from "./Profile";
 import DashBoardHeader from "./Dashboard/DashBoardHeader";
-import OrderHeader from "./OrderFlow/OrderHeader";
+
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -22,6 +30,28 @@ import AppPageStack from "../../Navigations/AppPageStack";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     if (currentRouteName === "DashboardHeader") {
+  //       Alert.alert("Hold on!", "Are you sure you want to go back?", [
+  //         {
+  //           text: "Cancel",
+  //           onPress: () => null,
+  //           style: "cancel",
+  //         },
+  //         { text: "YES", onPress: () => BackHandler.exitApp() },
+  //       ]);
+  //       return true;
+  //     }
+  //   };
+  //   const backHandler = BackHandler.addEventListener(
+  //     "hardwareBackPress",
+  //     backAction
+  //   );
+
+  //   return () => backHandler.remove();
+  // }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{

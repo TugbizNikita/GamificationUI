@@ -23,111 +23,80 @@ import BlogLink from "../Discover/BlogLink";
 // import VideoLink from "./VideoLink";
 import Videos from "./VideoLinkImage";
 
-const DATA = [
-  {
-    uri: "https://novelvista-my.sharepoint.com/:v:/p/utfbatch04jan/ET8Ts6uc-E9DknFHUT9WobgBi7aDbzGXYq5nzGiEf3fBWA?e=809zlk",
-    id: "1",
-  },
-  {
-    uri: "https://novelvista-my.sharepoint.com/:v:/p/utfbatch04jan/ET8Ts6uc-E9DknFHUT9WobgBi7aDbzGXYq5nzGiEf3fBWA?e=809zlk",
-    id: "2",
-  },
-];
-
-const Item = ({ onPress }) => (
-  <View style={{ justifyContent: "space-between" }}>
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        width: "100%",
-        top: 10,
-
-        marginVertical: 8,
-      }}
-    >
-      <View>
-        <Image
-          style={{ height: 190, width: "100%" }}
-          source={require("../../../assets/Images/video.webp")}
-        />
-      </View>
-    </TouchableOpacity>
-  </View>
-);
 export default function Blog({ navigation }) {
-  const Item = ({ onPress, source, item, img }) => {
-    let CourseID = item.uri;
-    console.log("====", CourseID);
-
-    return (
-      <View style={{ justifyContent: "space-between" }}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("VideoLink", { paramKey: CourseID })
-          }
-          style={{
-            width: "100%",
-            top: 10,
-
-            marginVertical: 8,
-          }}
-        >
-          <View>
-            <Image
-              style={{ height: 190, width: "100%" }}
-              // source={require("../../../assets/Images/blog.jpg")}
-              source={item.img}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  const renderItem = ({ item }) => (
-    <Item onPress={() => navigation.navigate("VideoLink")} />
-  );
-
   const [videolink, setVideolink] = useState([]);
-  const dashboardData = "http://3.215.18.129/dashboard/?file-name=S1";
+  const dashboardData =
+    "http://3.215.18.129/dashboard/?login-Id=asmitamargaje1996@gmail.com";
 
   useEffect(() => {
     fetch(dashboardData)
       .then((response) => response.json())
       .then((json) => {
-        // setMarksObtaion(json.Skill_Dashboard.sheet_json);
-        setVideolink(json.Skill_Dashboard.video_json);
-        console.log("video11", json.Skill_Dashboard.video_json);
-        console.log("datamarkss", json.Skill_Dashboard.sheet_json);
+        setVideolink(json.df);
+        console.log("video11", json.df);
       })
 
       .catch((error) => alert(error));
   }, []);
-  let BlogLink = videolink;
-  console.log("video", BlogLink);
 
-  let array = [];
-  videolink.map((data, idx) => (
-    <>
-      {array.push({
-        img: require("../../../assets/Images/video.webp"),
-        id: idx,
-        uri: data.Video_Link,
-      })}
-    </>
-  ));
-  return (
-    <>
-      <View
-        style={{
-          // marginTop: 50,
-          // backgroundColor: "red",
-          // flex: 1,
-          width: "100%",
-        }}
-      >
+  const array = videolink;
+
+  const Item = ({ item }) => {
+    let CourseID = item.chapter_url;
+    return (
+      <View style={{ backgroundColor: "white", marginVertical: 10 }}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("VideoLink", { paramKey: CourseID })
+          }
+          style={{
+            height: 100,
+            width: "100%",
+            backgroundColor: "white",
+            marginVertical: 8,
+            borderWidth: 2,
+            borderRadius: 20,
+            borderColor: "#0084D6",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F4F6F7",
+            top: 10,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Image
+              style={{ height: 70, width: 70, borderRadius: 40 }}
+              source={require("../../../assets/Images/video.webp")}
+            />
+            <Text
+              style={{ fontSize: 30, left: 10, textAlign: "center", top: 10 }}
+            >
+              {item.chapter_name}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  return array.map((element) => {
+    let chapterName = element.elearning;
+    console.log("chapterNamelink", element.chapterName);
+    let Chapternames = chapterName.map((user) => user.chapter_name);
+    console.log("chapterName", Chapternames);
+    let Chapterurl = chapterName.map((user) => user.chapter_url);
+    console.log("chapterUrl", Chapterurl);
+
+    return (
+      <View style={{ backgroundColor: "white", width: "100%" }}>
         <View
           style={{
-            // backgroundColor: "white",
+            backgroundColor: "white",
             top: 10,
             flexDirection: "row",
             // justifyContent: "space-between",
@@ -178,25 +147,23 @@ export default function Blog({ navigation }) {
             Today
           </Text>
         </View>
-      </View>
-      <View
-        style={{
-          marginVertical: 18,
-        }}
-      >
-        <FlatList
-          data={array}
-          renderItem={Item}
-          keyExtractor={(item) => item.id}
-          // data={Videos}
-          // renderItem={Item}
-          // keyExtractor={(item) => item.uri}
-        />
-      </View>
-    </>
-  );
-}
 
+        <View
+          style={{
+            marginVertical: 18,
+            backgroundColor: "white",
+          }}
+        >
+          <FlatList
+            data={chapterName}
+            renderItem={Item}
+            keyExtractor={(item) => item.Chapterurl}
+          />
+        </View>
+      </View>
+    );
+  });
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

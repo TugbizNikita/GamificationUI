@@ -12,10 +12,7 @@ import Foundation from "react-native-vector-icons/Foundation";
 import BlogLink from "../Screens/Discover/BlogLink";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// import NewRequest from "./NewRequest";
-// import CompletedOrders from "./CompletedOrders";
-// import DeliveryPending from "./DeliveryPending";
-// import WaitingOrders from "./WaitingOrders";
+
 const Tab = createMaterialTopTabNavigator();
 export default function OrderHeader() {
   return (
@@ -366,69 +363,6 @@ export default function OrderHeader() {
         name="DailyQ"
         component={DailyQ}
       />
-      {/* <Tab.Screen
-        options={{
-          title: ({ focused }) => (
-            <View
-              style={{
-                height: 71,
-                borderRadius: 20,
-                width: 80,
-                marginTop: 1,
-                padding: 3,
-                backgroundColor: focused ? "#FB5414" : "#253F67",
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  fontFamily: "Helvetica-Bold",
-                  lineHeight: 20,
-                  fontSize: 15,
-                  marginTop: 7,
-                }}
-              >
-                Delivery Pending (2)
-              </Text>
-            </View>
-          ),
-        }}
-        name="DeliveryPending"
-        component={DeliveryPending}
-      />
-      <Tab.Screen
-        options={{
-          title: ({ focused }) => (
-            <View
-              style={{
-                height: 71,
-                borderRadius: 20,
-                width: 80,
-                marginTop: 1,
-                backgroundColor: focused ? "#FB5414" : "#253F67",
-                padding: 3,
-                right: 7,
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  fontFamily: "Helvetica-Bold",
-                  lineHeight: 20,
-                  fontSize: 14,
-                  marginTop: 7,
-                }}
-              >
-                Completed Orders (15)
-              </Text>
-            </View>
-          ),
-        }}
-        name="CompletedOrders"
-        component={CompletedOrders}
-      /> */}
     </Tab.Navigator>
   );
 }

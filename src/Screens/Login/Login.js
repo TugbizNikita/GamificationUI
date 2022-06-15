@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React from "react";
 import { Checkbox } from "react-native-paper";
 
 import {
@@ -11,24 +10,16 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
-  Platform,
-  Modal,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { TextInput } from "react-native-paper";
 import LoginOnboarding from "../LoginOnboard/LoginOnboarding";
 
-// const loginValidationSchema = yup.object().shape({
-//   to: yup
-//     .string()
-//     .email("Please enter valid orgnization email ID")
-//     // .matches(/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g)
-//     .required("Email Address is Required"),
-// });
+import { BackHandler, Alert } from "react-native";
+import { useEffect } from "react";
 
 const initialValues = {
   to: "",
@@ -36,9 +27,6 @@ const initialValues = {
 
 const validationSchema = yup.object().shape({
   to: yup
-    // .string()
-    // .email("Please enter official email")
-    // .required("Your official email address is required"),
     .string()
     .trim()
     .required("Your official email address is required")
@@ -48,16 +36,34 @@ const validationSchema = yup.object().shape({
 const { width } = Dimensions.get("window");
 
 export default function Login({ navigation }) {
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => null,
+  //         style: "cancel",
+  //       },
+  //       { text: "YES", onPress: () => BackHandler.exitApp() },
+  //     ]);
+  //     return true;
+  //   };
+
+  //   const backHandler = BackHandler.addEventListener(
+  //     "hardwareBackPress",
+  //     backAction
+  //   );
+
+  //   return () => backHandler.remove();
+  // }, []);
+
   const [checked, setChecked] = React.useState(false);
-  // const [to, setTo] = useState("");
-  // const [email, setEmail] = useState();
 
   const onSubmitHandler = async (data) => {
-    // setEmail(data.to);
     let emailInfo = data.to;
     console.log("emailInfo", emailInfo);
-    console.log("ash33", data.to);
-    // console.log("data11333====", data.to);
+    console.log("data", data);
+
     let formData = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -67,18 +73,13 @@ export default function Login({ navigation }) {
         },
       ]),
     };
-    // console.log("formdata12", formData);
 
     if (checked == true) {
       try {
         await fetch("http://3.215.18.129/generate_otp/", formData).then(
           (response) => {
             response.json().then((data) => {
-              // console.log("dataaa", data);
-
-              // Alert.alert("Post created at : ", data);
               if (data.status_code === 0 && checked == true) {
-                // alert("Mail Sent Sucessfully");
                 navigation.navigate("OTP", {
                   paramKey: emailInfo.trim(),
                 });
@@ -98,46 +99,18 @@ export default function Login({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View
-        style={{
-          // width: "100%",
-          flex: 1,
-          justifyContent: "center",
-          borderWidth: 1,
-          backgroundColor: "#0084D6",
-        }}
-      >
-        <View
-          style={{
-            // height: 300,
-            borderBottomLeftRadius: 70,
-            // width: "100%",
-            // bottom: 100,
-            flex: 0.4,
-            justifyContent: "center",
-          }}
-        >
+      <View style={styles.Container}>
+        <View style={styles.Onboarding}>
           <LoginOnboarding />
         </View>
 
-        <View
-          style={{
-            // width: "100%",
-            // height: 500,
-            alignItems: "center",
-            // marginTop: 40,
-            // borderWidth: 1,
-            flex: 0.6,
-            backgroundColor: "white",
-            borderTopLeftRadius: 70,
-          }}
-        >
+        <View style={styles.secondView}>
           <Image
             source={require("../../../assets/Images/NovelLogo.png")}
-            style={{ height: 55, width: 221, top: 40 }}
+            style={styles.logo}
           />
 
-          <View style={{ padding: 20, top: 20, width: "100%" }}>
+          <View style={styles.inputView}>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -151,7 +124,6 @@ export default function Login({ navigation }) {
                     alignItems: "center",
                   }}
                 >
-                  {/* {console.log(" ____retutn ______ " + JSON.stringify(props))} */}
                   <TextInput
                     placeholder="Email ID"
                     mode="outlined"
@@ -165,14 +137,7 @@ export default function Login({ navigation }) {
                     placeholderTextColor="grey"
                     underlineColorAndroid="grey"
                     returnKeyType="next"
-                    style={{
-                      height: 40,
-                      width: "90%",
-                      lineHeight: 20,
-                      top: 20,
-                      borderRadius: 30,
-                      backgroundColor: "white",
-                    }}
+                    style={styles.emailInput}
                     onBlur={() => props.setFieldTouched("to")}
                   />
 
@@ -186,81 +151,16 @@ export default function Login({ navigation }) {
                     <Button
                       title="Log In"
                       color="#0084D6"
-                      onPress={
-                        // {() => navigation.navigate("MyTabs")}
+                      onPress={ // {() => navigation.navigate("MyTabs")}
                         props.handleSubmit
                       }
                       disabled={props.isSubmitting}
                     />
+                    {/* <ActivityIndicator size="small" color="#0000ff" /> */}
                   </View>
                 </View>
               )}
             </Formik>
-            {/* <Formik
-              validationSchema={loginValidationSchema}
-              initialValues={{ to: "" }}
-              onSubmit={onSubmitHandler}
-            >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                isValid,
-              }) => (
-                <>
-                  <TextInput
-                    name="to"
-                    placeholder=" Email"
-                    // style={styles.textInput}
-                    label=" Email"
-                    mode="outlined"
-                    onChangeText={handleChange("to")}
-                    onBlur={handleBlur("to")}
-                    value={values.to}
-                    keyboardType="email-address"
-                    theme={{ colors: { primary: "#89D8BB" } }}
-                    style={{
-                      height: 40,
-                      width: width - 80,
-                      // left: 20,
-                      lineHeight: 20,
-                    }}
-                  />
-                  {errors.to && (
-                    <Text style={{ fontSize: 10, color: "red", left: 20 }}>
-                      {errors.to}
-                    </Text>
-                  )}
-                  <TouchableOpacity
-                    onPress={handleSubmit}
-                    disabled={!isValid}
-                    style={{
-                      // borderWidth: 1,
-                      height: 45,
-                      width: width - 80,
-                      backgroundColor: "#0084D6",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      top: 20,
-                      // left: 20,
-                      borderRadius: 10,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 15,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      LOG IN
-                    </Text>
-                  </TouchableOpacity>
-                </>
-              )}
-            </Formik> */}
           </View>
 
           <View
@@ -282,24 +182,12 @@ export default function Login({ navigation }) {
               New to Gamification ?{" "}
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <View style={styles.RegisterView}>
+              <View>
                 <Text style={{ borderBottomWidth: 2 }}>Register</Text>
               </View>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              width: width - 55,
-              alignItems: "flex-start",
-              justifyContent: "space-between",
-              flexDirection: "row",
-              marginTop: 7,
-              backgroundColor: "white",
-              // height: 150,
-              left: 20,
-              top: 50,
-            }}
-          >
+          <View style={styles.checkboxView}>
             <Checkbox
               color="#0084D6"
               style={{ color: "red" }}
@@ -309,38 +197,15 @@ export default function Login({ navigation }) {
               }}
             />
             <View style={{ width: "90%" }}>
-              <Text
-                style={{
-                  color: "#253f67",
-                  lineHeight: 20,
-                  fontSize: 14,
-                  fontFamily: "Helvetica",
-                }}
-              >
+              <Text style={styles.terms}>
                 {" "}
                 I have read and agreed to the Gamification
               </Text>
-              <Text
-                style={{
-                  color: "#253f67",
-                  lineHeight: 20,
-                  fontSize: 14,
-                  fontFamily: "Helvetica",
-                }}
-              >
+              <Text style={styles.terms}>
                 {" "}
                 Terms and Conditions, Privacy Policies
               </Text>
-              <Text
-                style={{
-                  color: "#253f67",
-                  lineHeight: 20,
-                  fontSize: 14,
-                  fontFamily: "Helvetica",
-                }}
-              >
-                and User Agreement.
-              </Text>
+              <Text style={styles.terms}>and User Agreement.</Text>
             </View>
           </View>
         </View>
@@ -350,117 +215,55 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: width,
-    alignItems: "center",
-    backgroundColor: "white",
-    top: 20,
-  },
-  ModalView: {
+  Container: {
     flex: 1,
-    backgroundColor: "#000000aa",
-    width: width,
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  MainBodyView: {
-    width: width,
-    alignItems: "center",
-    height: 30,
-    marginTop: 10,
-  },
-  NameText: {
-    fontFamily: "Spartan_Bold",
-    color: "#283673",
-    fontSize: 20,
-  },
-  Second: {
-    width: width,
-    alignItems: "center",
     justifyContent: "center",
-    height: 40,
-  },
-  Profile: { height: 90, width: 90 },
-  TextInputView: {
-    width: "90%",
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "red",
-  },
-  Date: {
-    textAlign: "center",
-    color: "gray",
-  },
-  GenderView: { width: width - 80, marginTop: 10 },
-  GenderText: {
-    fontSize: 17,
-    color: "#283673",
-    fontFamily: "Spartan_Medium",
-  },
-  RadioButtonView: {
-    width: width - 100,
-    alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
-  },
-  RadioButtonText: {
-    fontSize: 15,
-    color: "#283673",
-    fontFamily: "Spartan_Medium",
-  },
-  Button: {
-    backgroundColor: "#89D8BB",
-    height: 45,
-    width: 45,
-    borderRadius: 45,
-    position: "absolute",
-    marginLeft: 200,
-    marginTop: 50,
-  },
-  ButtonView: {
-    backgroundColor: "#283672",
-    height: 45,
-    borderRadius: 45,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  TextInput: {
-    height: 40,
-    width: width - 80,
-    fontSize: 14,
-    color: "#89D8BB",
-    fontFamily: "Spartan_SemiBold",
-  },
-  TextInput1: {
-    height: 40,
-    marginTop: 19,
-    width: width - 80,
-    fontSize: 14,
-    color: "#89D8BB",
-    fontFamily: "Spartan_SemiBold",
-    marginTop: 20,
-  },
-  DOB: {
-    height: 40,
-    marginTop: 19,
-    width: width - 80,
-    fontSize: 14,
-    color: "#89D8BB",
-    fontFamily: "Spartan_SemiBold",
     borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 3,
-    paddingTop: 9,
+    backgroundColor: "#0084D6",
   },
-  loginContainer: {
-    width: "80%",
+  Onboarding: {
+    borderBottomLeftRadius: 70,
+    flex: 0.4,
+    justifyContent: "center",
+  },
+  secondView: {
     alignItems: "center",
+    flex: 0.6,
     backgroundColor: "white",
-    padding: 10,
-    elevation: 10,
-    backgroundColor: "#e6e6e6",
+    borderTopLeftRadius: 70,
   },
-  textInput: {},
+  logo: {
+    height: 55,
+    width: 221,
+    top: 40,
+  },
+  inputView: {
+    padding: 20,
+    top: 20,
+    width: "100%",
+  },
+  emailInput: {
+    height: 40,
+    width: "90%",
+    lineHeight: 20,
+    top: 20,
+    borderRadius: 30,
+    backgroundColor: "white",
+  },
+  checkboxView: {
+    width: width - 55,
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginTop: 7,
+    backgroundColor: "white",
+    left: 20,
+    top: 50,
+  },
+  terms: {
+    color: "#253f67",
+    lineHeight: 20,
+    fontSize: 14,
+    fontFamily: "Helvetica",
+  },
 });

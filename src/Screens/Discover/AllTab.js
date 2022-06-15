@@ -87,9 +87,7 @@ export default function AllTab({ navigation, props, onPress, route }) {
           </View>
           <Text style={{ top: 15, fontSize: 15 }}>Today</Text>
         </View>
-        <View>
-          <Blog />
-        </View>
+        <View>{/* <Blog /> */}</View>
         <View
           style={{
             height: "70%",

@@ -21,7 +21,7 @@ import {
 
 const { height, width } = Dimensions.get("window");
 
-export default function Profile({navigation}) {
+export default function Profile({ navigation }) {
   const [open, setOpen] = useState(false);
 
   return (

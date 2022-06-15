@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Dimensions,
-  StatusBar,
-  Picker,
   Image,
   ScrollView,
   Alert,
@@ -16,48 +13,21 @@ import { useBackHandler } from "@react-native-community/hooks";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Feather from "react-native-vector-icons/Feather";
-import Historical from "./Historical";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Entypo from "react-native-vector-icons/Entypo";
 import * as Progress from "react-native-progress";
 import Discover from "../../../Components/DiscoverCard";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import AppLoading from "expo-app-loading";
+
 import TransformationCard from "../../../Components/TransformationCard";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { element } from "prop-types";
+import { ActivityIndicator } from "react-native-paper";
 const { width, height } = Dimensions.get("window");
-import AppPageStack from "../../../Navigations/AppPageStack";
-import { slice } from "lodash";
 
 export function CircleCard({ name, marks, source }) {
-  // const [progressColor, setProgessColor] = useState(Colors.red400);
-  const [status, setStatus] = useState();
-
-  // let marksobtainlist = data.Skill_Dashboard.sheet_json.map(
-  //   (item) => item.Technical
-  // );
-
-  // console.log("marksobtainlist", marksobtainlist);
-  // const getDataUsingGet = () => {
-  //   //GET request
-  //   fetch("http://3.215.18.129/dashboard/?file-name=S1", {
-  //     method: "GET",
-  //     //Request Type
-  //   })
-  //     .then((response) => response.json())
-  //     // ,setMarksObtaion(response)
-  //     //If response is in json then in success
-  //     .then((responseJson) => {
-  //       //Success
-  //       alert(JSON.stringify(responseJson));
-  //       console.log(responseJson);
-  //     })
-  //     //If response is not in json then in error
-  //     .catch((error) => {
-  //       //Error
-  //       alert(JSON.stringify(error));
-  //       console.error(error);
-  //     });
-  // };
   return (
     <View
       style={{
@@ -74,12 +44,6 @@ export function CircleCard({ name, marks, source }) {
     >
       <Text style={{ fontSize: 15, fontWeight: "bold" }}>{name}</Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        {/* <AntDesign
-          size={25}
-          color="#0084D6"
-          style={{ marginTop: 50 }}
-          name="minuscircle"
-        /> */}
         <AnimatedCircularProgress
           size={80}
           width={5}
@@ -93,12 +57,12 @@ export function CircleCard({ name, marks, source }) {
           style={{
             height: 40,
             width: 40,
-            // borderRadius: 50,
+
             position: "absolute",
             justifyContent: "center",
             alignItems: "center",
             top: 38,
-            // right: 20,
+
             left: 35,
           }}
           source={source}
@@ -113,12 +77,11 @@ export function CircleCard({ name, marks, source }) {
       <Text
         style={{
           fontWeight: "bold",
-          // textAlign: "center",
+
           justifyContent: "center",
           alignItems: "center",
           top: 10,
           left: 50,
-          // textAlign: "center",
         }}
       >
         {marks}
@@ -129,108 +92,155 @@ export function CircleCard({ name, marks, source }) {
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function DashBoardHeader({ navigation }) {
-  const [preassessment, setPreassessment] = useState();
+export default function DashBoardHeader({ navigation, props }) {
   const [marksobtain, setMarksObtaion] = useState([]);
-  const [video, setVideo] = useState("");
-  const dashboardData = "http://3.215.18.129/dashboard/?file-name=S1";
+  // const [video, setVideo] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const navigationRef = useRef(null);
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => null,
+  //         style: "cancel",
+  //       },
+  //       { text: "YES", onPress: () => BackHandler.exitApp() },
+  //     ]);
+  //     return true;
+  //   };
 
-  function backActionHandler() {
-    Alert.alert("", "Are you sure to exit the App?", [
+  //   const backHandler = BackHandler.addEventListener(
+  //     "hardwareBackPress",
+  //     backAction
+  //   );
+
+  //   return () => backHandler.remove();
+  // }, []);
+
+  //  useFocusEffect(
+  //    React.useCallback(() => {
+  //      const onBackPress = () => {
+  //        navigation.navigate();
+  //        // Return true to stop default back navigaton
+  //        // Return false to keep default back navigaton
+  //        return true;
+  //      };
+
+  //      // Add Event Listener for hardwareBackPress
+  //      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+  //      return () => {
+  //        // Once the Screen gets blur Remove Event Listener
+  //        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+  //      };
+  //    }, [])
+  //  );
+
+  useEffect(() => {
+    // this function gets called when user clicks on device back
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to exit from App?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      const navigationState = navigationRef.current?.getCurrentRoute();
+      const currentRouteName = navigationState?.name;
+      // const currentRouteName = navigationState?.routes[navigationState?.index]?.name;
+      console.log("CurrentRouteName:", currentRouteName, navigationState);
+      if (currentRouteName === "DashBoardHeader") {
+      } else {
+        navigationRef?.current?.goBack();
+      }
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
+  const dashboardData =
+    "http://3.215.18.129/dashboard/?login-Id=asmitamargaje1996@gmail.com";
+
+  const Logout = () =>
+    Alert.alert("Hold on!", "Are you sure you want to logout from App?", [
       {
         text: "No",
-        onPress: () => null,
+        onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
-      {
-        text: "Yes",
-        onPress: () => BackHandler.exitApp(),
-      },
+      { text: "Yes", onPress: () => navigation.navigate("Login") },
     ]);
 
-    return true;
-  }
-
-  useBackHandler(backActionHandler);
-
-  // const getDashboardData = () => {
-  //   fetch(dashboardData)
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       setMarksObtaion(json.Skill_Dashboard.sheet_json);
-  //       setVideo(json.Skill_Dashboard.blog_json);
-  //       console.log("video", json.Skill_Dashboard.blog_json);
-  //       console.log("datamarkss", json.Skill_Dashboard.sheet_json);
-  //     })
-
-  //     .catch((error) => alert(error));
-  // };
-  // getDashboardData();
   useEffect(() => {
     fetch(dashboardData)
       .then((response) => response.json())
       .then((json) => {
-        setMarksObtaion(json.Skill_Dashboard.sheet_json);
-        setVideo(json.Skill_Dashboard.blog_json);
-        console.log("video", json.Skill_Dashboard.blog_json);
-        console.log("datamarkss", json.Skill_Dashboard.sheet_json);
+        setMarksObtaion(json.df);
+        setIsLoading(true);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       })
 
       .catch((error) => alert(error));
   }, []);
 
-  // console.log("ar", array.Post_Assessment);
-  const [selectedValue, setSelectedValue] = useState("Today");
   const array = marksobtain;
-  console.log("arraay", array);
 
   return array.map((element) => {
-    console.log("element", element.Implementation);
-
-    // setPreassessment(element.Pre_Assessment);
-    // let Preassessment = element.Post_Assessment;
-    // console.log("=====", Preassessment);
-    // console.log("element", element.Post_Assessment);
-    let progress = 0.9;
-    // console.log("progress", `0.${element.Technical.split("%", 1)}`);
-    // console.log("3", `${element.Marks_Obtain.split(0, 0)}`);
-    console.log("angular", element.Marks_Obtain.slice(0, 2));
+    console.log("a22", element.elearning);
+    // console.log("0000", Object.keys(element.elearning));
 
     let SkillDashboard = element.Marks_Obtain.slice(0, 2);
-
     let colorCodeTechnical = element.Technical.split("%", 1);
     let colorCodeSoft_Skill = element.Soft_Skill.split("%", 1);
-
     let colorCodeImplementation = element.Implementation.split("%", 1);
+    console.log("colorCodeImplementation", colorCodeImplementation);
+
+    if (isLoading) {
+      return (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <ActivityIndicator color={"blue"} size="large" />
+        </View>
+      );
+    }
 
     return (
-      <View style={{ backgroundColor: "white", flex: 1, padding: 10 }}>
+      <View
+        style={{
+          backgroundColor: "white",
+          flex: 1,
+          padding: 10,
+          height: height,
+        }}
+      >
         <SafeAreaView
           style={{ backgroundColor: "white", padding: 14, height: "100%" }}
         >
-          {/* <View style={{ alignItems: "center" }}>
-            <Picker
-              selectedValue={selectedValue}
-              style={{ height: 50, width: 160 }}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
-              }
-            >
-              <Picker.Item label="Today" value="Today" />
-              <Picker.Item label="Yesterday" value="Yesterday" />
-              <Picker.Item label="This Month" value="This Month" />
-            </Picker>
-          </View> */}
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Hi Manish!</Text>
-
-          <ScrollView
-            // style={{ backgroundColor: "white", flex: 1 }}
-            showsVerticalScrollIndicator={false}
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Hi Manish!</Text>
+            <TouchableOpacity onPress={Logout} style={{ flexDirection: "row" }}>
+              <AntDesign size={17} color="red" name="logout" />
+              <Text style={{ fontSize: 15, color: "red", bottom: 3 }}>
+                Logout
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View
               style={{
                 height: 300,
-                // width: "100%",
+
                 borderRadius: 20,
                 top: 10,
                 padding: 10,
@@ -263,7 +273,6 @@ export default function DashBoardHeader({ navigation }) {
                   size={100}
                   width={5}
                   fill={element.Marks_Obtain.slice(0, 2)}
-                  // tintColor="red"
                   tintColor={
                     SkillDashboard <= 50
                       ? "red"
@@ -271,7 +280,6 @@ export default function DashBoardHeader({ navigation }) {
                       ? "#0084D6"
                       : "green"
                   }
-                  // tintColor="#A9A9A9"
                   onAnimationComplete={() => console.log("onAnimationComplete")}
                   backgroundColor="#A9A9A9"
                   style={{ marginTop: 20 }}
@@ -280,8 +288,7 @@ export default function DashBoardHeader({ navigation }) {
                   style={{
                     height: 60,
                     width: 60,
-                    // borderRadius: 50,
-                    // backgroundColor: "pink",
+
                     position: "absolute",
                     justifyContent: "center",
                     alignItems: "center",
@@ -320,7 +327,6 @@ export default function DashBoardHeader({ navigation }) {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   height: 80,
-                  // backgroundColor: "red",
                 }}
               >
                 <View style={{ top: 20, left: 2 }}>
@@ -339,7 +345,6 @@ export default function DashBoardHeader({ navigation }) {
                     top={5}
                     progress={`0.${element.Soft_Skill.split("%", 1)}`}
                     style={{ width: 140 }}
-                    // width={120}
                   />
                 </View>
 
@@ -359,7 +364,6 @@ export default function DashBoardHeader({ navigation }) {
                     top={5}
                     progress={`0.${element.Technical.split("%", 1)}`}
                     style={{ width: 140 }}
-                    // width={160}
                   />
                 </View>
               </View>
@@ -368,7 +372,6 @@ export default function DashBoardHeader({ navigation }) {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   height: 50,
-                  // backgroundColor: "red",
                 }}
               >
                 <View style={{}}>
@@ -381,14 +384,13 @@ export default function DashBoardHeader({ navigation }) {
                         colorCodeImplementation <= 60
                           ? "red"
                           : colorCodeImplementation <= 75
-                          ? "Yellow"
+                          ? "#F6FC2A"
                           : "green"
                       }
                       borderColor="gray"
                       top={5}
                       progress={`0.${element.Implementation.split("%", 1)}`}
                       style={{ width: 140 }}
-                      // width={160}
                     />
                   </View>
                 </View>
@@ -398,7 +400,7 @@ export default function DashBoardHeader({ navigation }) {
             <View
               style={{
                 height: 180,
-                // width: "100%",
+
                 borderRadius: 20,
                 top: 20,
                 padding: 10,
@@ -440,7 +442,7 @@ export default function DashBoardHeader({ navigation }) {
                   style={{
                     height: 60,
                     width: 60,
-                    // borderRadius: 50,
+
                     position: "absolute",
                     justifyContent: "center",
                     alignItems: "center",
@@ -472,13 +474,6 @@ export default function DashBoardHeader({ navigation }) {
                 >
                   <Feather size={20} name="bar-chart-2" />
                 </View>
-
-                {/* <Entypo
-              size={28}
-              color="#0084D6"
-              style={{ marginTop: 50 }}
-              name="circle-with-plus"
-            /> */}
               </View>
             </View>
             <View
@@ -498,16 +493,6 @@ export default function DashBoardHeader({ navigation }) {
                 source={require("../../../../assets/Images/coding.png")}
               />
             </View>
-            {/* <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            top: 10,
-          }}
-        >
-          <CircleCard />
-          <CircleCard />
-        </View> */}
 
             <View
               style={{
@@ -556,16 +541,16 @@ export default function DashBoardHeader({ navigation }) {
                 width: "100%",
                 marginTop: 10,
                 padding: 10,
-                // backgroundColor: "white",
+                backgroundColor: "white",
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Discover</Text>
-              <View style={{ backgroundColor: "white", height: 1300 }}>
+              <View style={{ backgroundColor: "white", height: 1500 }}>
                 <Discover />
               </View>
             </View>
 
-            <View style={{ height: 100 }}></View>
+            {/* <View style={{ height: 100 }}></View> */}
           </ScrollView>
         </SafeAreaView>
       </View>
