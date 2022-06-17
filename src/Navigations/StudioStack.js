@@ -1,29 +1,25 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import DashBoardHeader from "../Screens/Main/DashBoardHeader";
-import BlogLink from "../Screens/Discover/BlogLink";
-import VideoLink from "../Screens/Discover/VideoLink";
-import All from "../Screens/Discover/All";
-import Blog from "../Screens/Discover/Blog";
-import AllTab from "../Screens/Discover/AllTab";
+
 import { useEffect, useRef } from "react";
 import { BackHandler } from "react-native";
 import StudioLink from "../Screens/Main/Dashboard/Studio/StudioLink";
 // import HacksLink from "../Screens/Discover/HacksLink";
+import Studio from "../Screens/Main/Dashboard/Studio/Studio";
 const Stack = createStackNavigator();
 
-export default function AppPageStack({ props }) {
+export default function StudioStack({ props }) {
   return (
     <Stack.Navigator
       backBehaviour="initialRoute"
-      initialRouteName="DashBoardHeader"
+      initialRouteName="Studio"
       screenOptions={{ headerShown: null }}
     >
-      <Stack.Screen name="DashBoardHeader" component={DashBoardHeader} />
-      <Stack.Screen name="BlogLink" component={BlogLink} />
+      <Stack.Screen name="Studio" component={Studio} />
+      {/* <Stack.Screen name="BlogLink" component={BlogLink} />
       <Stack.Screen name="VideoLink" component={VideoLink} />
       <Stack.Screen name="All" component={All} />
       <Stack.Screen name="Blog" component={Blog} />
-      <Stack.Screen name="AllTab" component={AllTab} />
+      <Stack.Screen name="AllTab" component={AllTab} /> */}
       <Stack.Screen name="StudioLink" component={StudioLink} />
 
       {/* <Stack.Screen name="HacksLink" component={HacksLink} /> */}

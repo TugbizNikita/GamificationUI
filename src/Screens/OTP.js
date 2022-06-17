@@ -37,7 +37,9 @@ export default function OTP({ navigation, route }) {
     }),
   };
 
-  console.log("mail", route.params.paramKey);
+  let EmailID = route.params.paramKey;
+
+  console.log("44", EmailID);
   const onSubmitHandler = async () => {
     console.log("requestoption", requestOptions);
     try {
@@ -46,7 +48,9 @@ export default function OTP({ navigation, route }) {
           response.json().then((data) => {
             console.log("dataa", data);
             if (data.status_code === 0) {
-              navigation.navigate("MyTabs");
+              navigation.navigate("MyTabs", {
+                paramKey: EmailID.trim(),
+              });
             } else if (data.status_code === 1) {
               alert("Wrong credentials");
             } else {

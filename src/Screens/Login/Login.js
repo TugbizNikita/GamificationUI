@@ -151,9 +151,8 @@ export default function Login({ navigation }) {
                     <Button
                       title="Log In"
                       color="#0084D6"
-                      onPress={ // {() => navigation.navigate("MyTabs")}
-                        props.handleSubmit
-                      }
+                      onPress={() => navigation.navigate("MyTabs")}
+                      // {props.handleSubmit}
                       disabled={props.isSubmitting}
                     />
                     {/* <ActivityIndicator size="small" color="#0000ff" /> */}

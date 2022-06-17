@@ -7,13 +7,20 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Pressable,
+  Dimensions,
+  ScrollView,
 } from "react-native";
+
 import { Video, AVPlaybackStatus } from "expo-av";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import YoutubePlayer from "react-native-youtube-iframe";
 import Entypo from "react-native-vector-icons/Entypo";
 import * as OpenAnything from "react-native-openanything";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { LinearGradient } from "expo-linear-gradient";
+const { width, height } = Dimensions.get("window");
+
 export default function Haks({ navigation }) {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
@@ -38,33 +45,25 @@ export default function Haks({ navigation }) {
   const Item = ({ item }) => {
     let Hack = item.hack_discription;
     return (
-      <View style={{ height: 120 }}>
+      <View style={{ backgroundColor: "white", padding: 5 }}>
         <TouchableOpacity
           onPress={() => OpenAnything.Pdf(item.hack_discription)}
-          style={{
-            height: 100,
-            width: "100%",
-            backgroundColor: "white",
-            marginVertical: 8,
-            borderWidth: 2,
-            borderRadius: 20,
-            borderColor: "#0084D6",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#FEF9E7",
-            top: 10,
-          }}
         >
-          <View
+          <LinearGradient
             style={{
-              flexDirection: "row",
+              height: 80,
+              width: "100%",
+              marginVertical: 8,
+              borderRadius: 30,
+              justifyContent: "center",
               alignItems: "center",
-              justifyContent: "space-evenly",
             }}
+            colors={["#5B86E5", "#36D1DC"]}
           >
-            <AntDesign color="#0084D6" size={40} name="pdffile1" />
-            <Text style={{ fontSize: 30 }}>{item.hack_name}</Text>
-          </View>
+            <Text style={{ fontSize: 30, fontStyle: "italic" }}>
+              {item.hack_name}
+            </Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     );
@@ -81,61 +80,15 @@ export default function Haks({ navigation }) {
     return (
       <View
         style={{
-          height: "100%",
           width: "100%",
-          // marginLeft: 11,
-          bottom: 22,
-
           backgroundColor: "white",
         }}
       >
-        {/* <View
-          style={{
-            backgroundColor: "white",
-            top: 30,
-            flexDirection: "row",
-            // justifyContent: "space-between",
-            padding: 10,
-          }}
-        >
-          <View
-            style={{
-              height: 40,
-              width: 40,
-              backgroundColor: "#6EE80E",
-              borderRadius: 40,
-              borderWidth: 0,
-              elevation: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Entypo
-              name="light-bulb"
-              color="white"
-              size={30}
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-          <Text style={{ left: 10, top: 10, fontSize: 15 }}>Hacks</Text>
-          <Text style={{ left: 200, top: 10, fontSize: 15 }}>Today</Text>
-        </View> */}
-
-        <View
-          style={{
-            marginVertical: 18,
-          }}
-        >
-          <FlatList
-            data={chapterName}
-            renderItem={Item}
-            keyExtractor={(item) => item.Chapterurl}
-          />
-        </View>
+        <FlatList
+          data={chapterName}
+          renderItem={Item}
+          keyExtractor={(item) => item.Chapterurl}
+        />
       </View>
     );
   });

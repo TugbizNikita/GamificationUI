@@ -1,4 +1,4 @@
-import MyTabs from "../Screens/Main/BottomTabs";
+import MyTabs from "../Screens/BottomTabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();

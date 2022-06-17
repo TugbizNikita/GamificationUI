@@ -16,42 +16,21 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Profile from "./Profile";
-import DashBoardHeader from "./Dashboard/DashBoardHeader";
 
-import Register from "../Register/Register";
-import Login from "../Login/Login";
+import DashBoardHeader from "./Main/DashBoardHeader";
+
+import Register from "./Register/Register";
+import Login from "./Login/Login";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Discussion from "./Dashboard/Discussion/Discussion";
-import Me from "./Dashboard/Me/Me";
-import Studio from "./Dashboard/Studio/Studio";
-import More from "./Dashboard/More/More";
-import AppPageStack from "../../Navigations/AppPageStack";
+import Discussion from "./Main/Dashboard/Discussion/Discussion";
+import Me from "./Main/Dashboard/Me/Me";
+import Studio from "./Main/Dashboard/Studio/Studio";
+import More from "./Main/Dashboard/More/More";
+import AppPageStack from "../Navigations/AppPageStack";
+import StudioStack from "../Navigations/StudioStack";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
-  // useEffect(() => {
-  //   const backAction = () => {
-  //     if (currentRouteName === "DashboardHeader") {
-  //       Alert.alert("Hold on!", "Are you sure you want to go back?", [
-  //         {
-  //           text: "Cancel",
-  //           onPress: () => null,
-  //           style: "cancel",
-  //         },
-  //         { text: "YES", onPress: () => BackHandler.exitApp() },
-  //       ]);
-  //       return true;
-  //     }
-  //   };
-  //   const backHandler = BackHandler.addEventListener(
-  //     "hardwareBackPress",
-  //     backAction
-  //   );
-
-  //   return () => backHandler.remove();
-  // }, []);
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -108,7 +87,7 @@ function MyTabs() {
               <AntDesign
                 name="wechat"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 40 }}
+                style={{ color: focused ? "#fb5414" : "gray", left: 25 }}
               />
 
               <Text
@@ -120,7 +99,7 @@ function MyTabs() {
                   left: 20,
                 }}
               >
-                Discussion
+                Coach
               </Text>
             </View>
           ),
@@ -153,8 +132,8 @@ function MyTabs() {
       />
 
       <Tab.Screen
-        name="Studio"
-        component={Studio}
+        name="StudioStack"
+        component={StudioStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ justifyContent: "center", alignItem: "center" }}>

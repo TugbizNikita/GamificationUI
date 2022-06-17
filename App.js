@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./src/Navigations/AuthStack";
-import DashBoardHeader from "./src/Screens/Main/Dashboard/DashBoardHeader";
+import DashBoardHeader from "./src/Screens/Main/DashBoardHeader";
 import { BackHandler, Alert } from "react-native";
 import { useBackHandler } from "@react-native-community/hooks";
 

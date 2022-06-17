@@ -1,7 +1,7 @@
 import { Login, Register } from "../";
-import MyTabs from "../Screens/Main/BottomTabs";
+import MyTabs from "../Screens/BottomTabs";
 import OTP from "../Screens/OTP";
-import DashBoardHeader from "../Screens/Main/Dashboard/DashBoardHeader";
+import DashBoardHeader from "../Screens/Main/DashBoardHeader";
 import { createStackNavigator } from "@react-navigation/stack";
 import AppPageStack from "./AppPageStack";
 

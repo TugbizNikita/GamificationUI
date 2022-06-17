@@ -18,10 +18,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Entypo from "react-native-vector-icons/Entypo";
 import * as Progress from "react-native-progress";
-import Discover from "../../../Components/DiscoverCard";
+import Discover from "../../Components/DiscoverCard";
 import AppLoading from "expo-app-loading";
 
-import TransformationCard from "../../../Components/TransformationCard";
+import TransformationCard from "../../Components/TransformationCard";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { element } from "prop-types";
 import { ActivityIndicator } from "react-native-paper";
@@ -92,50 +92,16 @@ export function CircleCard({ name, marks, source }) {
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function DashBoardHeader({ navigation, props }) {
+export default function DashBoardHeader({
+  navigation,
+  props,
+  route,
+  emailInfo,
+}) {
   const [marksobtain, setMarksObtaion] = useState([]);
-  // const [video, setVideo] = useState("");
+
   const [isLoading, setIsLoading] = useState(true);
   const navigationRef = useRef(null);
-  // useEffect(() => {
-  //   const backAction = () => {
-  //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
-  //       {
-  //         text: "Cancel",
-  //         onPress: () => null,
-  //         style: "cancel",
-  //       },
-  //       { text: "YES", onPress: () => BackHandler.exitApp() },
-  //     ]);
-  //     return true;
-  //   };
-
-  //   const backHandler = BackHandler.addEventListener(
-  //     "hardwareBackPress",
-  //     backAction
-  //   );
-
-  //   return () => backHandler.remove();
-  // }, []);
-
-  //  useFocusEffect(
-  //    React.useCallback(() => {
-  //      const onBackPress = () => {
-  //        navigation.navigate();
-  //        // Return true to stop default back navigaton
-  //        // Return false to keep default back navigaton
-  //        return true;
-  //      };
-
-  //      // Add Event Listener for hardwareBackPress
-  //      BackHandler.addEventListener("hardwareBackPress", onBackPress);
-
-  //      return () => {
-  //        // Once the Screen gets blur Remove Event Listener
-  //        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-  //      };
-  //    }, [])
-  //  );
 
   useEffect(() => {
     // this function gets called when user clicks on device back
@@ -165,7 +131,7 @@ export default function DashBoardHeader({ navigation, props }) {
     return () => backHandler.remove();
   }, []);
   const dashboardData =
-    "http://3.215.18.129/dashboard/?login-Id=asmitamargaje1996@gmail.com";
+    "http://3.215.18.129/dashboard/?login-Id=nikita@tugbiz.com";
 
   const Logout = () =>
     Alert.alert("Hold on!", "Are you sure you want to logout from App?", [
@@ -182,26 +148,29 @@ export default function DashBoardHeader({ navigation, props }) {
       .then((response) => response.json())
       .then((json) => {
         setMarksObtaion(json.df);
+        console.log("&&", json.df);
         setIsLoading(true);
         setTimeout(() => {
           setIsLoading(false);
         }, 1000);
       })
 
-      .catch((error) => alert(error));
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const array = marksobtain;
 
   return array.map((element) => {
-    console.log("a22", element.elearning);
+    // console.log("a22", element.elearning);
     // console.log("0000", Object.keys(element.elearning));
 
     let SkillDashboard = element.Marks_Obtain.slice(0, 2);
     let colorCodeTechnical = element.Technical.split("%", 1);
     let colorCodeSoft_Skill = element.Soft_Skill.split("%", 1);
     let colorCodeImplementation = element.Implementation.split("%", 1);
-    console.log("colorCodeImplementation", colorCodeImplementation);
+    // console.log("colorCodeImplementation", colorCodeImplementation);
 
     if (isLoading) {
       return (
@@ -230,9 +199,9 @@ export default function DashBoardHeader({ navigation, props }) {
           >
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Hi Manish!</Text>
             <TouchableOpacity onPress={Logout} style={{ flexDirection: "row" }}>
-              <AntDesign size={17} color="red" name="logout" />
+              {/* <AntDesign size={17} color="red" name="logout" /> */}
               <Text style={{ fontSize: 15, color: "red", bottom: 3 }}>
-                Logout
+                Log Out
               </Text>
             </TouchableOpacity>
           </View>
@@ -295,7 +264,7 @@ export default function DashBoardHeader({ navigation, props }) {
                     top: 38,
                     left: 20,
                   }}
-                  source={require("../../../../assets/Images/personal-development.png")}
+                  source={require("../../../assets/Images/personal-development.png")}
                 />
                 <Text style={{ marginTop: 60, marginLeft: 10, fontSize: 20 }}>
                   {element.Marks_Obtain} of {element.Marks_Outof}
@@ -449,7 +418,7 @@ export default function DashBoardHeader({ navigation, props }) {
                     top: 38,
                     left: 25,
                   }}
-                  source={require("../../../../assets/Images/assessment.png")}
+                  source={require("../../../assets/Images/assessment.png")}
                 />
 
                 <View style={{ flexDirection: "column" }}>
@@ -485,12 +454,12 @@ export default function DashBoardHeader({ navigation, props }) {
               <CircleCard
                 name="Soft Skill(s)"
                 marks={element.Soft_Skill_Marks}
-                source={require("../../../../assets/Images/softskills.png")}
+                source={require("../../../assets/Images/softskills.png")}
               />
               <CircleCard
                 name="Technical"
                 marks={element.Technical_Marks}
-                source={require("../../../../assets/Images/coding.png")}
+                source={require("../../../assets/Images/coding.png")}
               />
             </View>
 
@@ -541,11 +510,19 @@ export default function DashBoardHeader({ navigation, props }) {
                 width: "100%",
                 marginTop: 10,
                 padding: 10,
+                flex: 1,
+
                 backgroundColor: "white",
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Discover</Text>
-              <View style={{ backgroundColor: "white", height: 1500 }}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  // flex: 1,
+                  height: height,
+                }}
+              >
                 <Discover />
               </View>
             </View>

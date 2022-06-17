@@ -12,11 +12,11 @@ import WebView from "react-native-webview";
 import { useFocusEffect } from "@react-navigation/native";
 
 // import { ActivityIndicator, Dimensions } from "react-native";
-const BlogLink = ({ route, navigation }) => {
+const StudioLink = ({ route, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.navigate("DashBoardHeader");
+        navigation.navigate("Studio");
         // Return true to stop default back navigaton
         // Return false to keep default back navigaton
         return true;
@@ -64,4 +64,4 @@ const BlogLink = ({ route, navigation }) => {
   );
 };
 
-export default BlogLink;
+export default StudioLink;

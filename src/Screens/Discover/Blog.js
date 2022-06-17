@@ -22,6 +22,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import BlogLink from "../Discover/BlogLink";
 // import VideoLink from "./VideoLink";
 import Videos from "./VideoLinkImage";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Blog({ navigation }) {
   const [videolink, setVideolink] = useState([]);
@@ -49,19 +50,7 @@ export default function Blog({ navigation }) {
           onPress={() =>
             navigation.navigate("VideoLink", { paramKey: CourseID })
           }
-          style={{
-            height: 100,
-            width: "100%",
-            backgroundColor: "white",
-            marginVertical: 8,
-            borderWidth: 2,
-            borderRadius: 20,
-            borderColor: "#0084D6",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F4F6F7",
-            top: 10,
-          }}
+          style={{}}
         >
           <View
             style={{
@@ -69,15 +58,38 @@ export default function Blog({ navigation }) {
               justifyContent: "space-between",
             }}
           >
-            <Image
+            <LinearGradient
+              style={{
+                height: 80,
+                width: "100%",
+                backgroundColor: "white",
+                marginVertical: 8,
+                // borderWidth: 2,
+                borderRadius: 30,
+                borderColor: "#0084D6",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#FEF9E7",
+                top: 10,
+
+                // width: 320,
+              }}
+              colors={["#5B86E5", "#36D1DC"]}
+            >
+              {/* <Image
               style={{ height: 70, width: 70, borderRadius: 40 }}
               source={require("../../../assets/Images/video.webp")}
-            />
-            <Text
-              style={{ fontSize: 30, left: 10, textAlign: "center", top: 10 }}
-            >
-              {item.chapter_name}
-            </Text>
+            /> */}
+              <Text
+                style={{
+                  fontSize: 30,
+                  textAlign: "center",
+                  fontStyle: "italic",
+                }}
+              >
+                {item.chapter_name}
+              </Text>
+            </LinearGradient>
           </View>
         </TouchableOpacity>
       </View>
