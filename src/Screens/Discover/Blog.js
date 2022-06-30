@@ -23,6 +23,7 @@ import BlogLink from "../Discover/BlogLink";
 // import VideoLink from "./VideoLink";
 import Videos from "./VideoLinkImage";
 import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default function Blog({ navigation }) {
   const [videolink, setVideolink] = useState([]);
@@ -46,52 +47,53 @@ export default function Blog({ navigation }) {
     let CourseID = item.chapter_url;
     return (
       <View style={{ backgroundColor: "white", marginVertical: 10 }}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("VideoLink", { paramKey: CourseID })
-          }
-          style={{}}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
         >
-          <View
+          <LinearGradient
             style={{
+              height: 45,
+              width: "100%",
+              backgroundColor: "white",
+              marginVertical: 8,
+              // borderWidth: 2,
+              borderRadius: 30,
+              borderColor: "#0084D6",
+              justifyContent: "center",
+              alignItems: "center",
               flexDirection: "row",
+              backgroundColor: "#FEF9E7",
               justifyContent: "space-between",
-            }}
-          >
-            <LinearGradient
-              style={{
-                height: 80,
-                width: "100%",
-                backgroundColor: "white",
-                marginVertical: 8,
-                // borderWidth: 2,
-                borderRadius: 30,
-                borderColor: "#0084D6",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#FEF9E7",
-                top: 10,
+              paddingLeft: 20,
+              paddingRight: 20,
+              top: 10,
 
-                // width: 320,
+              // width: 320,
+            }}
+            colors={["#5B86E5", "#36D1DC"]}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                textAlign: "center",
+                fontStyle: "italic",
               }}
-              colors={["#5B86E5", "#36D1DC"]}
             >
-              {/* <Image
-              style={{ height: 70, width: 70, borderRadius: 40 }}
-              source={require("../../../assets/Images/video.webp")}
-            /> */}
-              <Text
-                style={{
-                  fontSize: 30,
-                  textAlign: "center",
-                  fontStyle: "italic",
-                }}
-              >
-                {item.chapter_name}
-              </Text>
-            </LinearGradient>
-          </View>
-        </TouchableOpacity>
+              {item.chapter_name}
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("VideoLink", { paramKey: CourseID })
+              }
+              style={{}}
+            >
+              <MaterialIcons size={20} name="keyboard-arrow-right" />
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
     );
   };
@@ -105,38 +107,58 @@ export default function Blog({ navigation }) {
     console.log("chapterUrl", Chapterurl);
 
     return (
-      <View style={{ backgroundColor: "white", width: "100%" }}>
+      <View
+        style={{
+          backgroundColor: "white",
+          flex: 1,
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <View
           style={{
+            height: 70,
+            width: "100%",
             backgroundColor: "white",
-            top: 10,
             flexDirection: "row",
-            // justifyContent: "space-between",
             padding: 10,
           }}
         >
           <View
             style={{
-              height: 40,
-              width: 40,
-              backgroundColor: "#0084D6",
-              borderRadius: 40,
-              borderWidth: 0,
-              elevation: 1,
-              flexDirection: "row",
+              borderWidth: 2,
+              height: 45,
+              width: 45,
+              borderRadius: 50,
               justifyContent: "center",
               alignItems: "center",
+              borderColor: "#0084D6",
             }}
           >
-            <MaterialCommunityIcons
-              name="access-point"
-              color="white"
-              size={30}
+            <View
               style={{
+                height: 35,
+                width: 35,
+                backgroundColor: "#0084D6",
+                borderRadius: 40,
+                borderWidth: 0,
+                elevation: 1,
+                flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
               }}
-            />
+            >
+              <MaterialCommunityIcons
+                name="access-point"
+                color="white"
+                size={30}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              />
+            </View>
           </View>
           <Text
             style={{
@@ -160,18 +182,32 @@ export default function Blog({ navigation }) {
           </Text>
         </View>
 
-        <View
-          style={{
-            marginVertical: 18,
-            backgroundColor: "white",
-          }}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          style={{ width: "100%" }}
         >
-          <FlatList
-            data={chapterName}
-            renderItem={Item}
-            keyExtractor={(item) => item.Chapterurl}
-          />
-        </View>
+          <View
+            style={{
+              paddingBottom: 100,
+              backgroundColor: "white",
+              width: "100%",
+            }}
+          >
+            <View
+              style={{
+                marginVertical: 18,
+                backgroundColor: "white",
+              }}
+            >
+              <FlatList
+                data={chapterName}
+                renderItem={Item}
+                keyExtractor={(item) => item.Chapterurl}
+              />
+            </View>
+          </View>
+        </ScrollView>
       </View>
     );
   });

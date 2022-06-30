@@ -40,24 +40,41 @@ const VideoLink = ({ item, uri, route, navigation }) => {
   const height = Dimensions.get("screen").height;
   const width = Dimensions.get("screen").width;
   return (
-    <View style={{ flex: 1, width: "100%" }}>
-      <WebView
-        source={{
-          uri: chapterurl,
+    <View
+      style={{
+        backgroundColor: "white",
+        flex: 1,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          paddingBottom: 100,
+          backgroundColor: "white",
+          width: "100%",
+          paddingBottom: 100,
         }}
-        onLoadStart={() => setVisible(true)}
-        onLoadEnd={() => setVisible(false)}
-        style={{ marginTop: 10 }}
-      />
+      >
+        <WebView
+          source={{
+            uri: chapterurl,
+          }}
+          onLoadStart={() => setVisible(true)}
+          onLoadEnd={() => setVisible(false)}
+          style={{ marginTop: 10 }}
+        />
+      </View>
       {visible && (
         <ActivityIndicator
           color={"red"}
           style={{
             position: "absolute",
             top: height / 2,
-            left: width / 2.2,
+            left: width / 2.5,
           }}
-          size={"large"}
+          size={60}
         />
       )}
     </View>

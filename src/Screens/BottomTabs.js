@@ -22,6 +22,7 @@ import DashBoardHeader from "./Main/DashBoardHeader";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Discussion from "./Main/Dashboard/Discussion/Discussion";
 import Me from "./Main/Dashboard/Me/Me";
 import Studio from "./Main/Dashboard/Studio/Studio";
@@ -137,11 +138,12 @@ function MyTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ justifyContent: "center", alignItem: "center" }}>
-              <FontAwesome
-                name="play-circle-o"
+              <MaterialCommunityIcons
+                name="newspaper-variant-multiple-outline"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 10 }}
+                style={{ color: focused ? "#fb5414" : "gray", left: 20 }}
               />
+
               <Text
                 style={{
                   fontSize: 12,
@@ -150,7 +152,7 @@ function MyTabs() {
                   left: 8,
                 }}
               >
-                Studio
+                Skills Test
               </Text>
             </View>
           ),

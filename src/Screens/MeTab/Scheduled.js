@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
-
-export default function Gorups() {
+import { View, Text, Button, ScrollView } from "react-native";
+// import { ScrollView } from "react-native-gesture-handler";
+// import { Button } from "react-native-paper";
+export default function Scheduled() {
   return (
     <View
       style={{

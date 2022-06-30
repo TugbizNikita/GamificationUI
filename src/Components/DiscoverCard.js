@@ -25,11 +25,11 @@ export default function OrderHeader() {
       }}
       style={{ paddingTop: StatusBar.currentHeight }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{
           title: ({ focused }) => (
-            <View>
-              <View
+            <View> */}
+      {/* <View
                 style={{
                   borderWidth: 2,
                   height: 45,
@@ -72,13 +72,13 @@ export default function OrderHeader() {
                 }}
               >
                 All
-              </Text>
-            </View>
+              </Text> */}
+      {/* </View>
           ),
         }}
         name="AllTab"
         component={AllTab}
-      />
+      /> */}
       <Tab.Screen
         options={{
           title: ({ focused }) => (

@@ -19,6 +19,8 @@ import Entypo from "react-native-vector-icons/Entypo";
 import * as OpenAnything from "react-native-openanything";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
 const { width, height } = Dimensions.get("window");
 
 export default function Haks({ navigation }) {
@@ -45,26 +47,36 @@ export default function Haks({ navigation }) {
   const Item = ({ item }) => {
     let Hack = item.hack_discription;
     return (
-      <View style={{ backgroundColor: "white", padding: 5 }}>
-        <TouchableOpacity
-          onPress={() => OpenAnything.Pdf(item.hack_discription)}
+      <View
+        style={{
+          backgroundColor: "white",
+          padding: 5,
+        }}
+      >
+        <LinearGradient
+          style={{
+            height: 45,
+            width: "100%",
+            marginVertical: 8,
+            borderRadius: 30,
+            // justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            paddingLeft: 20,
+            paddingRight: 20,
+            justifyContent: "space-between",
+          }}
+          colors={["#5B86E5", "#36D1DC"]}
         >
-          <LinearGradient
-            style={{
-              height: 80,
-              width: "100%",
-              marginVertical: 8,
-              borderRadius: 30,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            colors={["#5B86E5", "#36D1DC"]}
+          <Text style={{ fontSize: 20, fontStyle: "italic" }}>
+            {item.hack_name}
+          </Text>
+          <TouchableOpacity
+            onPress={() => OpenAnything.Pdf(item.hack_discription)}
           >
-            <Text style={{ fontSize: 30, fontStyle: "italic" }}>
-              {item.hack_name}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+            <MaterialIcons size={20} name="keyboard-arrow-right" />
+          </TouchableOpacity>
+        </LinearGradient>
       </View>
     );
   };
@@ -80,15 +92,104 @@ export default function Haks({ navigation }) {
     return (
       <View
         style={{
+          backgroundColor: "white",
+          flex: 1,
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            height: 70,
+            width: "100%",
+            backgroundColor: "white",
+            flexDirection: "row",
+            padding: 10,
+          }}
+        >
+          <View
+            style={{
+              borderWidth: 2,
+              height: 45,
+              width: 45,
+              borderRadius: 50,
+              justifyContent: "center",
+              alignItems: "center",
+              borderColor: "#0084D6",
+            }}
+          >
+            <View
+              style={{
+                height: 35,
+                width: 35,
+                backgroundColor: "#6EE80E",
+                borderRadius: 40,
+                borderWidth: 0,
+                elevation: 1,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Entypo
+                name="light-bulb"
+                color="white"
+                size={30}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  //   backgroundColor: "#0084D6",
+                }}
+              />
+            </View>
+          </View>
+          <Text
+            style={{
+              left: 10,
+              fontSize: 14,
+              justifyContent: "flex-start",
+              top: 10,
+            }}
+          >
+            Hacks
+          </Text>
+          <Text
+            style={{
+              left: 165,
+              top: 10,
+              fontSize: 15,
+              justifyContent: "flex-end",
+            }}
+          >
+            Today
+          </Text>
+        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          style={{ width: "100%", top: 20 }}
+        >
+          <View
+            style={{
+              paddingBottom: 100,
+              backgroundColor: "white",
+              width: "100%",
+            }}
+          >
+            {/* <View
+        style={{
           width: "100%",
           backgroundColor: "white",
         }}
-      >
-        <FlatList
-          data={chapterName}
-          renderItem={Item}
-          keyExtractor={(item) => item.Chapterurl}
-        />
+      > */}
+            <FlatList
+              data={chapterName}
+              renderItem={Item}
+              keyExtractor={(item) => item.Chapterurl}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   });

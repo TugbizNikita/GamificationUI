@@ -7,7 +7,7 @@ import Q from "../Screens/Discover/Q";
 import Haks from "../Screens/Discover/Haks";
 import Gorups from "../Screens/MeTab/Groups";
 import LeaderBoard from "../Screens/MeTab/LeaderBoard";
-import Task from "../Screens/MeTab/Task";
+import Scheduled from "../Screens/MeTab/Scheduled";
 import Fontisto from "react-native-vector-icons/Fontisto";
 // import NewRequest from "./NewRequest";
 // import CompletedOrders from "./CompletedOrders";
@@ -20,7 +20,7 @@ export default function MeCard() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#F4F6F7",
+          backgroundColor: "white",
           height: 70,
           padding: 10,
           borderRadius: 20,
@@ -41,18 +41,20 @@ export default function MeCard() {
                 alignItems: "center",
                 bottom: 10,
 
-                backgroundColor: focused ? "white" : "#D6DBDF",
+                backgroundColor: focused ? "#1390E0" : "#D6DBDF",
                 left: 4,
               }}
             >
-              <Text>Task</Text>
+              <Text style={{ color: focused ? "white" : "black" }}>
+                Schedule
+              </Text>
             </View>
           ),
         }}
-        name="LeaderBoard"
-        component={LeaderBoard}
+        name="Scheduled"
+        component={Scheduled}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{
           title: ({ focused }) => (
             <View
@@ -73,7 +75,7 @@ export default function MeCard() {
         }}
         name="Task"
         component={Task}
-      />
+      /> */}
 
       <Tab.Screen
         options={{
@@ -86,11 +88,11 @@ export default function MeCard() {
                 justifyContent: "center",
                 alignItems: "center",
                 bottom: 10,
-                backgroundColor: focused ? "white" : "#D6DBDF",
+                backgroundColor: focused ? "#1390E0" : "#D6DBDF",
                 left: 4,
               }}
             >
-              <Text>Groups</Text>
+              <Text style={{ color: focused ? "white" : "black" }}>Groups</Text>
             </View>
           ),
         }}

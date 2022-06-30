@@ -44,7 +44,7 @@ export default function All({ navigation }) {
       <View
         style={{
           width: "100%",
-          // height: 250,
+          // height: height,
           backgroundColor: "white",
           // borderWidth: 1,
           // flex: 1,
@@ -57,13 +57,20 @@ export default function All({ navigation }) {
           style={{
             width: "100%",
             top: 10,
+            // flex: 1,
+            // height: 180,
 
             backgroundColor: "white",
             marginVertical: 10,
           }}
         >
           <Image
-            style={{ height: 300, width: "100%", borderRadius: 20 }}
+            style={{
+              height: 200,
+              width: "100%",
+              borderRadius: 20,
+              backgroundColor: "white",
+            }}
             source={{
               uri: item.img_url,
             }}
@@ -82,57 +89,137 @@ export default function All({ navigation }) {
     console.log("blogurl", blogurl);
 
     return (
-      <View>
+      <View
+        style={{
+          backgroundColor: "white",
+          flex: 1,
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <View
           style={{
+            height: 70,
+            width: "100%",
             backgroundColor: "white",
-            top: 10,
             flexDirection: "row",
-            justifyContent: "space-between",
             padding: 10,
           }}
         >
           <View
             style={{
-              height: 40,
-              width: 40,
-              backgroundColor: "red",
-              borderRadius: 40,
-              borderWidth: 0,
-              elevation: 1,
-              flexDirection: "row",
+              borderWidth: 2,
+              height: 45,
+              width: 45,
+              borderRadius: 50,
               justifyContent: "center",
               alignItems: "center",
+              borderColor: "#0084D6",
             }}
           >
-            <Entypo
-              name="text-document"
-              color="white"
-              size={25}
+            <View
               style={{
+                height: 35,
+                width: 35,
+                backgroundColor: "#F54738",
+
+                borderRadius: 40,
+                borderWidth: 0,
+                elevation: 1,
+                flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                left: 16,
               }}
-            />
-            <Text style={{ left: 35, top: 5, fontSize: 15 }}>Blog</Text>
+            >
+              <Entypo
+                name="text-document"
+                color="white"
+                size={28}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  //   backgroundColor: "#0084D6",
+                }}
+              />
+            </View>
           </View>
-          <Text style={{ top: 10 }}>Today</Text>
+          <Text
+            style={{
+              left: 10,
+              fontSize: 14,
+              justifyContent: "flex-start",
+              top: 10,
+            }}
+          >
+            Blog
+          </Text>
+          <Text
+            style={{
+              left: 165,
+              top: 10,
+              fontSize: 15,
+              justifyContent: "flex-end",
+            }}
+          >
+            Today
+          </Text>
         </View>
-        <View
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          style={{ width: "100%" }}
+        >
+          <View
+            style={{
+              paddingBottom: 100,
+              backgroundColor: "white",
+              width: "100%",
+            }}
+          >
+            {/* <View
           style={{
-            marginVertical: 18,
-
-            backgroundColor: "white",
+            height: 40,
+            width: 40,
+            backgroundColor: "red",
+            borderRadius: 40,
+            borderWidth: 0,
+            elevation: 1,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
           }}
         >
-          <FlatList
-            data={chapterName}
-            renderItem={Item}
-            keyExtractor={(item) => item.blogurl}
+          <Entypo
+            name="text-document"
+            color="white"
+            size={25}
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              left: 16,
+            }}
           />
+          <Text style={{ left: 35, top: 5, fontSize: 15 }}>Blog</Text>
         </View>
-        <View style={{ height: 200 }}></View>
+        <Text style={{ top: 10 }}>Today</Text> */}
+
+            <View
+              style={{
+                width: "100%",
+                marginVertical: 18,
+                height: height,
+              }}
+            >
+              <FlatList
+                data={chapterName}
+                renderItem={Item}
+                keyExtractor={(item) => item.blogurl}
+              />
+            </View>
+          </View>
+        </ScrollView>
       </View>
     );
   });

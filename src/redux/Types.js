@@ -1,5 +1,5 @@
 export default {
   LOGIN: "LOGIN",
-  SIGNUP: "SIGNUP",
+  REGISTER: "REGISTER",
   CLEAR_REDUX_STATE: "CLEAR_REDUX_STATE",
 };

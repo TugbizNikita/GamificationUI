@@ -13,7 +13,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { TextInput } from "react-native-paper";
 import LoginOnboarding from "../LoginOnboard/LoginOnboarding";
-
+import actions from "../../redux/actions";
+import api from "../../api";
 const initialValues = {
   student_name: "",
   student_corp_emailId: "",
@@ -45,41 +46,81 @@ const validationSchema = yup.object().shape({
 const { width } = Dimensions.get("window");
 
 export default function Register({ navigation }) {
-  const onSubmitHandler = async (data) => {
-    let data_student_corp_emailId = data.student_corp_emailId.trim();
-    console.log("shradhha", data.student_corp_emailId.trim());
-    let formData = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        student_name: data.student_name,
-        student_corp_emailId: data_student_corp_emailId,
+  // const onRegister = async (data) => {
+  //   console.log("hello");
+  //   let data_student_corp_emailId = data.student_corp_emailId.trim();
 
-        student_mob_no: data.student_mob_no,
-      }),
-    };
-    console.log("formdata", formData);
-    try {
-      await fetch(
-        "http://3.215.18.129/gamification_registration/",
-        formData
-      ).then((response) => {
-        response.json().then((data) => {
-          console.log("dataaa", data);
-          if (data.status_code === 0) {
-            alert("Registration Sucessfully");
-            navigation.navigate("Login");
-          } else if (data.status_code === 1) {
-            alert("User Already Exist");
-          } else {
-            alert("Something went wrong!");
-          }
-        });
+  //   try {
+  //     const res = await actions.Register({
+  //       student_name: data.student_name,
+  //       student_corp_emailId: data_student_corp_emailId,
+
+  //       student_mob_no: data.student_mob_no,
+  //     });
+  //     console.log("res of register", res);
+  //     navigation.navigate("Login");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const submitForm = (data) => {
+    console.log("onSubmit", data);
+    // Login API calling
+    api.auth
+      .registrationRequest(data)
+      .then((response) => {
+        console.log("updatedapi", data);
+        // handle success
+        if (response.data.status_code === 0) {
+          alert("Registration Sucessfully");
+          navigation.navigate("Login");
+        } else if (response.data.status_code === 1) {
+          alert("User Already Exist");
+        } else {
+          alert("Something went wrong!");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    } catch (error) {
-      console.error(error);
-    }
   };
+
+  // const onSubmitHandler = async (data) => {
+  //   let data_student_corp_emailId = data.student_corp_emailId.trim();
+  //   console.log("shradhha", data.student_corp_emailId.trim());
+  //   let formData = {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       student_name: data.student_name,
+  //       student_corp_emailId: data_student_corp_emailId,
+
+  //       student_mob_no: data.student_mob_no,
+  //     }),
+  //   };
+  //   console.log("formdata", formData);
+  //   try {
+  //     await fetch(
+  //       "http://3.215.18.129/gamification_registration/",
+  //       formData
+  //     ).then((response) => {
+  //       response.json().then((data) => {
+  //         console.log("dataaa", data);
+  //         if (data.status_code === 0) {
+  //           alert("Registration Sucessfully");
+  //           navigation.navigate("Login");
+  //         } else if (data.status_code === 1) {
+  //           alert("User Already Exist");
+  //         } else {
+  //           alert("Something went wrong!");
+  //         }
+  //       });
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -91,7 +132,7 @@ export default function Register({ navigation }) {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmitHandler}
+            onSubmit={submitForm}
           >
             {(props) => (
               <View style={styles.formikView}>

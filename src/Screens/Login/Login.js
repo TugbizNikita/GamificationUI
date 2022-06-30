@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Checkbox } from "react-native-paper";
 
 import {
@@ -20,6 +20,9 @@ import LoginOnboarding from "../LoginOnboard/LoginOnboarding";
 
 import { BackHandler, Alert } from "react-native";
 import { useEffect } from "react";
+import api from "../../api";
+import AuthContext from "../../store/auth_store";
+// import AuthContext from "../../redux/authStore";
 
 const initialValues = {
   to: "",
@@ -36,6 +39,7 @@ const validationSchema = yup.object().shape({
 const { width } = Dimensions.get("window");
 
 export default function Login({ navigation }) {
+  const authCtx = useContext(AuthContext);
   // useEffect(() => {
   //   const backAction = () => {
   //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
@@ -59,36 +63,132 @@ export default function Login({ navigation }) {
 
   const [checked, setChecked] = React.useState(false);
 
-  const onSubmitHandler = async (data) => {
-    let emailInfo = data.to;
-    console.log("emailInfo", emailInfo);
-    console.log("data", data);
+  // const onSubmitHandler = async (data) => {
+  //   let emailInfo = data.to;
+  //   console.log("emailInfo", emailInfo);
+  //   console.log("data", data);
 
-    let formData = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify([
-        {
-          to: [data.to.trim()],
-        },
-      ]),
+  // let formData = {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify([
+  //     {
+  //       to: [data.to.trim()],
+  //     },
+  //   ]),
+  // };
+
+  // if (checked == true) {
+  //   console.log("ASmita======>", data.to);
+  //   try {
+  //     let emailInfo = [data.to.trim()];
+  //     console.log("mailID======>", emailInfo);
+
+  //     api.auth
+  //       .loginRequest(emailInfo)
+  //       .then((response) => {
+  //         console.log("Response======>", response);
+  //         if (response.data.status_code === 0 && checked == true) {
+  //           navigation.navigate("OTP", {
+  //             paramKey: emailInfo.trim(),
+  //           });
+  //         } else if (response.data.status_code === 1) {
+  //           alert("User is not registered. Please register first.");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+
+  //   // console.log("NEW", data);
+  //   // await fetch("http://3.215.18.129/generate_otp/", formData).then(
+  //   //   (response) => {
+  //   //     response.json().then((data) => {
+  //   //       if (data.status_code === 0 && checked == true) {
+  //   //         navigation.navigate("OTP", {
+  //   //           paramKey: emailInfo.trim(),
+  //   //         });
+  //   //       } else if (data.status_code === 1) {
+  //   //         alert("User is not registered. Please register first.");
+  //   //       }
+  //   //     });
+  //     }
+  //   );
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   } else {
+  //     alert("Please select the checkbox to continue");
+  //   }
+  // };
+
+  // const submitForm = (data) => {
+  //   let em = {
+  //     to: [data.to.trim()],
+  //   };
+  //   console.log("em=====///", em);
+  //   console.log("onSubmit", data);
+  //   let emailInfo = data.to.trim();
+  //   console.log("emailinfo", emailInfo);
+  //   if (checked == true) {
+
+  //     try {
+
+  //       api.auth
+  //         .loginRequest([em])
+  //         .then((response) => {
+  //           console.log("updatedapi", data);
+  //           // handle success
+  //           if (response.data.status_code === 0 && checked == true) {
+  //             navigation.navigate("OTP", {
+  //               paramKey: emailInfo,
+  //             });
+  //           } else if (response.data.status_code === 1) {
+  //             alert("User is not registered. Please register first.");
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.error(error);
+  //         });
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   } else {
+  //     alert("Please select the checkbox to continue");
+  //   }
+  // };
+
+  const onSubmitHandler = async (data) => {
+    let em = {
+      to: [data.to.trim()],
     };
+    console.log("em=====///", em);
+    console.log("onSubmit", data);
+    let emailInfo = data.to.trim();
+    console.log("emailinfo", emailInfo);
+
+    // let formData = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify([
+    //     {
+    //       to: [data.to.trim()],
+    //     },
+    //   ]),
+    // };
 
     if (checked == true) {
       try {
-        await fetch("http://3.215.18.129/generate_otp/", formData).then(
-          (response) => {
-            response.json().then((data) => {
-              if (data.status_code === 0 && checked == true) {
-                navigation.navigate("OTP", {
-                  paramKey: emailInfo.trim(),
-                });
-              } else if (data.status_code === 1) {
-                alert("User is not registered. Please register first.");
-              }
+        api.auth.loginRequest([em]).then((response) => {
+          console.log("updatedapi", data);
+          if (response.data.status_code === 0 && checked == true) {
+            navigation.navigate("OTP", {
+              paramKey: emailInfo,
             });
+          } else if (response.data.status_code === 1) {
+            alert("User is not registered. Please register first.");
           }
-        );
+        });
       } catch (error) {
         console.error(error);
       }
@@ -103,7 +203,8 @@ export default function Login({ navigation }) {
         <View style={styles.Onboarding}>
           <LoginOnboarding />
         </View>
-
+        {console.log("!authCtx.isLoggedIn", !authCtx.isLoggedIn)}
+        {console.log("Routes Token", authCtx.token)}
         <View style={styles.secondView}>
           <Image
             source={require("../../../assets/Images/NovelLogo.png")}
@@ -151,8 +252,8 @@ export default function Login({ navigation }) {
                     <Button
                       title="Log In"
                       color="#0084D6"
-                      onPress={() => navigation.navigate("MyTabs")}
-                      // {props.handleSubmit}
+                      onPress=// {() => navigation.navigate("MyTabs")} // {() => authCtx.logout()}
+                      {props.handleSubmit}
                       disabled={props.isSubmitting}
                     />
                     {/* <ActivityIndicator size="small" color="#0000ff" /> */}

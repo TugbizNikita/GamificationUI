@@ -35,159 +35,48 @@ export default function Studio({ navigation }) {
     }, [])
   );
 
-  const [videolink, setVideolink] = useState([]);
-  const dashboardData =
-    "http://3.215.18.129/dashboard/?login-Id=asmitamargaje1996@gmail.com";
+  return (
+    <View
+      style={{
+        backgroundColor: "white",
+        width: "100%",
+        flex: 1,
 
-  useEffect(() => {
-    fetch(dashboardData)
-      .then((response) => response.json())
-      .then((json) => {
-        setVideolink(json.df);
-        console.log("video11", json.df);
-      })
+        // justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <LinearGradient
+        style={{
+          height: 75,
+          width: "90%",
+          // backgroundColor: "red",
+          top: 40,
+          borderBottomLeftRadius: 30,
 
-      .catch((error) => alert(error));
-  }, []);
-
-  const array = videolink;
-
-  const Item = ({ item }) => {
-    let CourseID = item.chapter_url;
-    return (
-      <View style={{ backgroundColor: "white", marginVertical: 10 }}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("StudioLink", { paramKey: CourseID })
-          }
-          style={{}}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              flex: 1,
-            }}
-          >
-            <LinearGradient
-              style={{
-                height: 80,
-                width: "100%",
-                backgroundColor: "white",
-                marginVertical: 8,
-                // borderWidth: 2,
-                borderRadius: 30,
-                borderColor: "#0084D6",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#FEF9E7",
-                top: 10,
-
-                // width: 320,
-              }}
-              colors={["#5B86E5", "#36D1DC"]}
-            >
-              {/* <Image
-              style={{ height: 70, width: 70, borderRadius: 40 }}
-              source={require("../../../assets/Images/video.webp")}
-            /> */}
-              <Text
-                style={{
-                  fontSize: 30,
-                  textAlign: "center",
-                  fontStyle: "italic",
-                }}
-              >
-                {item.chapter_name}
-              </Text>
-            </LinearGradient>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  return array.map((element) => {
-    let chapterName = element.elearning;
-    console.log("chapterNamelink", element.chapterName);
-    let Chapternames = chapterName.map((user) => user.chapter_name);
-    console.log("chapterName", Chapternames);
-    let Chapterurl = chapterName.map((user) => user.chapter_url);
-    console.log("chapterUrl", Chapterurl);
-
-    return (
-      <View style={{ backgroundColor: "white", width: "100%", flex: 1 }}>
-        {/* <View
-          style={{
-            backgroundColor: "white",
-            top: 10,
-            flexDirection: "row",
-            // justifyContent: "space-between",
-            padding: 10,
-            // flex: 0.2,
-          }}
-        >
-          <View
-            style={{
-              height: 40,
-              width: 40,
-              backgroundColor: "#0084D6",
-              borderRadius: 40,
-              borderWidth: 0,
-              elevation: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <MaterialCommunityIcons
-              name="access-point"
-              color="white"
-              size={30}
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-          <Text
-            style={{
-              left: 10,
-              fontSize: 14,
-              justifyContent: "flex-start",
-              top: 10,
-            }}
-          >
-            E-learning
-          </Text>
-          <Text
-            style={{
-              left: 165,
-              top: 10,
-              fontSize: 15,
-              justifyContent: "flex-end",
-            }}
-          >
-            Today
-          </Text>
-        </View> */}
-
-        <View
-          style={{
-            marginVertical: 18,
-            backgroundColor: "white",
-            flex: 1,
-          }}
-        >
-          <FlatList
-            data={chapterName}
-            renderItem={Item}
-            keyExtractor={(item) => item.Chapterurl}
+          borderTopRightRadius: 30,
+          justifyContent: "space-between",
+          flexDirection: "row",
+          borderWidth: 1,
+          elevation: 1,
+          borderColor: "skyblue",
+        }}
+        colors={["white", "#66ffff"]}
+      >
+        <Text style={{ textAlign: "center", padding: 20, fontSize: 19 }}>
+          Paper First I
+        </Text>
+        <View style={{ width: "35%", height: 90, padding: 20 }}>
+          <Button
+            style={{ padding: 11 }}
+            // height={200}
+            title="Press me"
+            color="#1390E0"
           />
         </View>
-      </View>
-    );
-  });
+      </LinearGradient>
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   container: {

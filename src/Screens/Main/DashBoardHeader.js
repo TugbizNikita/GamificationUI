@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Alert,
   BackHandler,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useBackHandler } from "@react-native-community/hooks";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -20,11 +21,14 @@ import Entypo from "react-native-vector-icons/Entypo";
 import * as Progress from "react-native-progress";
 import Discover from "../../Components/DiscoverCard";
 import AppLoading from "expo-app-loading";
+// import AuthContext from "../../redux/authStore";
 
 import TransformationCard from "../../Components/TransformationCard";
+import WallOfFameCard from "../../Components/WallOfFameCard";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { element } from "prop-types";
 import { ActivityIndicator } from "react-native-paper";
+import AuthContext from "../../store/auth_store";
 const { width, height } = Dimensions.get("window");
 
 export function CircleCard({ name, marks, source }) {
@@ -92,16 +96,12 @@ export function CircleCard({ name, marks, source }) {
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function DashBoardHeader({
-  navigation,
-  props,
-  route,
-  emailInfo,
-}) {
+export default function DashBoardHeader({ navigation, props }) {
   const [marksobtain, setMarksObtaion] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const navigationRef = useRef(null);
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     // this function gets called when user clicks on device back
@@ -133,15 +133,24 @@ export default function DashBoardHeader({
   const dashboardData =
     "http://3.215.18.129/dashboard/?login-Id=nikita@tugbiz.com";
 
-  const Logout = () =>
+  const Logout = () => {
     Alert.alert("Hold on!", "Are you sure you want to logout from App?", [
       {
         text: "No",
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
-      { text: "Yes", onPress: () => navigation.navigate("Login") },
+      {
+        text: "Yes",
+        onPress: () => {
+          authCtx.logout(), navigation.navigate("Login");
+        },
+      },
     ]);
+  };
+  console.log("authCtx.isLoggedIn", authCtx.isLoggedIn);
+  console.log("!authCtx.isLoggedIn", !authCtx.isLoggedIn);
+  console.log("authCtx.isLoggedIn.token", authCtx.token);
 
   useEffect(() => {
     fetch(dashboardData)
@@ -177,7 +186,15 @@ export default function DashBoardHeader({
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <ActivityIndicator color={"blue"} size="large" />
+          <ActivityIndicator
+            color={"red"}
+            size={60}
+            style={{
+              position: "absolute",
+              top: height / 2,
+              left: width / 2.5,
+            }}
+          />
         </View>
       );
     }
@@ -198,7 +215,10 @@ export default function DashBoardHeader({
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>Hi Manish!</Text>
-            <TouchableOpacity onPress={Logout} style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              onPress={() => Logout(props)}
+              style={{ flexDirection: "row" }}
+            >
               {/* <AntDesign size={17} color="red" name="logout" /> */}
               <Text style={{ fontSize: 15, color: "red", bottom: 3 }}>
                 Log Out
@@ -300,7 +320,7 @@ export default function DashBoardHeader({
               >
                 <View style={{ top: 20, left: 2 }}>
                   <Text style={{ fontSize: 15 }}>
-                    Soft Skill(s) : {element.Soft_Skill}
+                    Points : {element.Soft_Skill}
                   </Text>
                   <Progress.Bar
                     color={
@@ -319,7 +339,7 @@ export default function DashBoardHeader({
 
                 <View style={{ top: 20, left: 5 }}>
                   <Text style={{ fontSize: 15 }}>
-                    Technical :{element.Technical}
+                    Rank :{element.Technical}
                   </Text>
                   <Progress.Bar
                     color={
@@ -345,7 +365,7 @@ export default function DashBoardHeader({
               >
                 <View style={{}}>
                   <Text style={{ fontSize: 15 }}>
-                    Implementation : {element.Implementation}
+                    Attendance : {element.Implementation}
                   </Text>
                   <View>
                     <Progress.Bar
@@ -388,7 +408,7 @@ export default function DashBoardHeader({
                 }}
               >
                 <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                  Implementation
+                  Hands-on
                 </Text>
                 <MaterialIcons size={20} name="error-outline" />
               </View>
@@ -474,12 +494,47 @@ export default function DashBoardHeader({
                 style={{
                   flexDirection: "row",
                   width: "100%",
+                  // justifyContent: "space-between",
+                  padding: 5,
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>Wall Of Frame</Text>
+              </View>
+              <ScrollView
+                horizontal
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  backgroundColor: "white",
+                  borderRadius: 100,
+                }}
+                showsHorizontalScrollIndicator={false}
+              >
+                <WallOfFameCard />
+                <WallOfFameCard />
+                <WallOfFameCard />
+
+                <WallOfFameCard />
+              </ScrollView>
+            </View>
+
+            <View
+              style={{
+                height: 300,
+                width: "100%",
+                marginTop: 55,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "100%",
                   justifyContent: "space-between",
                   padding: 5,
                 }}
               >
                 <Text style={{ fontWeight: "bold" }}>Transformation</Text>
-                <Text style={{ fontWeight: "bold" }}>View All</Text>
+                {/* <Text style={{ fontWeight: "bold" }}>View All</Text> */}
               </View>
               <ScrollView
                 horizontal
@@ -506,20 +561,22 @@ export default function DashBoardHeader({
             </View>
             <View
               style={{
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 width: "100%",
-                marginTop: 10,
+                height: "100%",
                 padding: 10,
-                flex: 1,
-
                 backgroundColor: "white",
+                flex: 1,
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Discover</Text>
               <View
                 style={{
+                  height: 100,
                   backgroundColor: "white",
-                  // flex: 1,
+                  bottom: 40,
+                  width: "100%",
+                  top: 20,
                   height: height,
                 }}
               >

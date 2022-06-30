@@ -4,8 +4,16 @@ import AuthStack from "./src/Navigations/AuthStack";
 import DashBoardHeader from "./src/Screens/Main/DashBoardHeader";
 import { BackHandler, Alert } from "react-native";
 import { useBackHandler } from "@react-native-community/hooks";
+import Store from "./src/redux/Store";
+import { Provider } from "react-redux";
+import Route from "./src/Navigations/Route";
+import * as SecureStore from "expo-secure-store";
+import { AuthContextProvider } from "./src/store/auth_store";
+
+// import AuthContext from "./src/redux/authStore";
 
 export default function App() {
+  // const authCtx = useContext(AuthContext);
   // function backActionHandler() {
   //   Alert.alert("", "Are you sure to exit the App?", [
   //     {
@@ -21,13 +29,15 @@ export default function App() {
   //   return true;
   // }
   // useBackHandler(backActionHandler);
+
   return (
     // <>
     //   <DashBoardHeader />
     // </>
-    <NavigationContainer>
-      <AuthStack />
-    </NavigationContainer>
+
+    <AuthContextProvider>
+      <Route />
+    </AuthContextProvider>
   );
 }
 

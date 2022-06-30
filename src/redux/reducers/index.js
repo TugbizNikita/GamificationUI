@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
 import Types from "../Types";
+import Auth from "./Auth";
 
 const appReducer = combineReducers({
-  // Auth,
+  Auth,
 });
 
 const rootReducer = (state, action) => {

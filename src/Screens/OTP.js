@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+// import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -15,55 +18,93 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
+import api from "../api";
+import AuthContext from "../store/auth_store";
+// import AuthContext from "../redux/authStore";
 
 const { height, width } = Dimensions.get("window");
 
 const CELL_COUNT = 4;
 
 export default function OTP({ navigation, route }) {
+  const authCtx = useContext(AuthContext);
   const [value, setValue] = useState();
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
-  console.log("key otp", route.params.paramKey);
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      mail: route.params.paramKey,
-      otp: value,
-    }),
-  };
+  // console.log("key otp", route.params.paramKey);
+  // const requestOptions = {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({
+  //     mail: route.params.paramKey,
+  //     otp: value,
+  //   }),
+  // };
 
   let EmailID = route.params.paramKey;
 
   console.log("44", EmailID);
-  const onSubmitHandler = async () => {
-    console.log("requestoption", requestOptions);
-    try {
-      await fetch("http://3.215.18.129/verify_otp/", requestOptions).then(
-        (response) => {
-          response.json().then((data) => {
-            console.log("dataa", data);
-            if (data.status_code === 0) {
-              navigation.navigate("MyTabs", {
-                paramKey: EmailID.trim(),
-              });
-            } else if (data.status_code === 1) {
-              alert("Wrong credentials");
-            } else {
-              alert("Something went wrong!");
-            }
-          });
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
+  // const onSubmitHandler = async () => {
+  //   console.log("requestoptionData====>", requestOptions);
+  //   try {
+  //     await fetch("http://3.215.18.129/verify_otp/", requestOptions).then(
+  //       (response) => {
+  //         response.json().then((data) => {
+  //           console.log("TokenData====>", data);
+  //           if (data.status_code === 0) {
+  //             navigation.navigate("MyTabs", {
+  //               paramKey: EmailID.trim(),
+  //             });
+  //           } else if (data.status_code === 1) {
+  //             alert("Wrong credentials");
+  //           } else {
+  //             alert("Something went wrong!");
+  //           }
+  //         });
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // console.log("otpNumber", value);
+  const requestOptions = {
+    mail: route.params.paramKey,
+    otp: value,
   };
-  console.log("otpNumber", value);
+  console.log("requestOptions1", requestOptions);
+
+  const submitForm = async (data) => {
+    console.log("otpDAta", data);
+    // Login API calling
+    api.auth
+      .otpRequest(requestOptions)
+      .then(async (response) => {
+        // console.log("updatedapi", data);
+        // handle success
+
+        if (response.data.status_code === 0) {
+          authCtx.login(response.data.token);
+          // console.log("token==============/////", response.data.token);
+          navigation.navigate("MyTabs", {
+            paramKey: EmailID.trim(),
+          });
+
+          console.log("Logintoken=====>", authCtx.token);
+          console.log("Logintoken=====>", response.data.token);
+        } else if (response.data.status_code === 1) {
+          alert("Wrong credentials");
+        } else {
+          alert("Something went wrong!");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <View style={styles.Container}>
       <View style={styles.mainView}>
@@ -105,7 +146,7 @@ export default function OTP({ navigation, route }) {
           />
         </SafeAreaView>
 
-        <TouchableOpacity onPress={onSubmitHandler} style={styles.btn}>
+        <TouchableOpacity onPress={submitForm} style={styles.btn}>
           <Text style={styles.submit}>Submit</Text>
         </TouchableOpacity>
       </View>

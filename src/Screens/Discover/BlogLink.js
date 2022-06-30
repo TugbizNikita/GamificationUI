@@ -7,6 +7,7 @@ import {
   Dimensions,
   ActivityIndicator,
   BackHandler,
+  ScrollView,
 } from "react-native";
 import WebView from "react-native-webview";
 import { useFocusEffect } from "@react-navigation/native";
@@ -38,8 +39,23 @@ const BlogLink = ({ route, navigation }) => {
   const height = Dimensions.get("screen").height;
   const width = Dimensions.get("screen").width;
   return (
-    <>
-      <View style={{ flex: 1, width: "100%" }}>
+    <View
+      style={{
+        backgroundColor: "white",
+        flex: 1,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          paddingBottom: 100,
+          backgroundColor: "white",
+          width: "100%",
+          paddingBottom: 100,
+        }}
+      >
         <WebView
           source={{
             uri: Blogurl,
@@ -48,19 +64,20 @@ const BlogLink = ({ route, navigation }) => {
           onLoadEnd={() => setVisible(false)}
           style={{ marginTop: 10 }}
         />
-        {visible && (
-          <ActivityIndicator
-            color={"red"}
-            style={{
-              position: "absolute",
-              top: height / 2,
-              left: width / 2.2,
-            }}
-            size={100}
-          />
-        )}
       </View>
-    </>
+
+      {visible && (
+        <ActivityIndicator
+          color={"red"}
+          style={{
+            position: "absolute",
+            top: height / 2,
+            left: width / 2.5,
+          }}
+          size={60}
+        />
+      )}
+    </View>
   );
 };
 
