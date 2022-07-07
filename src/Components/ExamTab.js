@@ -1,20 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import All from "../Screens/Discover/All";
-import Elearning from "../Screens/Discover/Elearning";
-import Q from "../Screens/Discover/Q";
-import Haks from "../Screens/Discover/Haks";
-import Gorups from "../Screens/MeTab/Groups";
-import LeaderBoard from "../Screens/MeTab/LeaderBoard";
-import Scheduled from "../Screens/MeTab/Scheduled";
-import Fontisto from "react-native-vector-icons/Fontisto";
-// import NewRequest from "./NewRequest";
-// import CompletedOrders from "./CompletedOrders";
-// import DeliveryPending from "./DeliveryPending";
-// import WaitingOrders from "./WaitingOrders";
+
+import AssignedExam from "../Screens/Assesment/AssignedExam";
+import CompletedExam from "../Screens/Assesment/CompletedExam";
 const Tab = createMaterialTopTabNavigator();
-export default function MeCard() {
+export default function ExamTab() {
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -37,8 +28,8 @@ export default function MeCard() {
             <View
               style={{
                 height: 45,
-                borderRadius: 10,
-                width: 100,
+                borderRadius: 40,
+                width: 130,
                 justifyContent: "center",
                 alignItems: "center",
                 bottom: 10,
@@ -48,13 +39,13 @@ export default function MeCard() {
               }}
             >
               <Text style={{ color: focused ? "white" : "black" }}>
-                Schedule
+                Assigned Exam
               </Text>
             </View>
           ),
         }}
-        name="Scheduled"
-        component={Scheduled}
+        name="AssignedExam"
+        component={AssignedExam}
       />
       {/* <Tab.Screen
         options={{
@@ -85,8 +76,8 @@ export default function MeCard() {
             <View
               style={{
                 height: 45,
-                borderRadius: 10,
-                width: 100,
+                borderRadius: 40,
+                width: 130,
                 justifyContent: "center",
                 alignItems: "center",
                 bottom: 10,
@@ -94,12 +85,14 @@ export default function MeCard() {
                 left: 4,
               }}
             >
-              <Text style={{ color: focused ? "white" : "black" }}>Groups</Text>
+              <Text style={{ color: focused ? "white" : "black" }}>
+                Completed Exam
+              </Text>
             </View>
           ),
         }}
-        name="Gorups"
-        component={Gorups}
+        name="CompletedExam"
+        component={CompletedExam}
       />
     </Tab.Navigator>
   );

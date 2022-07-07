@@ -26,22 +26,23 @@ export const AuthContextProvider = (props) => {
   };
   const logoutHandler = () => {
     setToken(null);
-    AsyncStorage.removeItem("token");
-    // console.log("Logout Token Remove", token);
+    AsyncStorage.removeItem("@token");
+    console.log("Logout Token Remove", token);
 
     // localStorage.removeItem("auth.token");
   };
-  const sessionHandler = () => {
-    // setToken(null);
-    // localStorage.removeItem("auth.token");
-    // warningAlert("Session Expired!");
-  };
+
+  // const sessionHandler = () => {
+  //   // setToken(null);
+  //   // localStorage.removeItem("auth.token");
+  //   // warningAlert("Session Expired!");
+  // };
   const contextValue = {
     token: token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
-    sessionExpired: sessionHandler,
+    // sessionExpired: sessionHandler,
   };
 
   return (

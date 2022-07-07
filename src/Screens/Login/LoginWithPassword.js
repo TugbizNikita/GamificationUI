@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Checkbox } from "react-native-paper";
 
 import {
@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { TextInput } from "react-native-paper";
+import { TextInput, useTheme } from "react-native-paper";
 import LoginOnboarding from "../LoginOnboard/LoginOnboarding";
 
 import { BackHandler, Alert } from "react-native";
@@ -25,6 +25,7 @@ import AuthContext from "../../store/auth_store";
 import TextInputComponent from "../../Components/TextInputComponent";
 import InputComponent from "../../Components/InputComponent";
 import ButtonWithLoader from "../../Components/ButtonWithLoader";
+
 // import AuthContext from "../../redux/authStore";
 
 const initialValues = {
@@ -41,8 +42,11 @@ const validationSchema = yup.object().shape({
 
 const { width } = Dimensions.get("window");
 
-export default function Login({ navigation }) {
+export default function LoginWithPassword({ navigation }) {
   const authCtx = useContext(AuthContext);
+
+  const theme = useTheme();
+  const { colors } = theme;
   // useEffect(() => {
   //   const backAction = () => {
   //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
@@ -65,6 +69,8 @@ export default function Login({ navigation }) {
   // }, []);
 
   const [checked, setChecked] = React.useState(false);
+  const [text, setText] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   // const onSubmitHandler = async (data) => {
   //   let emailInfo = data.to;
@@ -162,42 +168,21 @@ export default function Login({ navigation }) {
   // };
 
   const onSubmitHandler = async (data, { resetForm }) => {
-    let em = {
-      to: [data.to.trim()],
-    };
-    console.log("em=====///", em);
-    console.log("onSubmit", data);
-    let emailInfo = data.to.trim();
-    console.log("emailinfo", emailInfo);
-
-    // let formData = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify([
-    //     {
-    //       to: [data.to.trim()],
-    //     },
-    //   ]),
-    // };
-
-    if (checked == true) {
-      try {
-        api.auth.loginRequest([em]).then((response) => {
-          console.log("updatedapi", data);
-          if (response.data.status_code === 0 && checked == true) {
-            navigation.navigate("OTP", {
-              paramKey: emailInfo,
-            });
-            resetForm({ data: "" });
-          } else if (response.data.status_code === 1) {
+    try {
+      await fetch(
+        "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc"
+      ).then((response) => {
+        response.json().then((data) => {
+          console.log("datapassword", data);
+          if (data.status_code === 0) {
+            navigation.navigate("MyTabs");
+          } else if (data.status_code === 1) {
             alert("User is not registered. Please register first.");
           }
         });
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      alert("Please select the checkbox to continue");
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -262,6 +247,40 @@ export default function Login({ navigation }) {
                     </Text>
                   )}
 
+                  {/* <TextInputComponent /> */}
+
+                  <TextInput
+                    placeholder="password"
+                    mode="outlined"
+                    theme={{
+                      colors: { primary: "#0084D6" },
+                      //   fonts: {
+                      //     regular: { fontFamily: "Philosopher_400Regular_Italic" },
+                      //   },
+                      label: { primary: "#9505E9" },
+                      roundness: 13,
+                    }}
+                    label="password"
+                    secureTextEntry={passwordVisible}
+                    //   onChangeText={onChangeText}
+                    //   value={value}
+                    //   name={name} // added this
+                    //   type={type}
+                    //   setFieldTouched={setFieldTouched}
+                    placeholderTextColor="grey"
+                    underlineColorAndroid="grey"
+                    returnKeyType="next"
+                    style={styles.PasswordInput}
+                    //   onBlur={onBlur}
+                    right={
+                      <TextInput.Icon
+                        style={{ top: 5 }}
+                        name={passwordVisible ? "eye" : "eye-off"}
+                        onPress={() => setPasswordVisible(!passwordVisible)}
+                      />
+                    }
+                  />
+
                   {/* <TextInput
                     placeholder="Password"
                     mode="outlined"
@@ -284,7 +303,7 @@ export default function Login({ navigation }) {
                   <View
                     style={{
                       // margin: 10,
-                      // top: 20,
+                      top: 10,
                       width: "90%",
                       backgroundColor: "white",
                     }}
@@ -308,6 +327,31 @@ export default function Login({ navigation }) {
                       disabled={props.isSubmitting}
                     /> */}
                     {/* <ActivityIndicator size="small" color="#0000ff" /> */}
+                  </View>
+                  <View style={{ top: 20 }}>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        color: "gray",
+                        textAlign: "center",
+                      }}
+                    >
+                      OR
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("Login")}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontSize: 16,
+
+                          color: "#0084D6",
+                        }}
+                      >
+                        continue with E-mail
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               )}
@@ -338,7 +382,37 @@ export default function Login({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={styles.checkboxView}>
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              top: 60,
+              backgroundColor: "white",
+              width: "80%",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TermsCondition")}
+            >
+              <Text
+                style={{ color: "#0084D6", textDecorationLine: "underline" }}
+              >
+                Terms & Conditions
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PrivacyPolicy")}
+            >
+              <Text
+                style={{ color: "#0084D6", textDecorationLine: "underline" }}
+              >
+                Privacy Policies
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* <View style={styles.checkboxView}>
             <Checkbox
               color="#0084D6"
               style={{ color: "red" }}
@@ -358,7 +432,7 @@ export default function Login({ navigation }) {
               </Text>
               <Text style={styles.terms}>and User Agreement.</Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -374,12 +448,12 @@ const styles = StyleSheet.create({
   },
   Onboarding: {
     borderBottomLeftRadius: 70,
-    flex: 0.4,
+    flex: 0.3,
     justifyContent: "center",
   },
   secondView: {
     alignItems: "center",
-    flex: 0.6,
+    flex: 0.7,
     backgroundColor: "white",
     borderTopLeftRadius: 70,
   },
@@ -393,12 +467,13 @@ const styles = StyleSheet.create({
     top: 20,
     width: "100%",
   },
-  emailInput: {
-    height: 40,
+  PasswordInput: {
+    height: 45,
     width: "90%",
     lineHeight: 20,
-    top: 20,
+    top: 5,
     borderRadius: 30,
+    bottom: 20,
     backgroundColor: "white",
   },
   checkboxView: {

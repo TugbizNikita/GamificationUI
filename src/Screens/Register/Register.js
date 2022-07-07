@@ -12,7 +12,11 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import { TextInput } from "react-native-paper";
+import InputComponent from "../../Components/InputComponent";
+import ButtonWithLoader from "../../Components/ButtonWithLoader";
 import LoginOnboarding from "../LoginOnboard/LoginOnboarding";
+import { Checkbox } from "react-native-paper";
+
 import actions from "../../redux/actions";
 import api from "../../api";
 const initialValues = {
@@ -46,6 +50,8 @@ const validationSchema = yup.object().shape({
 const { width } = Dimensions.get("window");
 
 export default function Register({ navigation }) {
+  const [checked, setChecked] = React.useState(false);
+
   // const onRegister = async (data) => {
   //   console.log("hello");
   //   let data_student_corp_emailId = data.student_corp_emailId.trim();
@@ -136,11 +142,19 @@ export default function Register({ navigation }) {
           >
             {(props) => (
               <View style={styles.formikView}>
-                {console.log(" ____retutn ______ " + JSON.stringify(props))}
-                <TextInput
+                <InputComponent
+                  label="Candidate Name"
+                  placeholder="Candidate Name"
+                  onChangeText={props.handleChange("student_name")}
+                  value={props.values.student_name.trim()}
+                  name="student_name" // added this
+                  type="student_name"
+                  setFieldTouched="student_name"
+                  onBlur={() => props.setFieldTouched("student_name")}
+                />
+                {/* <TextInput
                   mode="outlined"
                   theme={{ colors: { primary: "#0084D6" } }}
-                  label="Candidate Name"
                   placeholder="Candidate Name"
                   onChangeText={props.handleChange("student_name")}
                   value={props.values.student_name.trim()}
@@ -152,15 +166,30 @@ export default function Register({ navigation }) {
                   returnKeyType="next"
                   style={styles.candidateInput}
                   onBlur={() => props.setFieldTouched("student_name")}
-                />
+                /> */}
 
                 {props.touched.student_name && props.errors.student_name && (
-                  <Text style={{ fontSize: 15, color: "red", top: 20 }}>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      marginLeft: 20,
+                    }}
+                  >
                     {props.errors.student_name}
                   </Text>
                 )}
-
-                <TextInput
+                <InputComponent
+                  label="Organization Email ID"
+                  placeholder="Organization Email ID"
+                  onChangeText={props.handleChange("student_corp_emailId")}
+                  value={props.values.student_corp_emailId.trim()}
+                  name="student_corp_emailId" // added this
+                  type="student_corp_emailId"
+                  setFieldTouched="student_corp_emailId"
+                  onBlur={() => props.setFieldTouched("student_corp_emailId")}
+                />
+                {/* <TextInput
                   mode="outlined"
                   theme={{ colors: { primary: "#0084D6" } }}
                   label="Organization Email ID"
@@ -175,15 +204,27 @@ export default function Register({ navigation }) {
                   returnKeyType="next"
                   style={styles.emailInput}
                   onBlur={() => props.setFieldTouched("student_corp_emailId")}
-                />
+                /> */}
 
                 {props.touched.student_corp_emailId &&
                   props.errors.student_corp_emailId && (
-                    <Text style={{ fontSize: 15, color: "red", top: 30 }}>
+                    <Text
+                      style={{ fontSize: 15, color: "red", marginLeft: 20 }}
+                    >
                       {props.errors.student_corp_emailId}
                     </Text>
                   )}
-                <TextInput
+                <InputComponent
+                  label="Mobile Number"
+                  placeholder="Mobile Number"
+                  onChangeText={props.handleChange("student_mob_no")}
+                  value={props.values.student_mob_no.trim()}
+                  name="student_mob_no" // added this
+                  type="student_mob_no"
+                  setFieldTouched="student_mob_no"
+                  onBlur={() => props.setFieldTouched("student_mob_no")}
+                />
+                {/* <TextInput
                   mode="outlined"
                   theme={{ colors: { primary: "#0084D6" } }}
                   label="Mobile Number"
@@ -198,22 +239,28 @@ export default function Register({ navigation }) {
                   returnKeyType="next"
                   style={styles.mobileInput}
                   onBlur={() => props.setFieldTouched("student_mob_no")}
-                />
+                /> */}
 
                 {props.touched.student_mob_no &&
                   props.errors.student_mob_no && (
-                    <Text style={{ fontSize: 15, color: "red", top: 40 }}>
+                    <Text
+                      style={{ fontSize: 15, color: "red", marginLeft: 20 }}
+                    >
                       {props.errors.student_mob_no}
                     </Text>
                   )}
                 <View style={styles.btnView}>
-                  <Button
+                  <ButtonWithLoader
+                    text="REGISTER"
+                    onPress={props.handleSubmit}
+                  />
+                  {/* <Button
                     title="REGISTER"
                     color="#0084D6"
                     borderRadius={30}
                     onPress={props.handleSubmit}
                     disabled={props.isSubmitting}
-                  />
+                  /> */}
                 </View>
               </View>
             )}
@@ -226,6 +273,57 @@ export default function Register({ navigation }) {
                 <Text>Log In</Text>
               </View>
             </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              top: 50,
+              backgroundColor: "white",
+              width: "80%",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TermsCondition")}
+            >
+              <Text
+                style={{ color: "#0084D6", textDecorationLine: "underline" }}
+              >
+                Terms & Conditions
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PrivacyPolicy")}
+            >
+              <Text
+                style={{ color: "#0084D6", textDecorationLine: "underline" }}
+              >
+                Privacy Policies
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.checkboxView}>
+            <Checkbox
+              color="#0084D6"
+              style={{ color: "red" }}
+              status={checked ? "checked" : "unchecked"}
+              onPress={() => {
+                setChecked(!checked);
+              }}
+            />
+            <View style={{ width: "90%" }}>
+              <Text style={styles.terms}>
+                {" "}
+                I have read and agreed to the Gamification
+              </Text>
+              <Text style={styles.terms}>
+                {" "}
+                Terms and Conditions, Privacy Policies
+              </Text>
+              <Text style={styles.terms}>and User Agreement.</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -242,20 +340,19 @@ const styles = StyleSheet.create({
   },
   Onboarding: {
     borderBottomLeftRadius: 70,
-    flex: 0.4,
+    flex: 0.3,
     justifyContent: "center",
   },
   textinputView: {
-    flex: 0.6,
+    flex: 0.7,
     alignItems: "center",
     backgroundColor: "white",
     borderTopLeftRadius: 70,
   },
   formikView: {
-    width: 350,
+    width: "90%",
     justifyContent: "space-between",
     top: 30,
-    alignItems: "center",
   },
   candidateInput: {
     height: 40,
@@ -264,13 +361,13 @@ const styles = StyleSheet.create({
     top: 20,
     backgroundColor: "white",
   },
-  emailInput: {
-    height: 40,
-    width: "90%",
-    lineHeight: 20,
-    top: 30,
-    backgroundColor: "white",
-  },
+  // emailInput: {
+  //   height: 40,
+  //   width: "90%",
+  //   lineHeight: 20,
+  //   top: 30,
+  //   backgroundColor: "white",
+  // },
   mobileInput: {
     height: 40,
     width: "90%",
@@ -279,20 +376,37 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   btnView: {
-    margin: 20,
-    top: 40,
+    // margin: 20,
+    marginLeft: 20,
+    // top: 40,
     width: "90%",
-    borderRadius: 40,
+    // borderRadius: 40,
   },
   textView: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    top: 60,
+    top: 40,
   },
   text: {
     color: "#fb5414",
     fontFamily: "Helvetica",
     fontSize: 14,
+  },
+  checkboxView: {
+    width: width - 55,
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginTop: 7,
+    backgroundColor: "white",
+    left: 20,
+    top: 50,
+  },
+  terms: {
+    color: "#253f67",
+    lineHeight: 20,
+    fontSize: 14,
+    fontFamily: "Helvetica",
   },
 });

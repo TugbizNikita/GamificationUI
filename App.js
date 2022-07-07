@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./src/Navigations/AuthStack";
 import DashBoardHeader from "./src/Screens/Main/DashBoardHeader";
@@ -8,7 +8,7 @@ import Store from "./src/redux/Store";
 import { Provider } from "react-redux";
 import Route from "./src/Navigations/Route";
 import * as SecureStore from "expo-secure-store";
-import { AuthContextProvider } from "./src/store/auth_store";
+import AuthContext, { AuthContextProvider } from "./src/store/auth_store";
 
 // import AuthContext from "./src/redux/authStore";
 
@@ -29,6 +29,8 @@ export default function App() {
   //   return true;
   // }
   // useBackHandler(backActionHandler);
+
+  const authCtx = useContext(AuthContext);
 
   return (
     // <>

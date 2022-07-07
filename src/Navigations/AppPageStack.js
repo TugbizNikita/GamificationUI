@@ -3,7 +3,7 @@ import DashBoardHeader from "../Screens/Main/DashBoardHeader";
 import BlogLink from "../Screens/Discover/BlogLink";
 import VideoLink from "../Screens/Discover/VideoLink";
 import All from "../Screens/Discover/All";
-import Blog from "../Screens/Discover/Blog";
+import Elearning from "../Screens/Discover/Elearning";
 import AllTab from "../Screens/Discover/AllTab";
 import { useEffect, useRef } from "react";
 import { BackHandler } from "react-native";
@@ -22,7 +22,7 @@ export default function AppPageStack({ props }) {
       <Stack.Screen name="BlogLink" component={BlogLink} />
       <Stack.Screen name="VideoLink" component={VideoLink} />
       <Stack.Screen name="All" component={All} />
-      <Stack.Screen name="Blog" component={Blog} />
+      <Stack.Screen name="Blog" component={Elearning} />
       <Stack.Screen name="AllTab" component={AllTab} />
       <Stack.Screen name="StudioLink" component={StudioLink} />
 

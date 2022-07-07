@@ -22,7 +22,7 @@ export default function ButtonWithLoader({ text, onPress, isLoading }) {
 
 const styles = StyleSheet.create({
   ButtonStyle: {
-    height: 48,
+    height: 45,
     backgroundColor: "#0084D6",
     alignItems: "center",
     justifyContent: "center",

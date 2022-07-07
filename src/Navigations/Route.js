@@ -59,9 +59,10 @@ export default function Route() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: null }}>
-        {!authCtx.isLoggedIn && MainStack(Stack)}
-        {authCtx.isLoggedIn && AuthStack(Stack)}
-        {console.log("!authCtx.isLoggedIn", !authCtx.isLoggedIn)}
+        {AuthStack(Stack)}
+        {/* {!authCtx.isLoggedIn && MainStack(Stack)} */}
+        {/* {authCtx.isLoggedIn && AuthStack(Stack)} */}
+        {console.log("!authCtx.isLoggedIn====>", authCtx.isLoggedIn)}
         {console.log("Routes Token", authCtx.token)}
       </Stack.Navigator>
     </NavigationContainer>

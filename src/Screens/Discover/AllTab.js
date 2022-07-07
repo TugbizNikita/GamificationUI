@@ -5,7 +5,7 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import Entypo from "react-native-vector-icons/Entypo";
 import Foundation from "react-native-vector-icons/Foundation";
 import All from "../Discover/All";
-import Blog from "./Blog";
+import Elearning from "./Elearning";
 
 import YoutubePlayer from "react-native-youtube-iframe";
 import AppPageStack from "../../Navigations/AppPageStack";

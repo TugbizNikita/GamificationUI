@@ -3,18 +3,17 @@ import {
   View,
   Text,
   StyleSheet,
+  FlatList,
   Dimensions,
   ActivityIndicator,
   BackHandler,
+  ScrollView,
 } from "react-native";
-import { Video, AVPlaybackStatus } from "expo-av";
-// import Iframe from "react-iframe";
 import WebView from "react-native-webview";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { Linking } from "react-native";
-
-const VideoLink = ({ item, uri, route, navigation }) => {
+// import { ActivityIndicator, Dimensions } from "react-native";
+const FinalExamUrl = ({ route, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -34,8 +33,8 @@ const VideoLink = ({ item, uri, route, navigation }) => {
     }, [])
   );
 
-  const chapterurl = route.params.paramKey;
-  console.log("Blogurl", chapterurl);
+  const Final = route.params.paramKey;
+  console.log("Final", Final);
   const [visible, setVisible] = useState(false);
   const height = Dimensions.get("screen").height;
   const width = Dimensions.get("screen").width;
@@ -51,22 +50,24 @@ const VideoLink = ({ item, uri, route, navigation }) => {
     >
       <View
         style={{
-          // paddingBottom: 100,
+          //   paddingBottom: 100,
           backgroundColor: "white",
-          width: "100%",
-          // paddingBottom: 100,
+          width: "90%",
+          //   paddingBottom: 100,
           flex: 1,
+          top: 30,
         }}
       >
         <WebView
           source={{
-            uri: chapterurl,
+            uri: Final,
           }}
           onLoadStart={() => setVisible(true)}
           onLoadEnd={() => setVisible(false)}
           style={{ marginTop: 10 }}
         />
       </View>
+
       {visible && (
         <ActivityIndicator
           color={"red"}
@@ -82,4 +83,4 @@ const VideoLink = ({ item, uri, route, navigation }) => {
   );
 };
 
-export default VideoLink;
+export default FinalExamUrl;

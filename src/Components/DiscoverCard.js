@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions, StatusBar } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import All from "../Screens/Discover/All";
 import AllTab from "../Screens/Discover/AllTab";
-import Blog from "../Screens/Discover/Blog";
+import Elearning from "../Screens/Discover/Elearning";
 import Q from "../Screens/Discover/Q";
 import Haks from "../Screens/Discover/Haks";
 import DailyQ from "../Screens/Discover/DailyQ";
@@ -300,8 +300,8 @@ export default function OrderHeader() {
             </View>
           ),
         }}
-        name="Blog"
-        component={Blog}
+        name="Elearning"
+        component={Elearning}
       />
       <Tab.Screen
         options={{
