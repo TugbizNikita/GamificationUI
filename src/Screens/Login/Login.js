@@ -291,10 +291,10 @@ export default function Login({ navigation }) {
                   >
                     <ButtonWithLoader
                       text="Log In"
-                      onPress={
-                        // {() => navigation.navigate("MyTabs")} // {() => authCtx.logout()}
-                        props.handleSubmit
+                      onPress={() => // {() => authCtx.logout()} //
+                        navigation.navigate("MyTabs")
                       }
+                      // {props.handleSubmit}
                       // disabled={props.isSubmitting}
                     />
 

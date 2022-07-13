@@ -29,15 +29,21 @@ import ButtonWithLoader from "../../Components/ButtonWithLoader";
 // import AuthContext from "../../redux/authStore";
 
 const initialValues = {
-  to: "",
+  email: "",
+  password: "",
 };
 
 const validationSchema = yup.object().shape({
-  to: yup
+  email: yup
     .string()
     .trim()
     .required("Your official email address is required")
     .email("Please enter official email"),
+  password: yup
+    .number()
+
+    .required("Your official email address is required"),
+  // .email("Please enter official email"),
 });
 
 const { width } = Dimensions.get("window");
@@ -70,6 +76,8 @@ export default function LoginWithPassword({ navigation }) {
 
   const [checked, setChecked] = React.useState(false);
   const [text, setText] = useState("");
+  const [emaildata, setEmailData] = useState("");
+  const [passworddata, setPasswordData] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   // const onSubmitHandler = async (data) => {
@@ -167,24 +175,61 @@ export default function LoginWithPassword({ navigation }) {
   //   }
   // };
 
-  const onSubmitHandler = async (data, { resetForm }) => {
-    try {
-      await fetch(
-        "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc"
-      ).then((response) => {
-        response.json().then((data) => {
-          console.log("datapassword", data);
-          if (data.status_code === 0) {
-            navigation.navigate("MyTabs");
-          } else if (data.status_code === 1) {
-            alert("User is not registered. Please register first.");
-          }
-        });
+  const pass =
+    "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc";
+
+  const onSubmitHandler = (data) => {
+    fetch(pass)
+      .then((response) => response.json())
+
+      .then((json) => {
+        setEmailData(json.data);
+        console.log("passdata=====>", json.data);
+
+        if (data.status_code === 0) {
+          // navigation.navigate("MyTabs");
+          console.log("hello");
+        } else if (data.status_code === 1) {
+          alert("User is not registered. Please register first.");
+        }
+      })
+
+      .catch((error) => {
+        console.error(error);
+
+        // if (response.status === 500) {
+        //   alert("NetWork error");
+        // }
+        // console.log("=========>>>>>", response.status === 500);
       });
-    } catch (error) {
-      console.error(error);
-    }
   };
+  useEffect(() => {
+    onSubmitHandler();
+  }, []);
+
+  // const onSubmitHandler = async (data, { resetForm }) => {
+  //   try {
+  //     await fetch(
+  //       "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc"
+  //     ).then((response) => {
+  //       response.json().then((json) => {
+  //         console.log("datapassword", a);
+
+  //         setEmailData(json.data);
+  //         console.log("Logindata=======>", response.data);
+
+  //         if (data.status_code === 0) {
+  //           // navigation.navigate("MyTabs");
+  //           console.log("hello");
+  //         } else if (data.status_code === 1) {
+  //           alert("User is not registered. Please register first.");
+  //         }
+  //       });
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -204,7 +249,7 @@ export default function LoginWithPassword({ navigation }) {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
-              onSubmit={onSubmitHandler}
+              onSubmit={pass}
             >
               {(props) => (
                 <View
@@ -217,12 +262,13 @@ export default function LoginWithPassword({ navigation }) {
                   <InputComponent
                     placeholder="Email ID"
                     label="Email ID"
-                    onChangeText={props.handleChange("to")}
-                    value={props.values.to.trim()}
-                    name="to" // added this
-                    type="to"
-                    setFieldTouched="to"
-                    onBlur={() => props.setFieldTouched("to")}
+                    onChangeText={props.handleChange("email")}
+                    value={props.values.email.trim()}
+                    name="email" // added this
+                    type="email"
+                    // {...register(email)}
+                    setFieldTouched="email"
+                    onBlur={() => props.setFieldTouched("email")}
                   />
                   {/* <TextInput
                     placeholder="Email ID"
@@ -241,9 +287,9 @@ export default function LoginWithPassword({ navigation }) {
                     onBlur={() => props.setFieldTouched("to")}
                   /> */}
 
-                  {props.touched.to && props.errors.to && (
+                  {props.touched.email && props.errors.email && (
                     <Text style={{ fontSize: 15, color: "red" }}>
-                      {props.errors.to}
+                      {props.errors.email}
                     </Text>
                   )}
 
@@ -262,11 +308,11 @@ export default function LoginWithPassword({ navigation }) {
                     }}
                     label="password"
                     secureTextEntry={passwordVisible}
-                    //   onChangeText={onChangeText}
-                    //   value={value}
-                    //   name={name} // added this
-                    //   type={type}
-                    //   setFieldTouched={setFieldTouched}
+                    // onChangeText={props.handleChange("password")}
+                    // value={props.values.password}
+                    // name={password} // added this
+                    // type={type}
+                    // setFieldTouched={password}
                     placeholderTextColor="grey"
                     underlineColorAndroid="grey"
                     returnKeyType="next"

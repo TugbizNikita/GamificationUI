@@ -9,6 +9,8 @@ import Gorups from "../Screens/MeTab/Groups";
 import LeaderBoard from "../Screens/MeTab/LeaderBoard";
 import Scheduled from "../Screens/MeTab/Scheduled";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import ElearningUI from "../Screens/Elearning/ElearningUI";
+
 // import NewRequest from "./NewRequest";
 // import CompletedOrders from "./CompletedOrders";
 // import DeliveryPending from "./DeliveryPending";
@@ -67,19 +69,21 @@ export default function MeCard() {
                 justifyContent: "center",
                 alignItems: "center",
                 bottom: 10,
-                backgroundColor: focused ? "white" : "#D6DBDF",
+                backgroundColor: focused ? "#1390E0" : "#D6DBDF",
                 left: 4,
               }}
             >
-              <Text>LeaderBoard</Text>
+              <Text style={{ color: focused ? "white" : "black" }}>
+                Elearning
+              </Text>
             </View>
           ),
         }}
-        name="Task"
-        component={Task}
+        name="ElearningUI"
+        component={ElearningUI}
       /> */}
 
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{
           title: ({ focused }) => (
             <View
@@ -100,7 +104,7 @@ export default function MeCard() {
         }}
         name="Gorups"
         component={Gorups}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

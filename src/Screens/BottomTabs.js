@@ -31,12 +31,15 @@ import AppPageStack from "../Navigations/AppPageStack";
 import StudioStack from "../Navigations/StudioStack";
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+function MyTabs({ route }) {
+  // let newmail = route.params.paramKey;
+  // console.log("newmail============0000>", newmail);
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: "#FFFF",
           height: 58,
@@ -46,8 +49,9 @@ function MyTabs() {
       }}
     >
       <Tab.Screen
-        name="AppPageStack"
-        component={AppPageStack}
+        name="DashBoardHeader"
+        component={DashBoardHeader}
+        // initialParams={{ mailid: newmail }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -152,7 +156,7 @@ function MyTabs() {
                   left: 8,
                 }}
               >
-                Skills Test
+                E-Learning
               </Text>
             </View>
           ),

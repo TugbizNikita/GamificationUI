@@ -75,7 +75,9 @@ export default function OTP({ navigation, route }) {
     mail: route.params.paramKey,
     otp: value,
   };
-  console.log("requestOptions1", requestOptions);
+
+  let EMAIL = requestOptions.mail;
+  console.log("requestOptions22222", EMAIL);
 
   const submitForm = async (data) => {
     console.log("otpDAta", data);
@@ -90,7 +92,7 @@ export default function OTP({ navigation, route }) {
           authCtx.login(response.data.token);
           // console.log("token==============/////", response.data.token);
           navigation.navigate("MyTabs", {
-            paramKey: EmailID.trim(),
+            paramKey: EMAIL.trim(),
           });
 
           console.log("Logintoken=====>", authCtx.token);

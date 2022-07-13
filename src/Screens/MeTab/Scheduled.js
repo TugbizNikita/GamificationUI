@@ -43,20 +43,41 @@ export default function Scheduled() {
   console.log("arraydata", arraydata);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{ flex: 1, backgroundColor: "white" }}
+    <View
+      style={{
+        marginTop: 120,
+        flex: 1,
+        // padding: 20,
+        backgroundColor: "white",
+        justifyContent: "center",
+        bottom: 10,
+        // alignItems: "center",
+        bottom: 100,
+      }}
     >
-      <View
-        style={{
-          marginTop: 120,
-          // padding: 20,
+      <Table
+        borderStyle={{
+          borderWidth: 2,
           backgroundColor: "white",
+          borderColor: "#c8e1ff",
+          alignItems: "center",
           justifyContent: "center",
-          bottom: 10,
-          // alignItems: "center",
-          bottom: 100,
         }}
+      >
+        <Row
+          style={{ backgroundColor: "#0084D6" }}
+          textStyle={{
+            textAlign: "center",
+            fontSize: 9,
+            fontWeight: "bold",
+            color: "white",
+          }}
+          data={header}
+        />
+      </Table>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: "white", borderColor: "#c8e1ff" }}
       >
         <Table
           borderStyle={{
@@ -67,17 +88,17 @@ export default function Scheduled() {
             justifyContent: "center",
           }}
         >
-          <Row
-            textStyle={{ textAlign: "center", fontSize: 9, fontWeight: "bold" }}
-            data={header}
-          />
-
           <Rows
-            textStyle={{ textAlign: "center", fontSize: 10 }}
+            style={{ backgroundColor: "#AED6F1" }}
+            textStyle={{
+              textAlign: "center",
+              fontSize: 10,
+              borderColor: "#c8e1ff",
+            }}
             data={arraydata}
           />
         </Table>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
