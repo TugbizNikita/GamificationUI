@@ -29,15 +29,17 @@ import ButtonWithLoader from "../../Components/ButtonWithLoader";
 // import AuthContext from "../../redux/authStore";
 
 const initialValues = {
-  to: "",
+  email: "",
+  password: "",
 };
 
 const validationSchema = yup.object().shape({
-  to: yup
+  email: yup
     .string()
     .trim()
     .required("Your official email address is required")
     .email("Please enter official email"),
+  password: yup.number().required("requred"),
 });
 
 const { width } = Dimensions.get("window");
@@ -167,19 +169,64 @@ export default function LoginWithPassword({ navigation }) {
   //   }
   // };
 
+  // const onSubmitHandler = async (data, { resetForm }) => {
+  //   try {
+  //     await fetch(
+  //       "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc"
+  //     ).then((response) => {
+  //       response.json().then((data) => {
+  //         console.log("datapassword", data);
+  //         if (data.status_code === 0) {
+  //           navigation.navigate("MyTabs");
+  //         } else if (data.status_code === 1) {
+  //           alert("User is not registered. Please register first.");
+  //         }
+  //       });
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  console.log("llllllllllllll");
+
   const onSubmitHandler = async (data, { resetForm }) => {
+    let em = {
+      email: data.email.trim(),
+      password: data.password,
+    };
+    // console.log("em=====///", em);
+    // console.log("onSubmit", data);
+    // let emailInfo = data.to.trim();
+    // console.log("emailinfo", emailInfo);
+
+    // let formData = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify([
+    //     {
+    //       email: data.email.trim(),
+    //       password: data.password,
+    //     },
+    //   ]),
+    // };
+    console.log("formdata", em);
     try {
       await fetch(
-        "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc"
+        "http://3.215.18.129/getLoginIdWithPassword/?login-Id=gupta.sanket007@gmail.com&pass=iI4GtAOc",
+        [em]
       ).then((response) => {
-        response.json().then((data) => {
-          console.log("datapassword", data);
-          if (data.status_code === 0) {
-            navigation.navigate("MyTabs");
-          } else if (data.status_code === 1) {
-            alert("User is not registered. Please register first.");
-          }
-        });
+        console.log("updatedapi", data);
+        if (response.data.status_code === 0) {
+          alert("logn sucessfully");
+          console.log("statuscode", response.status_code);
+          navigation.navigate("MyTabs");
+          resetForm({ data: "" });
+        } else if (response.status_code === 1) {
+          alert("User Already Exist");
+        } else {
+          alert("Something went wrong!");
+        }
       });
     } catch (error) {
       console.error(error);
@@ -217,33 +264,17 @@ export default function LoginWithPassword({ navigation }) {
                   <InputComponent
                     placeholder="Email ID"
                     label="Email ID"
-                    onChangeText={props.handleChange("to")}
-                    value={props.values.to.trim()}
-                    name="to" // added this
-                    type="to"
-                    setFieldTouched="to"
-                    onBlur={() => props.setFieldTouched("to")}
+                    onChangeText={props.handleChange("email")}
+                    value={props.values.email.trim()}
+                    name="email" // added this
+                    type="email"
+                    setFieldTouched="email"
+                    onBlur={() => props.setFieldTouched("email")}
                   />
-                  {/* <TextInput
-                    placeholder="Email ID"
-                    mode="outlined"
-                    theme={{ colors: { primary: "#0084D6" } }}
-                    label="Email ID"
-                    onChangeText={props.handleChange("to")}
-                    value={props.values.to.trim()}
-                    name="to" // added this
-                    type="to"
-                    setFieldTouched="to"
-                    placeholderTextColor="grey"
-                    underlineColorAndroid="grey"
-                    returnKeyType="next"
-                    style={styles.emailInput}
-                    onBlur={() => props.setFieldTouched("to")}
-                  /> */}
 
-                  {props.touched.to && props.errors.to && (
+                  {props.touched.email && props.errors.email && (
                     <Text style={{ fontSize: 15, color: "red" }}>
-                      {props.errors.to}
+                      {props.errors.email}
                     </Text>
                   )}
 
@@ -261,6 +292,11 @@ export default function LoginWithPassword({ navigation }) {
                       roundness: 13,
                     }}
                     label="password"
+                    onChangeText={props.handleChange("password")}
+                    value={props.values.password}
+                    name="password" // added this
+                    type="password"
+                    setFieldTouched="password"
                     secureTextEntry={passwordVisible}
                     //   onChangeText={onChangeText}
                     //   value={value}
@@ -281,25 +317,6 @@ export default function LoginWithPassword({ navigation }) {
                     }
                   />
 
-                  {/* <TextInput
-                    placeholder="Password"
-                    mode="outlined"
-                    theme={{ colors: { primary: "#0084D6" } }}
-                    label="Password"
-                    // onChangeText={props.handleChange("to")}
-                    // value={props.values.to.trim()}
-                    name="to" // added this
-                    type="to"
-                    setFieldTouched="to"
-                    placeholderTextColor="grey"
-                    underlineColorAndroid="grey"
-                    returnKeyType="next"
-                    style={styles.emailInput}
-                    // onBlur={() => props.setFieldTouched("to")}
-                  /> */}
-
-                  {/* <TextInputComponent  placeholder="Password"></TextInputComponent> */}
-
                   <View
                     style={{
                       // margin: 10,
@@ -314,48 +331,35 @@ export default function LoginWithPassword({ navigation }) {
                         // {() => navigation.navigate("MyTabs")} // {() => authCtx.logout()}
                         props.handleSubmit
                       }
-                      // disabled={props.isSubmitting}
                     />
-
-                    {/* <Button
-                      title="Log In"
-                      color="#0084D6"
-                      onPress={
-                        // {() => navigation.navigate("MyTabs")} // {() => authCtx.logout()}
-                        props.handleSubmit
-                      }
-                      disabled={props.isSubmitting}
-                    /> */}
-                    {/* <ActivityIndicator size="small" color="#0000ff" /> */}
-                  </View>
-                  <View style={{ top: 20 }}>
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        color: "gray",
-                        textAlign: "center",
-                      }}
-                    >
-                      OR
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("Login")}
-                    >
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          fontSize: 16,
-
-                          color: "#0084D6",
-                        }}
-                      >
-                        continue with E-mail
-                      </Text>
-                    </TouchableOpacity>
                   </View>
                 </View>
               )}
             </Formik>
+
+            <View style={{ top: 40 }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  color: "gray",
+                  textAlign: "center",
+                }}
+              >
+                OR
+              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+
+                    color: "#0084D6",
+                  }}
+                >
+                  continue with E-mail
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View

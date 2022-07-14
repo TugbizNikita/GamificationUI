@@ -27,7 +27,11 @@ import Discover from "../../Components/DiscoverCard";
 import AppLoading from "expo-app-loading";
 import ExamTab from "../../Components/ExamTab";
 import Assesment from "../../Components/ExamTab";
+// import ElearningUI from "../Elearning/ElearningUI";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 // import AuthContext from "../../redux/authStore";
+// import Dummy from "../Dummy";
 
 import TransformationCard from "../../Components/TransformationCard";
 import WallOfFameCard from "../../Components/WallOfFameCard";
@@ -35,6 +39,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { element } from "prop-types";
 import { ActivityIndicator } from "react-native-paper";
 import AuthContext from "../../store/auth_store";
+import { LinearGradient } from "expo-linear-gradient";
+
+// import Elearning from
 const { width, height } = Dimensions.get("window");
 
 export function CircleCard({ name, marks, source }) {
@@ -102,7 +109,9 @@ export function CircleCard({ name, marks, source }) {
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function DashBoardHeader({ navigation, props }) {
+export default function DashBoardHeader({ navigation, props, route }) {
+  const [studyMaterial, setStudyMaterial] = useState([]);
+
   const [allData, setAllData] = useState([]);
   const [userName, setUserName] = useState("");
   const [attendance, setAttendance] = useState([]);
@@ -120,6 +129,10 @@ export default function DashBoardHeader({ navigation, props }) {
   const authCtx = useContext(AuthContext);
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  // const mailid = route.params.mailid;
+
+  // console.log("latestdashboardmail============>", mailid);
 
   const Item = ({ item }) => {
     // let CourseID = item.chapter_url;
@@ -188,6 +201,8 @@ export default function DashBoardHeader({ navigation, props }) {
   const dashboardData =
     "http://3.215.18.129/dashboard/?login-Id=gupta.sanket007@gmail.com";
 
+  // `http://3.215.18.129/dashboard/?login-Id=${mailid}`;
+
   const Exam =
     "http://3.215.18.129/getAssessmentData/?login-Id=gupta.sanket007@gmail.com";
 
@@ -216,7 +231,7 @@ export default function DashBoardHeader({ navigation, props }) {
     authCtx.logout();
     console.log("authCtx.logout", authCtx);
     // optional: redirect the user
-    navigation.navigate("Login");
+    navigation.navigate("LoginWithPassword");
   };
 
   const Dashboard = () => {
@@ -332,6 +347,7 @@ export default function DashBoardHeader({ navigation, props }) {
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>
             Hi {username}
           </Text>
+          {/* <Text>{route.params.paramKey}</Text> */}
           <TouchableOpacity
             onPress={logoutHandler}
             style={{ flexDirection: "row" }}
@@ -344,9 +360,9 @@ export default function DashBoardHeader({ navigation, props }) {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View
+          <LinearGradient
             style={{
-              height: 300,
+              height: 280,
 
               borderRadius: 20,
               top: 10,
@@ -356,6 +372,7 @@ export default function DashBoardHeader({ navigation, props }) {
               borderWidth: 0.5,
               borderColor: "#D6DBDF",
             }}
+            colors={["#1390E0", "#66ffff", "white"]}
           >
             <View
               style={{
@@ -365,18 +382,105 @@ export default function DashBoardHeader({ navigation, props }) {
                 marginTop: 10,
               }}
             >
-              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+              <Text
+                style={{ fontSize: 19, fontWeight: "bold", color: "white" }}
+              >
                 Skill(s) Dashboard
               </Text>
-              <MaterialIcons size={20} name="error-outline" />
+              {/* <MaterialIcons size={20} name="error-outline" /> */}
+            </View>
+
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                top: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                {leadershipPoints}
+              </Text>
+              <Text style={{ color: "black", fontWeight: "bold" }}>
+                Your Points
+              </Text>
             </View>
             <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                alignItems: "center",
+                top: 20,
+              }}
+            >
+              <View style={{ top: 20 }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  {recordingVisited}
+                </Text>
+                <Text>Recording Visited</Text>
+              </View>
+
+              <View style={{ top: 20 }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  {attendance}
+                </Text>
+                <Text>Session Attended(%)</Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                width: "100%",
+                top: 70,
+                justifyContent: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                style={{
+                  height: 50,
+                  backgroundColor: "#0084D6",
+                  borderRadius: 20,
+                  padding: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Check Your Performance
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
               }}
-            >
-              <AnimatedCircularProgress
+            > */}
+            {/* <AnimatedCircularProgress
                 size={100}
                 width={5}
                 // fill={element.Marks_Obtain.slice(0, 2)}
@@ -390,8 +494,8 @@ export default function DashBoardHeader({ navigation, props }) {
                 onAnimationComplete={() => console.log("onAnimationComplete")}
                 backgroundColor="#A9A9A9"
                 style={{ marginTop: 20 }}
-              />
-              <Image
+              /> */}
+            {/* <Image
                 style={{
                   height: 60,
                   width: 60,
@@ -404,10 +508,10 @@ export default function DashBoardHeader({ navigation, props }) {
                 }}
                 source={require("../../../assets/Images/personal-development.png")}
               />
-              <Text style={{ marginTop: 60, marginLeft: 10, fontSize: 20 }}>
-                {/* {element.Marks_Obtain} of {element.Marks_Outof} */}
-              </Text>
-              <View
+              <Text style={{ marginTop: 60, marginLeft: 10, fontSize: 20 }}> */}
+            {/* {element.Marks_Obtain} of {element.Marks_Outof} */}
+            {/* </Text> */}
+            {/* <View
                 style={{
                   height: 30,
                   width: 30,
@@ -420,28 +524,27 @@ export default function DashBoardHeader({ navigation, props }) {
                 }}
               >
                 <Feather size={20} name="bar-chart-2" />
-              </View>
+              </View> */}
 
-              <Entypo
+            {/* <Entypo
                 size={28}
                 color="#0084D6"
                 style={{ marginTop: 60 }}
                 name="circle-with-plus"
-              />
-            </View>
-            <View
+              /> */}
+            {/* </View> */}
+            {/* <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
+                // justifyContent: "space-between",
                 height: 80,
                 padding: 5,
               }}
-            >
-              <View style={{ top: 20, left: 2 }}>
-                <Text style={{ fontSize: 13 }}>
-                  LeadershipPoints : {leadershipPoints}
-                </Text>
-                {/* <Progress.Bar
+            > */}
+            {/* <View style={{ top: 20, left: 2 }}>
+                <Text>{leadershipPoints}</Text>
+                <Text style={{ fontSize: 13 }}>LeadershipPoints :</Text> */}
+            {/* <Progress.Bar
                   // color={
                   //   colorCodeSoft_Skill <= 60
                   //     ? "red"
@@ -454,13 +557,13 @@ export default function DashBoardHeader({ navigation, props }) {
                   // progress={`0.${element.Soft_Skill.split("%", 1)}`}
                   style={{ width: 140 }}
                 /> */}
-              </View>
+            {/* </View> */}
 
-              <View style={{ top: 20, left: 5 }}>
+            {/* <View style={{ top: 20, left: 5 }}>
                 <Text style={{ fontSize: 13 }}>
                   RecordingVisited : {recordingVisited}
-                </Text>
-                {/* <Progress.Bar
+                </Text> */}
+            {/* <Progress.Bar
                   // color={
                   //   colorCodeTechnical <= 60
                   //     ? "red"
@@ -473,22 +576,21 @@ export default function DashBoardHeader({ navigation, props }) {
                   // progress={`0.${element.Technical.split("%", 1)}`}
                   style={{ width: 140 }}
                 /> */}
-              </View>
-            </View>
-
-            <View
+            {/* </View> */}
+          </LinearGradient>
+          {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
                 height: 80,
                 padding: 5,
               }}
-            >
-              <View style={{ left: 2 }}>
+            > */}
+          {/* <View style={{ left: 2 }}>
                 <Text style={{ fontSize: 13 }}>
                   Session Attended(%) : {attendance}
-                </Text>
-                {/* <Progress.Bar
+                </Text> */}
+          {/* <Progress.Bar
                   // color={
                   //   colorCodeSoft_Skill <= 60
                   //     ? "red"
@@ -501,13 +603,21 @@ export default function DashBoardHeader({ navigation, props }) {
                   // progress={`0.${element.Soft_Skill.split("%", 1)}`}
                   style={{ width: 140 }}
                 /> */}
-              </View>
+          {/* </View> */}
 
-              <View style={{ left: 5 }}>
+          {/* <View style={{ left: 5 }}>
                 <Pressable onPress={() => setModalVisible(true)}>
-                  <Text style={{ fontSize: 13 }}>Rank : {rank}</Text>
-                </Pressable>
-                {/* <Progress.Bar
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: "#0084D6",
+                      textDecorationLine: "underline",
+                    }}
+                  >
+                    Rank : {rank}
+                  </Text>
+                </Pressable> */}
+          {/* <Progress.Bar
                   // color={
                   //   colorCodeTechnical <= 60
                   //     ? "red"
@@ -520,13 +630,13 @@ export default function DashBoardHeader({ navigation, props }) {
                   // progress={`0.${element.Technical.split("%", 1)}`}
                   style={{ width: 140 }}
                 /> */}
-              </View>
-            </View>
-          </View>
+          {/* </View>
+            </View> */}
+          {/* </View> */}
 
-          <View
+          <LinearGradient
             style={{
-              height: 180,
+              height: 185,
 
               borderRadius: 20,
               top: 20,
@@ -536,19 +646,21 @@ export default function DashBoardHeader({ navigation, props }) {
               borderWidth: 0.5,
               borderColor: "#D6DBDF",
             }}
+            colors={["#1390E0", "#66ffff", "white"]}
           >
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-                marginTop: 10,
+                // marginTop: 10,
+                padding: 10,
               }}
             >
               <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                 Assesment
               </Text>
-              <MaterialIcons size={20} name="error-outline" />
+              {/* <MaterialIcons size={20} name="error-outline" /> */}
             </View>
             <View
               style={{
@@ -560,9 +672,9 @@ export default function DashBoardHeader({ navigation, props }) {
                 size={100}
                 width={5}
                 fill={60}
-                tintColor="#A9A9A9"
+                tintColor="#0084D6"
                 onAnimationComplete={() => console.log("onAnimationComplete")}
-                backgroundColor="#0084D6"
+                backgroundColor="white"
                 style={{ marginTop: 20 }}
               />
               <Image
@@ -579,19 +691,40 @@ export default function DashBoardHeader({ navigation, props }) {
                 source={require("../../../assets/Images/assessment.png")}
               />
 
-              <View style={{ flexDirection: "column" }}>
+              <View
+                style={{
+                  flexDirection: "column",
+
+                  backgroundColor: "white",
+                  height: 40,
+                  top: 50,
+                  width: "20%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 20,
+                  elevation: 1,
+                  borderWidth: 2,
+                  borderColor: "#0084D6",
+                }}
+              >
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Assesment")}
                 >
                   <Text
-                    style={{ marginTop: 40, textAlign: "left", fontSize: 20 }}
+                    style={{
+                      // marginTop: 40,
+                      textAlign: "left",
+                      fontSize: 20,
+                      color: "#0084D6",
+                      // textDecorationLine: "underline",
+                    }}
                   >
                     {noofcompletedexam} / {no_of_assigned_exam}
                   </Text>
                 </TouchableOpacity>
               </View>
 
-              <View
+              {/* <View
                 style={{
                   height: 30,
                   width: 30,
@@ -604,10 +737,10 @@ export default function DashBoardHeader({ navigation, props }) {
                 }}
               >
                 <Feather size={20} name="bar-chart-2" />
-              </View>
+              </View> */}
             </View>
-          </View>
-          <View
+          </LinearGradient>
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
@@ -623,7 +756,7 @@ export default function DashBoardHeader({ navigation, props }) {
               // marks={element.Technical_Marks}
               source={require("../../../assets/Images/coding.png")}
             />
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -701,30 +834,7 @@ export default function DashBoardHeader({ navigation, props }) {
               <TransformationCard />
             </ScrollView>
           </View>
-          <View
-            style={{
-              justifyContent: "flex-start",
-              width: "100%",
-              height: "100%",
-              padding: 10,
-              backgroundColor: "white",
-              flex: 1,
-            }}
-          >
-            <Text style={{ fontWeight: "bold" }}>Discover</Text>
-            <View
-              style={{
-                height: 100,
-                backgroundColor: "white",
-                bottom: 40,
-                width: "100%",
-                top: 20,
-                height: height,
-              }}
-            >
-              <Discover />
-            </View>
-          </View>
+
           <View style={{}}>
             <Modal
               animationType="slide"
@@ -758,6 +868,17 @@ export default function DashBoardHeader({ navigation, props }) {
                       }}
                     >
                       Consolidated Marks
+                    </Text>
+                  </View>
+                  <View style={{ backgroundColor: "white", bottom: 20 }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        color: "#0084D6",
+                      }}
+                    >
+                      Rank : {rank}
                     </Text>
                   </View>
                   <View
