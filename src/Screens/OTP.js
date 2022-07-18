@@ -21,6 +21,7 @@ import {
 import api from "../api";
 import AuthContext from "../store/auth_store";
 // import AuthContext from "../redux/authStore";
+import ButtonWithLoader from "../Components/ButtonWithLoader";
 
 const { height, width } = Dimensions.get("window");
 
@@ -90,6 +91,7 @@ export default function OTP({ navigation, route }) {
 
         if (response.data.status_code === 0) {
           authCtx.login(response.data.token);
+
           // console.log("token==============/////", response.data.token);
           navigation.navigate("MyTabs", {
             paramKey: EMAIL.trim(),
@@ -148,7 +150,18 @@ export default function OTP({ navigation, route }) {
           />
         </SafeAreaView>
 
-        <TouchableOpacity onPress={submitForm} style={styles.btn}>
+        <TouchableOpacity
+          onPress={submitForm}
+          style={{
+            height: 45,
+            backgroundColor: "white",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 10,
+            marginTop: 60,
+            width: "80%",
+          }}
+        >
           <Text style={styles.submit}>Submit</Text>
         </TouchableOpacity>
       </View>

@@ -68,56 +68,77 @@ export default function Studio({ navigation }) {
     return (
       <View
         style={{
-          height: 260,
-          width: "45%",
-          backgroundColor: "white",
-          borderWidth: 0,
+          height: 200,
+          width: "90%",
+          justifyContent: "center",
+          alignItems: "center",
+
           borderRadius: 20,
 
-          borderWidth: 1,
-          borderColor: "gray",
-          marginHorizontal: 10,
-          marginVertical: 10,
-
-          // justifyContent: "space-between",
-          alignItems: "center",
-          elevation: 1,
-
-          // margin: 20,
+          padding: 20,
+          elevation: 4,
+          backgroundColor: "white",
+          borderWidth: 0.5,
+          borderColor: "#D6DBDF",
+          margin: 10,
+          marginLeft: 20,
         }}
       >
-        <Image
-          style={{
-            resizeMode: "contain",
-            height: 95,
-            width: "110%",
-            borderTopWidth: 1,
-
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-
-            borderColor: "gray",
-          }}
-          source={require("../../../../../assets/Images/elearningImage.jpg")}
-        />
-        <View style={{ padding: 10 }}>
-          <Text style={{ fontSize: 16, color: "#0084D6", fontWeight: "bold" }}>
-            {" "}
-            {item.name.split(" ")[0]}
-          </Text>
-          <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-            {item.name.split(" ")[1]} {item.name.split(" ")[2]}
-          </Text>
-        </View>
         <View
           style={{
-            width: "100%",
-
+            borderWidth: 1,
+            width: 60,
+            height: 60,
+            position: "absolute",
+            // borderRadius: 20,
+            borderTopLeftRadius: 20,
+            borderBottomEndRadius: 20,
+            backgroundColor: "#0084D6",
+            borderColor: "pink",
+            // elevation: 1,
+            top: 0,
+            left: 0,
+          }}
+        ></View>
+        <View
+          style={{
+            // flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            bottom: 8,
+            // marginTop: 10,
+            padding: 10,
           }}
         >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 13,
+              // bottom: 10,
+              top: 10,
+              fontWeight: "bold",
+            }}
+          >
+            {item.name.split(" ")[0]}
+          </Text>
+          <Text
+            style={{
+              // marginTop: 40,
+              textAlign: "left",
+              fontSize: 20,
+              color: "#0084D6",
+              fontWeight: "bold",
+              top: 20,
+              // bottom: 10,
+              // textDecorationLine: "underline",
+            }}
+          >
+            {item.name.split(" ")[1]} {item.name.split(" ")[2]}
+          </Text>
+
+          {/* <FontAwesome5 name="edit" color="#0084D6" size={50} /> */}
+        </View>
+
+        <View style={{ width: "70%", justifyContent: "center" }}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("ElearningLink", {
@@ -125,26 +146,130 @@ export default function Studio({ navigation }) {
               })
             }
             style={{
-              borderRadius: 20,
+              height: 50,
               backgroundColor: "#0084D6",
-              height: 40,
-              // borderWidth: 1,
-              width: 130,
+              borderRadius: 20,
+              padding: 10,
+              top: 30,
             }}
           >
-            <Image
+            <Text
               style={{
-                height: 30,
-                width: 30,
-                position: "absolute",
-                left: 50,
-                top: 5,
+                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "white",
+                fontSize: 25,
+                fontWeight: "bold",
+                bottom: 5,
               }}
-              source={require("../../../../../assets/Images/arrow1.png")}
-            />
+            >
+              Start
+            </Text>
           </TouchableOpacity>
         </View>
+        {/* <View
+          style={{
+            borderWidth: 1,
+            width: 60,
+            height: 60,
+
+            borderBottomRightRadius: 20,
+            borderTopLeftRadius: 20,
+            backgroundColor: "#0084D6",
+            borderColor: "pink",
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            // elevation: 1,
+
+            // borderRadius: 20,
+            // borderTopRightRadius: 20,
+            // borderBottomEndRadius: 20,
+            // backgroundColor: "#0084D6",
+            // borderColor: "pink",
+          }}
+        ></View> */}
       </View>
+      // <View
+      //   style={{
+      //     height: 260,
+      //     width: "45%",
+      //     backgroundColor: "white",
+      //     borderWidth: 0,
+      //     borderRadius: 20,
+
+      //     borderWidth: 1,
+      //     borderColor: "gray",
+      //     marginHorizontal: 10,
+      //     marginVertical: 10,
+
+      //     // justifyContent: "space-between",
+      //     alignItems: "center",
+      //     elevation: 1,
+
+      //     // margin: 20,
+      //   }}
+      // >
+      //   <Image
+      //     style={{
+      //       resizeMode: "contain",
+      //       height: 95,
+      //       width: "110%",
+      //       borderTopWidth: 1,
+
+      //       borderTopLeftRadius: 20,
+      //       borderTopRightRadius: 20,
+
+      //       borderColor: "gray",
+      //     }}
+      //     source={require("../../../../../assets/Images/elearningImage.jpg")}
+      //   />
+      //   <View style={{ padding: 10 }}>
+      //     <Text style={{ fontSize: 16, color: "#0084D6", fontWeight: "bold" }}>
+      //       {" "}
+      //       {item.name.split(" ")[0]}
+      //     </Text>
+      //     <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+      //       {item.name.split(" ")[1]} {item.name.split(" ")[2]}
+      //     </Text>
+      //   </View>
+      //   <View
+      //     style={{
+      //       width: "100%",
+
+      //       justifyContent: "center",
+      //       alignItems: "center",
+      //       bottom: 8,
+      //     }}
+      //   >
+      //     <TouchableOpacity
+      //       onPress={() =>
+      //         navigation.navigate("ElearningLink", {
+      //           paramKey: CourseID,
+      //         })
+      //       }
+      //       style={{
+      //         borderRadius: 20,
+      //         backgroundColor: "#0084D6",
+      //         height: 40,
+      //         // borderWidth: 1,
+      //         width: 130,
+      //       }}
+      //     >
+      //       <Image
+      //         style={{
+      //           height: 30,
+      //           width: 30,
+      //           position: "absolute",
+      //           left: 50,
+      //           top: 5,
+      //         }}
+      //         source={require("../../../../../assets/Images/arrow1.png")}
+      //       />
+      //     </TouchableOpacity>
+      //   </View>
+      // </View>
 
       // <View
       //   style={{
@@ -256,114 +381,45 @@ export default function Studio({ navigation }) {
     >
       <View
         style={{
-          // height: 85,
+          height: 65,
           width: "100%",
           backgroundColor: "#0084D6",
-          flexDirection: "row",
-          padding: 10,
           top: 30,
+
+          padding: 10,
+
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}
       >
-        <View
+        <Text
           style={{
-            borderWidth: 2,
-            height: 45,
-            width: 46,
-            borderRadius: 50,
+            fontSize: 30,
+            left: 10,
+
             justifyContent: "center",
-            alignItems: "center",
-            borderColor: "#0084D6",
-            backgroundColor: "white",
-            right: 2,
-            bottom: 1,
+
+            color: "white",
+            fontWeight: "bold",
           }}
         >
-          <View
-            style={{
-              height: 35,
-              width: 35,
-              backgroundColor: "#0084D6",
-              borderRadius: 40,
-              borderWidth: 0,
-              elevation: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "90%",
-            }}
-          >
-            <MaterialCommunityIcons
-              name="access-point"
-              color="white"
-              size={30}
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            width: "85%",
-            justifyContent: "space-between",
-            flexDirection: "row",
-          }}
-        >
-          <Text
-            style={{
-              left: 10,
-              fontSize: 18,
-              justifyContent: "flex-start",
-              top: 10,
-              color: "white",
-            }}
-          >
-            E-learning
-          </Text>
-          <Text
-            style={{
-              top: 10,
-              fontSize: 15,
-              justifyContent: "flex-end",
-              color: "white",
-            }}
-          >
-            Today
-          </Text>
-        </View>
+          E-Learning
+        </Text>
       </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true}
-        style={{
-          backgroundColor: "white",
-          top: 40,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "white",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 20,
-            right: 10,
-
-            margin: 10,
-          }}
+      <View style={{ bottom: 60 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          style={{ marginTop: 90, backgroundColor: "white" }}
         >
           <FlatList
             data={StudyMaterial}
             renderItem={Item}
-            numColumns={2}
+            // numColumns={2}
             keyExtractor={(item) => item.id}
           />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
   // });

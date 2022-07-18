@@ -39,6 +39,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { element } from "prop-types";
 import { ActivityIndicator } from "react-native-paper";
 import AuthContext from "../../store/auth_store";
+
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 // import Elearning from
 const { width, height } = Dimensions.get("window");
 
@@ -128,7 +130,7 @@ export default function DashBoardHeader({ navigation, props, route }) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  // const mailid = route.params.mailid;
+  const mailid = route.params.mailid;
 
   // console.log("latestdashboardmail============>", mailid);
 
@@ -196,13 +198,12 @@ export default function DashBoardHeader({ navigation, props, route }) {
     );
     return () => backHandler.remove();
   }, []);
-  const dashboardData =
-    "http://3.215.18.129/dashboard/?login-Id=gupta.sanket007@gmail.com";
+  const dashboardData = `http://3.215.18.129/dashboard/?login-Id=${mailid}`;
+  // "http://3.215.18.129/dashboard/?login-Id=gupta.sanket007@gmail.com";
 
   // `http://3.215.18.129/dashboard/?login-Id=${mailid}`;
 
-  const Exam =
-    "http://3.215.18.129/getAssessmentData/?login-Id=gupta.sanket007@gmail.com";
+  const Exam = `http://3.215.18.129/getAssessmentData/?login-Id=${mailid}`;
 
   // const Logout = () => {
   //   let logouttoken = authCtx.logout();
@@ -382,7 +383,7 @@ export default function DashBoardHeader({ navigation, props, route }) {
               <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                 Skill(s) Dashboard
               </Text>
-              <MaterialIcons size={20} name="error-outline" />
+              {/* <MaterialIcons size={20} name="error-outline" /> */}
             </View>
 
             <View
@@ -442,6 +443,7 @@ export default function DashBoardHeader({ navigation, props, route }) {
                 width: "100%",
                 top: 70,
                 justifyContent: "center",
+                elevation: 1,
               }}
             >
               <TouchableOpacity
@@ -459,7 +461,7 @@ export default function DashBoardHeader({ navigation, props, route }) {
                     justifyContent: "center",
                     alignItems: "center",
                     color: "white",
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: "bold",
                   }}
                 >
@@ -630,7 +632,7 @@ export default function DashBoardHeader({ navigation, props, route }) {
 
           <View
             style={{
-              height: 185,
+              height: 220,
 
               borderRadius: 20,
               top: 20,
@@ -650,12 +652,48 @@ export default function DashBoardHeader({ navigation, props, route }) {
                 padding: 10,
               }}
             >
-              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                Assesment
+              <Text
+                style={{
+                  // marginTop: 40,
+                  textAlign: "left",
+                  fontSize: 50,
+                  color: "#0084D6",
+                  fontWeight: "bold",
+                  // textDecorationLine: "underline",
+                }}
+              >
+                {/* {noofcompletedexam}/{no_of_assigned_exam} */}
+                {rank}
               </Text>
-              <MaterialIcons size={20} name="error-outline" />
+
+              <FontAwesome5 name="edit" color="#0084D6" size={50} />
             </View>
-            <View
+
+            <View style={{ width: "100%", justifyContent: "center", top: 40 }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Assesment")}
+                style={{
+                  height: 50,
+                  backgroundColor: "#0084D6",
+                  borderRadius: 20,
+                  padding: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "white",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Assessment Completed
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
@@ -669,8 +707,8 @@ export default function DashBoardHeader({ navigation, props, route }) {
                 onAnimationComplete={() => console.log("onAnimationComplete")}
                 backgroundColor="#0084D6"
                 style={{ marginTop: 20 }}
-              />
-              <Image
+              /> */}
+            {/* <Image
                 style={{
                   height: 60,
                   width: 60,
@@ -682,9 +720,9 @@ export default function DashBoardHeader({ navigation, props, route }) {
                   left: 25,
                 }}
                 source={require("../../../assets/Images/assessment.png")}
-              />
+              /> */}
 
-              <View
+            {/* <View
                 style={{
                   flexDirection: "column",
 
@@ -699,8 +737,8 @@ export default function DashBoardHeader({ navigation, props, route }) {
                   borderWidth: 2,
                   borderColor: "#0084D6",
                 }}
-              >
-                <TouchableOpacity
+              > */}
+            {/* <TouchableOpacity
                   onPress={() => navigation.navigate("Assesment")}
                 >
                   <Text
@@ -713,11 +751,12 @@ export default function DashBoardHeader({ navigation, props, route }) {
                     }}
                   >
                     {noofcompletedexam} / {no_of_assigned_exam}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                  </Text> */}
 
-              {/* <View
+            {/* </TouchableOpacity> */}
+            {/* </View> */}
+
+            {/* <View
                 style={{
                   height: 30,
                   width: 30,
@@ -731,7 +770,7 @@ export default function DashBoardHeader({ navigation, props, route }) {
               >
                 <Feather size={20} name="bar-chart-2" />
               </View> */}
-            </View>
+            {/* </View> */}
           </View>
           {/* <View
             style={{

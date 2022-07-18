@@ -30,6 +30,21 @@ export default {
       return res;
     },
 
+    loginRequestWithPassword: async (data) => {
+      let res = await axios.post(
+        API_SERVER_URL + "/getLoginIdWithPassword/",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("API Call ===> LoginwithPassword request", res);
+      console.log("key Status", res.status);
+      return res;
+    },
+
     otpRequest: async (data) => {
       let res = await axios.post(API_SERVER_URL + "/verify_otp/", data, {
         headers: {

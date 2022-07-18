@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Alert,
   View,
@@ -18,8 +18,40 @@ import ButtonWithLoader from "../../../../Components/ButtonWithLoader";
 // import { TextInput } from "react-native-paper";
 
 import InputComponent from "../../../../Components/InputComponent";
+import RNSearchablePicker from "react-native-searchable-picker";
 
 const { width, height } = Dimensions.get("window");
+
+const data = [
+  {
+    label: "Group-1",
+    value: "Group-1",
+  },
+  {
+    label: "Group-2",
+    value: "Group-2",
+  },
+  {
+    label: "Group-3",
+    value: "Group-3",
+  },
+  {
+    label: "Group-4",
+    value: "Group-4",
+  },
+  {
+    label: "Group-5",
+    value: "Group-5",
+  },
+  {
+    label: "Group-6",
+    value: "Group-6",
+  },
+  {
+    label: "Group-7",
+    value: "Group-7",
+  },
+];
 
 export default function More({ navigation, route }) {
   // useBackHandler(
@@ -40,6 +72,16 @@ export default function More({ navigation, route }) {
   //     return true;
   //   }, [])
   // );
+
+  const [selected, setSelected] = useState();
+
+  const selectHandler = (item) => {
+    setSelected(item);
+  };
+
+  useEffect(() => {
+    console.log(selected);
+  }, [selected]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -70,31 +112,52 @@ export default function More({ navigation, route }) {
     >
       <View
         style={{
-          top: 30,
-          justifyContent: "center",
-          alignItems: "center",
-          height: 50,
+          height: 65,
           width: "100%",
           backgroundColor: "#0084D6",
+          top: 30,
+
+          padding: 10,
+
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}
       >
-        <Text style={{ fontSize: 18, color: "white" }}>User Profile</Text>
+        <Text
+          style={{
+            fontSize: 30,
+            left: 10,
+
+            justifyContent: "center",
+
+            color: "white",
+            fontWeight: "bold",
+          }}
+        >
+          User Profile
+        </Text>
       </View>
-      <ScrollView style={{ marginTop: 30 }}>
-        <View
+      <View
+        style={{
+          backgroundColor: "white",
+
+          justifyContent: "center",
+          width: "100%",
+          padding: 20,
+          // flex: 1,
+          top: 40,
+        }}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           style={{
             width: "100%",
-            height: height,
             backgroundColor: "white",
-
-            padding: 20,
+            paddingBottom: 190,
           }}
         >
           <View
             style={{
-              height: 50,
               width: "105%",
               backgroundColor: "white",
               right: 10,
@@ -134,10 +197,10 @@ export default function More({ navigation, route }) {
 
           <View
             style={{
-              height: 50,
               width: "105%",
               backgroundColor: "white",
-              marginTop: 40,
+              top: 10,
+
               right: 10,
             }}
           >
@@ -163,25 +226,25 @@ export default function More({ navigation, route }) {
 
           <View
             style={{
-              height: 50,
               width: "105%",
               backgroundColor: "white",
-              marginTop: 40,
+              top: 20,
+
               right: 10,
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: "bold", left: 20 }}>
               Mobile
             </Text>
-            <InputComponent placeholder="Mobile" />
+            <InputComponent placeholder="Mobile" label="Mobile" />
           </View>
 
           <View
             style={{
-              height: 50,
               width: "105%",
               backgroundColor: "white",
-              marginTop: 40,
+              top: 30,
+
               right: 10,
             }}
           >
@@ -207,48 +270,67 @@ export default function More({ navigation, route }) {
 
           <View
             style={{
-              height: 50,
               width: "105%",
               backgroundColor: "white",
-              marginTop: 40,
+              top: 40,
+
               right: 10,
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: "bold", left: 20 }}>
               Organization Email
             </Text>
-            <InputComponent placeholder="Organization Email" />
+            <InputComponent
+              placeholder="Organization Email"
+              label="Organization Email"
+            />
           </View>
 
           <View
             style={{
-              height: 50,
               width: "105%",
               backgroundColor: "white",
-              marginTop: 40,
+              top: 50,
+
               right: 10,
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: "bold", left: 20 }}>
               Password
             </Text>
-            <InputComponent placeholder="Password" />
+            <InputComponent placeholder="Password" label="Password" />
           </View>
+
+          <Text style={{ fontSize: 16, fontWeight: "bold", left: 20, top: 60 }}>
+            Group
+          </Text>
 
           <View
             style={{
-              height: 50,
-              width: "105%",
               backgroundColor: "white",
-              marginTop: 40,
-              right: 10,
+
+              borderRadius: 20,
+              top: 70,
+
+              // height: 150,
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: "bold", left: 20 }}>
-              Group
-            </Text>
-            <InputComponent placeholder="Group" />
+            <RNSearchablePicker
+              onSelect={selectHandler}
+              data={data}
+              placeholder="Choose an item"
+              defaultValue={data[0].label}
+              containerStyles={{
+                marginHorizontal: 10,
+                backgroundColor: "white",
+                borderRadius: 20,
+                borderWidth: 1,
+                padding: 10,
+              }}
+              listStyles={{ maxHeight: 70, borderRadius: 20, padding: 10 }}
+            />
           </View>
+
           <View style={{ width: "95%", left: 10 }}>
             <TouchableOpacity
               style={{
@@ -257,7 +339,7 @@ export default function More({ navigation, route }) {
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: 10,
-                marginTop: 50,
+                top: 100,
               }}
             >
               <Text
@@ -266,9 +348,11 @@ export default function More({ navigation, route }) {
                 Update
               </Text>
             </TouchableOpacity>
+            <View style={{ height: 100 }}></View>
           </View>
-        </View>
-      </ScrollView>
+          <View style={{ height: 100 }}></View>
+        </ScrollView>
+      </View>
     </View>
   );
 }

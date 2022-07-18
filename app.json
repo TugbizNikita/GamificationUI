@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.laxmihulage.LocallyT"
+      "package": "com.asmitamargaje.Gamification"
     },
     "web": {
       "favicon": "./assets/favicon.png"

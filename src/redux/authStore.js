@@ -29,7 +29,7 @@ export const AuthContextProvider = (props) => {
   };
   const sessionHandler = () => {
     setToken(null);
-    localStorage.removeItem("auth.token");
+    AsyncStorage.removeItem("auth.token");
     warningAlert("Session Expired!");
   };
   const contextValue = {

@@ -18,7 +18,7 @@ const ElearningLink = ({ item, uri, route, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.navigate("DashBoardHeader");
+        navigation.navigate("Studio");
         // Return true to stop default back navigaton
         // Return false to keep default back navigaton
         return true;

@@ -17,7 +17,7 @@ const FinalExamUrl = ({ route, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.navigate("DashBoardHeader");
+        navigation.navigate("AssignedExam");
         // Return true to stop default back navigaton
         // Return false to keep default back navigaton
         return true;

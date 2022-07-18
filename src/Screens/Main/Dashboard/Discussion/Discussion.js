@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
   Linking,
   Dimensions,
+  ScrollView,
 } from "react-native";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useFocusEffect } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("window");
@@ -188,6 +188,50 @@ export default function Discussion({ navigation }) {
     );
   };
 
+  const StatcicWhatsApp = () => {
+    // let MobileNumber = mobileNumber;
+
+    // console.log("MobileNumber", MobileNumber);
+    // Check for perfect 10 digit length
+    // if (mobileNumber.length != 10) {
+    //   alert("Please insert correct WhatsApp number");
+    //   return;
+    // }
+    // Using 91 for India
+    // You can change 91 with your country code
+    let mobileno = 9987507676;
+    let url = "whatsapp://send?text=" + "&phone=91" + mobileno;
+    Linking.openURL(url)
+      .then((data) => {
+        console.log("WhatsApp Opened", url);
+      })
+      .catch(() => {
+        alert("Make sure Whatsapp installed on your device");
+      });
+  };
+
+  const StaticWhatsApp = () => {
+    // let MobileNumber = mobileNumber;
+
+    // console.log("MobileNumber", MobileNumber);
+    // Check for perfect 10 digit length
+    // if (mobileNumber.length != 10) {
+    //   alert("Please insert correct WhatsApp number");
+    //   return;
+    // }
+    // Using 91 for India
+    // You can change 91 with your country code
+    let mobilenum = 7219299108;
+    let url = "whatsapp://send?text=" + "&phone=91" + mobilenum;
+    Linking.openURL(url)
+      .then((data) => {
+        console.log("WhatsApp Opened", url);
+      })
+      .catch(() => {
+        alert("Make sure Whatsapp installed on your device");
+      });
+  };
+
   const Item = ({ item }) => {
     // let MobileNumber = mobileNumber;
     const initiateWhatsApp = () => {
@@ -313,57 +357,412 @@ export default function Discussion({ navigation }) {
   };
 
   return (
-    <ScrollView
+    <View
       style={{
         backgroundColor: "white",
-        width: "100%",
-        height: "100%",
-
         flex: 1,
+        width: "100%",
       }}
     >
-      <View style={{ height: "30%", width: "100%", backgroundColor: "white" }}>
-        <Image
-          style={{
-            height: "90%",
-            width: "100%",
-            borderTopLeftRadius: 30,
-            borderBottomLeftRadius: 30,
-            top: 20,
+      <View
+        style={{
+          height: 65,
+          width: "100%",
+          backgroundColor: "#0084D6",
+          top: 30,
 
-            // borderBottomLeftRadius: 20,
-          }}
-          source={require("../../../../../assets/Images/PreAssesment.webp")}
-        />
-      </View>
-      <View
-        style={{
-          height: "30%",
-          width: "100%",
-          // backgroundColor: "white",
-          top: 20,
           padding: 10,
-          justifyContent: "flex-start",
-          // alignItems: "center",
+
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
         }}
       >
-        <FlatList
-          data={coachData}
-          renderItem={Item}
-          keyExtractor={(item) => item.mobileNumber}
-        />
+        <Text
+          style={{
+            fontSize: 30,
+            left: 10,
+
+            justifyContent: "center",
+
+            color: "white",
+            fontWeight: "bold",
+          }}
+        >
+          Contact Us
+        </Text>
       </View>
+
+      <View style={{ padding: 20, top: 40, backgroundColor: "white" }}>
+        <ScrollView
+          showsVerticalScrollIndicator={true}
+          nestedScrollEnabled={true}
+          style={{ backgroundColor: "white" }}
+        >
+          <FlatList
+            data={coachData}
+            renderItem={Item}
+            keyExtractor={(item) => item.mobileNumber}
+          />
+        </ScrollView>
+      </View>
+
       <View
         style={{
-          height: height,
           width: "100%",
-          backgroundColor: "white",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
           padding: 20,
+          top: 30,
         }}
       >
-        {/* <Track /> */}
+        <LinearGradient
+          style={{
+            width: "100%",
+            // height: 100,
+            // backgroundColor: "red",
+            padding: 10,
+            elevation: 1,
+            // justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+            // flexDirection: "row",
+            marginVertical: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            // borderRadius: 20,
+            borderBottomLeftRadius: 50,
+
+            borderTopRightRadius: 50,
+          }}
+          colors={["white", "#89CFF0"]}
+        >
+          <View
+            style={{
+              width: "50%",
+              // backgroundColor: "white",
+              flexDirection: "row",
+            }}
+          >
+            <Image
+              style={{
+                height: 40,
+                width: 40,
+                borderRadius: 50,
+
+                resizeMode: "contain",
+              }}
+              source={require("../../../../../assets/Images/people.png")}
+            />
+            <View
+              style={{
+                height: 70,
+                width: 0,
+                borderWidth: 0.5,
+                left: 5,
+                borderColor: "gray",
+              }}
+            ></View>
+            <View style={{ flexDirection: "column", left: 20 }}>
+              <Text style={{ fontWeight: "bold" }}>Shilpa Wankhade</Text>
+
+              {/* <Text style={{ color: "gray" }}>{item.mobileNumber}</Text> */}
+            </View>
+          </View>
+          <View
+            style={{ flexDirection: "column", justifyContent: "space-between" }}
+          >
+            <View
+              style={{ flexDirection: "row", marginVertical: 8, bottom: 5 }}
+            >
+              <Image
+                style={{ height: 23, width: 23 }}
+                source={require("../../../../../assets/Images/skills2.png")}
+              />
+              <Text
+                style={{
+                  color: "gray",
+                  left: 10,
+                  fontWeight: "bold",
+                  color: "gray",
+                }}
+              >
+                Buddy trainer
+              </Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableOpacity
+                onPress={StatcicWhatsApp}
+                style={{ flexDirection: "row" }}
+              >
+                <FontAwesome size={25} color="#28D146" name="whatsapp" />
+                <Text
+                  style={{
+                    color: "gray",
+                    left: 8,
+                    fontWeight: "bold",
+                    color: "gray",
+                  }}
+                >
+                  9987507676
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </LinearGradient>
+
+        <LinearGradient
+          style={{
+            width: "100%",
+            // height: 100,
+            // backgroundColor: "red",
+            padding: 10,
+            elevation: 1,
+            // justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+            // flexDirection: "row",
+            marginVertical: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            // borderRadius: 20,
+            borderBottomLeftRadius: 50,
+
+            borderTopRightRadius: 50,
+          }}
+          colors={["white", "#89CFF0"]}
+        >
+          <View
+            style={{
+              width: "50%",
+              // backgroundColor: "white",
+              flexDirection: "row",
+            }}
+          >
+            <Image
+              style={{
+                height: 40,
+                width: 40,
+                borderRadius: 50,
+
+                resizeMode: "contain",
+              }}
+              source={require("../../../../../assets/Images/people.png")}
+            />
+            <View
+              style={{
+                height: 70,
+                width: 0,
+                borderWidth: 0.5,
+                left: 5,
+                borderColor: "gray",
+              }}
+            ></View>
+            <View style={{ flexDirection: "column", left: 20 }}>
+              <Text style={{ fontWeight: "bold" }}>Nikita Gandhi</Text>
+
+              {/* <Text style={{ color: "gray" }}>{item.mobileNumber}</Text> */}
+            </View>
+          </View>
+          <View
+            style={{ flexDirection: "column", justifyContent: "space-between" }}
+          >
+            <View
+              style={{ flexDirection: "row", marginVertical: 8, bottom: 5 }}
+            >
+              <Image
+                style={{ height: 23, width: 23 }}
+                source={require("../../../../../assets/Images/skills2.png")}
+              />
+              <Text
+                style={{
+                  color: "gray",
+                  left: 10,
+                  fontWeight: "bold",
+                  color: "gray",
+                }}
+              >
+                For any queries
+              </Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableOpacity
+                onPress={StaticWhatsApp}
+                style={{ flexDirection: "row" }}
+              >
+                <FontAwesome size={25} color="#28D146" name="whatsapp" />
+                <Text
+                  style={{
+                    color: "gray",
+                    left: 8,
+                    fontWeight: "bold",
+                    color: "gray",
+                  }}
+                >
+                  7219299108
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </LinearGradient>
       </View>
-    </ScrollView>
+    </View>
+
+    // <View
+    //   style={{
+    //     backgroundColor: "white",
+    //     width: "100%",
+    //   }}
+    // >
+    //   <View
+    //     style={{
+    //       width: "100%",
+    //       backgroundColor: "white",
+    //     }}
+    //   >
+    //     <Image
+    //       style={{
+    //         height: 200,
+    //         width: "100%",
+    //         borderTopLeftRadius: 30,
+    //         borderBottomLeftRadius: 30,
+    //         top: 20,
+    //         resizeMode: "cover",
+    //       }}
+    //       source={require("../../../../../assets/Images/PreAssesment.webp")}
+    //     />
+    //   </View>
+
+    //   <View
+    //     style={{
+    //       width: "100%",
+    //       justifyContent: "center",
+    //       alignItems: "center",
+    //       alignContent: "center",
+    //       padding: 20,
+    //     }}
+    //   >
+    //     <LinearGradient
+    //       style={{
+    //         width: "100%",
+    //         // height: 100,
+    //         // backgroundColor: "red",
+    //         padding: 10,
+    //         elevation: 1,
+    //         // justifyContent: "center",
+    //         alignItems: "center",
+    //         padding: 20,
+    //         // flexDirection: "row",
+    //         marginVertical: 10,
+    //         flexDirection: "row",
+    //         justifyContent: "space-between",
+    //         // borderRadius: 20,
+    //         borderBottomLeftRadius: 50,
+
+    //         borderTopRightRadius: 50,
+    //       }}
+    //       colors={["white", "#89CFF0"]}
+    //     >
+    //       <View
+    //         style={{
+    //           width: "50%",
+    //           // backgroundColor: "white",
+    //           flexDirection: "row",
+    //         }}
+    //       >
+    //         <Image
+    //           style={{
+    //             height: 40,
+    //             width: 40,
+    //             borderRadius: 50,
+
+    //             resizeMode: "contain",
+    //           }}
+    //           source={require("../../../../../assets/Images/people.png")}
+    //         />
+    //         <View
+    //           style={{
+    //             height: 70,
+    //             width: 0,
+    //             borderWidth: 0.5,
+    //             left: 5,
+    //             borderColor: "gray",
+    //           }}
+    //         ></View>
+    //         <View style={{ flexDirection: "column", left: 20 }}>
+    //           <Text style={{ fontWeight: "bold" }}>Shilpa Wankhade</Text>
+
+    //           {/* <Text style={{ color: "gray" }}>{item.mobileNumber}</Text> */}
+    //         </View>
+    //       </View>
+    //       <View
+    //         style={{ flexDirection: "column", justifyContent: "space-between" }}
+    //       >
+    //         <View
+    //           style={{ flexDirection: "row", marginVertical: 8, bottom: 5 }}
+    //         >
+    //           <Image
+    //             style={{ height: 23, width: 23 }}
+    //             source={require("../../../../../assets/Images/skills2.png")}
+    //           />
+    //           <Text
+    //             style={{
+    //               color: "gray",
+    //               left: 10,
+    //               fontWeight: "bold",
+    //               color: "gray",
+    //             }}
+    //           >
+    //             Buddy trainer
+    //           </Text>
+    //         </View>
+    //         <View
+    //           style={{ flexDirection: "row", justifyContent: "space-between" }}
+    //         >
+    //           <TouchableOpacity
+    //             onPress={StatcicWhatsApp}
+    //             style={{ flexDirection: "row" }}
+    //           >
+    //             <FontAwesome size={25} color="#28D146" name="whatsapp" />
+    //             <Text
+    //               style={{
+    //                 color: "gray",
+    //                 left: 8,
+    //                 fontWeight: "bold",
+    //                 color: "gray",
+    //               }}
+    //             >
+    //               9987507676
+    //             </Text>
+    //           </TouchableOpacity>
+    //         </View>
+    //       </View>
+    //     </LinearGradient>
+    //   </View>
+
+    //   <View
+    //     style={{
+    //       width: "100%",
+    //       backgroundColor: "blue",
+    //       padding: 10,
+    //     }}
+    //   >
+    //     <ScrollView
+    //       // showsVerticalScrollIndicator={true}
+    //       style={{ backgroundColor: "red" }}
+    //     >
+    //       <FlatList
+    //         data={coachData}
+    //         renderItem={Item}
+    //         keyExtractor={(item) => item.mobileNumber}
+    //       />
+    //     </ScrollView>
+    //   </View>
+    // </View>
   );
 }
 

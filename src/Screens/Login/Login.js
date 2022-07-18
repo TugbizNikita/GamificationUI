@@ -180,26 +180,28 @@ export default function Login({ navigation }) {
     //   ]),
     // };
 
-    if (checked == true) {
-      try {
-        api.auth.loginRequest([em]).then((response) => {
-          console.log("updatedapi", data);
-          if (response.data.status_code === 0 && checked == true) {
-            navigation.navigate("OTP", {
-              paramKey: emailInfo,
-            });
-            resetForm({ data: "" });
-          } else if (response.data.status_code === 1) {
-            alert("User is not registered. Please register first.");
-          }
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      alert("Please select the checkbox to continue");
+    // if (checked == true) {
+    try {
+      api.auth.loginRequest([em]).then((response) => {
+        console.log("updatedapi", data);
+        console.log("updatedapi=>", response);
+        if (response.data.status_code === 0) {
+          navigation.navigate("OTP", {
+            paramKey: emailInfo,
+          });
+          resetForm({ data: "" });
+        } else if (response.data.status_code === 1) {
+          alert("Please enter a valid Mail ID");
+        }
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
+  // else {
+  //   alert("Please select the checkbox to continue");
+  // }
+  // };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -284,17 +286,18 @@ export default function Login({ navigation }) {
                   <View
                     style={{
                       // margin: 10,
-                      // top: 20,
+                      top: 20,
                       width: "90%",
                       backgroundColor: "white",
                     }}
                   >
                     <ButtonWithLoader
                       text="Log In"
-                      onPress={() => // {() => authCtx.logout()} //
-                        navigation.navigate("MyTabs")
-                      }
-                      // {props.handleSubmit}
+                      onPress={props.handleSubmit}
+                      // () =>
+                      // // {() => authCtx.logout()} //
+                      // navigation.navigate("MyTabs")
+
                       // disabled={props.isSubmitting}
                     />
 
@@ -314,7 +317,7 @@ export default function Login({ navigation }) {
             </Formik>
           </View>
 
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "center",
@@ -337,8 +340,8 @@ export default function Login({ navigation }) {
                 <Text style={{ borderBottomWidth: 2 }}>Register</Text>
               </View>
             </TouchableOpacity>
-          </View>
-          <View style={styles.checkboxView}>
+          </View> */}
+          {/* <View style={styles.checkboxView}>
             <Checkbox
               color="#0084D6"
               style={{ color: "red" }}
@@ -358,7 +361,7 @@ export default function Login({ navigation }) {
               </Text>
               <Text style={styles.terms}>and User Agreement.</Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -390,7 +393,7 @@ const styles = StyleSheet.create({
   },
   inputView: {
     padding: 20,
-    top: 20,
+    top: 40,
     width: "100%",
   },
   emailInput: {

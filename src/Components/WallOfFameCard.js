@@ -22,9 +22,10 @@ export default function WallOfFameCard({ name, marks, name1, marks1 }) {
           elevation: 2,
           //   backgroundColor: "pink",
           top: 30,
-          borderBottomLeftRadius: 100,
+          borderRadius: 20,
+          // borderBottomLeftRadius: 100,
 
-          borderTopRightRadius: 100,
+          // borderTopRightRadius: 100,
           borderWidth: 1,
           borderColor: "pink",
         }}

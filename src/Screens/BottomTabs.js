@@ -32,7 +32,7 @@ import StudioStack from "../Navigations/StudioStack";
 const Tab = createBottomTabNavigator();
 
 function MyTabs({ route }) {
-  // let newmail = route.params.paramKey;
+  let newmail = route.params.paramKey;
   // console.log("newmail============0000>", newmail);
   return (
     <Tab.Navigator
@@ -51,7 +51,7 @@ function MyTabs({ route }) {
       <Tab.Screen
         name="DashBoardHeader"
         component={DashBoardHeader}
-        // initialParams={{ mailid: newmail }}
+        initialParams={{ mailid: newmail }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
@@ -83,33 +83,7 @@ function MyTabs({ route }) {
           ),
         }}
       />
-      <Tab.Screen
-        name="Discussion"
-        component={Discussion}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItem: "center" }}>
-              <AntDesign
-                name="wechat"
-                size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 25 }}
-              />
 
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontFamily: "Helvetica-Bold",
-                  color: focused ? "#fb5414" : "gray",
-
-                  left: 20,
-                }}
-              >
-                Coach
-              </Text>
-            </View>
-          ),
-        }}
-      />
       <Tab.Screen
         name="Me"
         component={Me}
@@ -117,9 +91,9 @@ function MyTabs({ route }) {
           tabBarIcon: ({ focused }) => (
             <View style={{ justifyContent: "center", alignItem: "center" }}>
               <FontAwesome
-                name="user"
+                name="calendar"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 15 }}
+                style={{ color: focused ? "#fb5414" : "gray", left: 35 }}
               />
               <Text
                 style={{
@@ -129,7 +103,7 @@ function MyTabs({ route }) {
                   left: 18,
                 }}
               >
-                Me
+                Schedule
               </Text>
             </View>
           ),
@@ -145,7 +119,7 @@ function MyTabs({ route }) {
               <MaterialCommunityIcons
                 name="newspaper-variant-multiple-outline"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 20 }}
+                style={{ color: focused ? "#fb5414" : "gray", left: 40 }}
               />
 
               <Text
@@ -153,10 +127,38 @@ function MyTabs({ route }) {
                   fontSize: 12,
                   fontFamily: "Helvetica-Bold",
                   color: focused ? "#fb5414" : "gray",
-                  left: 8,
+                  left: 25,
                 }}
               >
                 E-Learning
+              </Text>
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Discussion"
+        component={Discussion}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{ justifyContent: "center", alignItem: "center" }}>
+              <AntDesign
+                name="contacts"
+                size={30}
+                style={{ color: focused ? "#fb5414" : "gray", left: 30 }}
+              />
+
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontFamily: "Helvetica-Bold",
+                  color: focused ? "#fb5414" : "gray",
+
+                  left: 20,
+                }}
+              >
+                Contacts
               </Text>
             </View>
           ),
