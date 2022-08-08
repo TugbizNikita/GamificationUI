@@ -1,4 +1,3 @@
-// import AsyncStorage from "@react-native-community/async-storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import React, { useContext, useState } from "react";
@@ -19,59 +18,33 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import api from "../api";
-import AuthContext from "../store/auth_store";
-// import AuthContext from "../redux/authStore";
-import ButtonWithLoader from "../Components/ButtonWithLoader";
-
+// import { AuthContext } from "../Context/context";
+import { useDispatch } from "react-redux";
+// import {Login} from '../store/actions'
 const { height, width } = Dimensions.get("window");
+import { LoginWithOtp } from "../store/actions";
 
 const CELL_COUNT = 4;
 
 export default function OTP({ navigation, route }) {
-  const authCtx = useContext(AuthContext);
   const [value, setValue] = useState();
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
-  // console.log("key otp", route.params.paramKey);
-  // const requestOptions = {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify({
-  //     mail: route.params.paramKey,
-  //     otp: value,
-  //   }),
-  // };
 
   let EmailID = route.params.paramKey;
 
-  console.log("44", EmailID);
-  // const onSubmitHandler = async () => {
-  //   console.log("requestoptionData====>", requestOptions);
-  //   try {
-  //     await fetch("http://3.215.18.129/verify_otp/", requestOptions).then(
-  //       (response) => {
-  //         response.json().then((data) => {
-  //           console.log("TokenData====>", data);
-  //           if (data.status_code === 0) {
-  //             navigation.navigate("MyTabs", {
-  //               paramKey: EmailID.trim(),
-  //             });
-  //           } else if (data.status_code === 1) {
-  //             alert("Wrong credentials");
-  //           } else {
-  //             alert("Something went wrong!");
-  //           }
-  //         });
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  // const submit = () => {
+  //   dispatch(Login(username, password));
   // };
-  // console.log("otpNumber", value);
+
+  console.log("44", EmailID);
   const requestOptions = {
     mail: route.params.paramKey,
     otp: value,
@@ -80,25 +53,25 @@ export default function OTP({ navigation, route }) {
   let EMAIL = requestOptions.mail;
   console.log("requestOptions22222", EMAIL);
 
+  // const { signInwithOtp } = React.useContext(AuthContext);
+
   const submitForm = async (data) => {
     console.log("otpDAta", data);
     // Login API calling
     api.auth
       .otpRequest(requestOptions)
       .then(async (response) => {
-        // console.log("updatedapi", data);
-        // handle success
-
         if (response.data.status_code === 0) {
-          authCtx.login(response.data.token);
+          var token = response.data.token;
 
-          // console.log("token==============/////", response.data.token);
-          navigation.navigate("MyTabs", {
-            paramKey: EMAIL.trim(),
-          });
+          // signInwithOtp(requestOptions.mail, requestOptions.otp, token);
+          dispatch(
+            LoginWithOtp(requestOptions.mail, requestOptions.otp, token)
+          );
 
-          console.log("Logintoken=====>", authCtx.token);
-          console.log("Logintoken=====>", response.data.token);
+          // navigation.navigate("MyTabs", {
+          //   paramKey: EMAIL.trim(),
+          // });
         } else if (response.data.status_code === 1) {
           alert("Wrong credentials");
         } else {

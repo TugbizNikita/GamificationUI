@@ -3,6 +3,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Table, Row, Rows } from "react-native-table-component";
 
 import { View, BackHandler, ScrollView } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
 const header = [
   "ExternalExam",
@@ -16,7 +17,7 @@ export default function CompletedExam({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.navigate("DashBoardHeader");
+        navigation.navigate("DashBoard");
         // Return true to stop default back navigaton
         // Return false to keep default back navigaton
         return true;
@@ -34,8 +35,12 @@ export default function CompletedExam({ navigation }) {
 
   const [completed_exam_data, setCompleted_exam_data] = useState([]);
 
-  const Exam =
-    "http://3.215.18.129/getAssessmentData/?login-Id=gupta.sanket007@gmail.com";
+  const authToken = useSelector((state) => state.Reducers.authToken);
+  const userNamee = useSelector((state) => state.Reducers.userName);
+  console.log("authToken=====>", authToken);
+  console.log("userNamecomplete=====0000>", userNamee);
+
+  const Exam = `http://3.215.18.129/getAssessmentData/?login-Id=${userNamee}`;
 
   const ExamData = () => {
     fetch(Exam)
@@ -48,11 +53,6 @@ export default function CompletedExam({ navigation }) {
 
       .catch((error) => {
         console.error(error);
-
-        // if (response.status === 500) {
-        //   alert("NetWork error");
-        // }
-        // console.log("=========>>>>>", response.status === 500);
       });
   };
 
@@ -81,11 +81,9 @@ export default function CompletedExam({ navigation }) {
       <View
         style={{
           marginTop: 120,
-          // padding: 20,
           backgroundColor: "white",
           justifyContent: "center",
           bottom: 10,
-          // alignItems: "center",
           bottom: 100,
         }}
       >

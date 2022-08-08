@@ -17,17 +17,14 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { TextInput, useTheme } from "react-native-paper";
 import LoginOnboarding from "../LoginOnboard/LoginOnboarding";
-
-import { BackHandler, Alert } from "react-native";
-import { useEffect } from "react";
 import api from "../../api";
-import AuthContext from "../../store/auth_store";
-import TextInputComponent from "../../Components/TextInputComponent";
 import InputComponent from "../../Components/InputComponent";
 import ButtonWithLoader from "../../Components/ButtonWithLoader";
-
-// import AuthContext from "../../redux/authStore";
-
+// import { AuthContext } from "../../Context/context";
+import NetInfo from "@react-native-community/netinfo";
+import Toast from "react-native-tiny-toast";
+import { useDispatch } from "react-redux";
+import { Login } from "../../store/actions";
 const initialValues = {
   loginId: "",
   pass: "",
@@ -41,107 +38,43 @@ const validationSchema = yup.object().shape({
     .email("Please enter official email"),
   pass: yup
     .string()
-    .min(8, "Password must be minimum 8 characters")
-    .max(8, "Password must be maximum 8 characters")
 
     .required("Please enter a valid password"),
-
-  // .email("Please enter official email"),
 });
 
 const { width } = Dimensions.get("window");
 
 export default function LoginWithPassword({ navigation }) {
-  const authCtx = useContext(AuthContext);
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   const theme = useTheme();
   const { colors } = theme;
-
-  const onSubmitHandler = async (data, { resetForm }) => {
+  const dispatch = useDispatch();
+  console.log("hellllo");
+  const onSubmitHandler = async (data) => {
     let formdata = {
-      // method: "POST",
-      // headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify([
-      //   {
-      loginId: data.loginId.trim(),
+      loginId: data.loginId,
       pass: data.pass,
-      //   },
-      // ]),
     };
-
-    let EMAIL = data.loginId.trim();
-    console.log("AsmitaEMAIL", EMAIL);
-    console.log("em=====///", formdata);
-    console.log("onSubmit", data);
-
-    try {
-      api.auth.loginRequestWithPassword(formdata).then((response) => {
-        console.log("updatedapi", data);
-        console.log("updatedapi=>", response);
+    console.log("loginData", formdata.pass);
+    // Login API calling
+    api.auth
+      .loginRequestWithPassword(formdata)
+      .then(async (response) => {
         if (response.data.status_code === 0) {
-          navigation.navigate("MyTabs", {
-            paramKey: EMAIL.trim(),
-          });
-          resetForm({ data: "" });
+          var token = response.data.token;
+          console.log("tokennnnnnn", token);
+          dispatch(Login(formdata.loginId, formdata.pass, token));
         } else if (response.data.status_code === 1) {
-          alert("Please enter a valid credentials");
+          alert("Wrong credentials");
+        } else {
+          alert("Something went wrong!");
         }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    } catch (error) {
-      console.error(error);
-    }
   };
-
-  //   try {
-  //     await fetch("http://3.215.18.129/getLoginIdWithPassword/", formdata).then(
-  //       (response) => {
-  //         response.json().then((data) => {
-  //           console.log("TokenData====>", data);
-  //           if (response.data.status_code === 0) {
-  //             navigation.navigate("MyTabs", {
-  //               paramKey: EMAIL.trim(),
-  //             });
-  //           } else if (response.data.status_code === 1) {
-  //             alert("Wrong credentials");
-  //           } else {
-  //             alert("Something went wrong!");
-  //           }
-  //         });
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  //       .then((response) => {
-  //         console.log("passworddata1111", data);
-  //         console.log("passworddata11=>", response.json());
-  //         console.log("passworddata11", data);
-
-  //         // navigation.navigate("MyTabs", {
-  //         //   paramKey: EMAIL.trim(),
-  //         // });
-  //         if (response.data.status_code === 0) {
-  //           alert("data");
-  //           // navigation.navigate("MyTabs");
-  //           resetForm({ data: "" });
-  //         } else if (response.data.status_code === 1) {
-  //           alert("Please enter a valid Mail ID");
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("catch error", error);
-  //       });
-  //   } catch (error) {
-  //     console.error("catch error", error);
-  //   }
-  // };
-  // // else {
-  // //   alert("Please select the checkbox to continue");
-  // // }
-  // // };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -149,8 +82,6 @@ export default function LoginWithPassword({ navigation }) {
         <View style={styles.Onboarding}>
           <LoginOnboarding />
         </View>
-        {console.log("!authCtx.isLoggedIn", !authCtx.isLoggedIn)}
-        {console.log("Routes Token", authCtx.token)}
         <View style={styles.secondView}>
           <Image
             source={require("../../../assets/Images/NovelLogo.png")}
@@ -167,7 +98,7 @@ export default function LoginWithPassword({ navigation }) {
                 <View
                   style={{
                     justifyContent: "space-between",
-                    top: 20,
+                    marginVertical: 10,
                     alignItems: "center",
                   }}
                 >
@@ -178,7 +109,6 @@ export default function LoginWithPassword({ navigation }) {
                     value={props.values.loginId.trim()}
                     name="loginId" // added this
                     type="email"
-                    // {...register(email)}
                     setFieldTouched="loginId"
                     onBlur={() => props.setFieldTouched("loginId")}
                   />
@@ -189,26 +119,17 @@ export default function LoginWithPassword({ navigation }) {
                     </Text>
                   )}
 
-                  {/* <TextInputComponent /> */}
-
                   <TextInput
                     placeholder="Password"
                     mode="outlined"
                     theme={{
                       colors: { primary: "#0084D6" },
-                      //   fonts: {
-                      //     regular: { fontFamily: "Philosopher_400Regular_Italic" },
-                      //   },
+
                       label: { primary: "#9505E9" },
                       roundness: 13,
                     }}
                     label="Password"
                     secureTextEntry={passwordVisible}
-                    // onChangeText={props.handleChange("password")}
-                    // value={props.values.password}
-                    // name={password} // added this
-                    // type={type}
-                    // setFieldTouched={password}
                     placeholderTextColor="grey"
                     underlineColorAndroid="grey"
                     returnKeyType="next"
@@ -229,33 +150,26 @@ export default function LoginWithPassword({ navigation }) {
                       />
                     }
                   />
-                  {props.touched.pass && props.errors.pass && (
-                    <Text style={{ fontSize: 15, color: "red", top: 10 }}>
-                      {props.errors.pass}
-                    </Text>
-                  )}
 
                   <View
                     style={{
                       // margin: 10,
-                      top: 10,
+                      marginVertical: 10,
+
                       width: "90%",
                       backgroundColor: "white",
                     }}
                   >
                     <ButtonWithLoader
                       text="Log In"
-                      onPress={
-                        // {() => navigation.navigate("MyTabs")} // {() => authCtx.logout()}
-                        props.handleSubmit
-                      }
+                      onPress={props.handleSubmit}
                       // disabled={props.isSubmitting}
                     />
                   </View>
                 </View>
               )}
             </Formik>
-            <View style={{ top: 40 }}>
+            <View style={{ bottom: 10 }}>
               <Text
                 style={{
                   fontWeight: "bold",
@@ -279,82 +193,6 @@ export default function LoginWithPassword({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              top: 50,
-            }}
-          >
-            <Text
-              style={{
-                color: "#fb5414",
-                fontFamily: "Helvetica",
-                fontSize: 16,
-              }}
-            >
-              {" "}
-              New to Gamification ?{" "}
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <View>
-                <Text style={{ borderBottomWidth: 2 }}>Register</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              top: 60,
-              backgroundColor: "white",
-              width: "80%",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => navigation.navigate("TermsCondition")}
-            >
-              <Text
-                style={{ color: "#0084D6", textDecorationLine: "underline" }}
-              >
-                Terms & Conditions
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("PrivacyPolicy")}
-            >
-              <Text
-                style={{ color: "#0084D6", textDecorationLine: "underline" }}
-              >
-                Privacy Policies
-              </Text>
-            </TouchableOpacity> */}
-          {/* </View> */}
-          {/* <View style={styles.checkboxView}>
-            <Checkbox
-              color="#0084D6"
-              style={{ color: "red" }}
-              status={checked ? "checked" : "unchecked"}
-              onPress={() => {
-                setChecked(!checked);
-              }}
-            />
-            <View style={{ width: "90%" }}>
-              <Text style={styles.terms}>
-                {" "}
-                I have read and agreed to the Gamification
-              </Text>
-              <Text style={styles.terms}>
-                {" "}
-                Terms and Conditions, Privacy Policies
-              </Text>
-              <Text style={styles.terms}>and User Agreement.</Text>
-            </View>
-          </View> */}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -378,15 +216,19 @@ const styles = StyleSheet.create({
     flex: 0.6,
     backgroundColor: "white",
     borderTopLeftRadius: 70,
+    width: "100%",
   },
   logo: {
     height: 55,
     width: 221,
-    top: 40,
+    marginVertical: 10,
+    // top: 40,
   },
   inputView: {
-    padding: 20,
-    top: 20,
+    padding: 10,
+    // top: 20,
+    bottom: 20,
+
     width: "100%",
   },
   PasswordInput: {

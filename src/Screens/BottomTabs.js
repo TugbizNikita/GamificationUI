@@ -1,38 +1,19 @@
-import React, { useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  Alert,
-  BackHandler,
-} from "react-native";
-import { Octicons } from "react-native-vector-icons";
-import Action from "react-native-vector-icons/MaterialIcons";
-import Icon from "react-native-vector-icons/FontAwesome";
+import React from "react";
+import { View, Text, Dimensions } from "react-native";
 const { height, width } = Dimensions.get("window");
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import DashBoardHeader from "./Main/DashBoardHeader";
-
-import Register from "./Register/Register";
-import Login from "./Login/Login";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Discussion from "./Main/Dashboard/Discussion/Discussion";
-import Me from "./Main/Dashboard/Me/Me";
-import Studio from "./Main/Dashboard/Studio/Studio";
-import More from "./Main/Dashboard/More/More";
-import AppPageStack from "../Navigations/AppPageStack";
-import StudioStack from "../Navigations/StudioStack";
+import { DashBoard, Schedule, Profile, Contacts, ELearningUI } from "../Utils";
+import ELearningStack from "../Navigations/ELearningStack";
+import DashBoardStack from "../Navigations/DashboardStack";
+import Ionicons from "react-native-vector-icons/Ionicons";
 const Tab = createBottomTabNavigator();
 
-function MyTabs({ route }) {
-  let newmail = route.params.paramKey;
+function MyTabs({ props }) {
+  // let newmail = route.params.paramKey;
   // console.log("newmail============0000>", newmail);
   return (
     <Tab.Navigator
@@ -41,40 +22,48 @@ function MyTabs({ route }) {
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: "#FFFF",
+          backgroundColor: "#0084D6",
           height: 58,
           elevation: 20,
           bottom: 0,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          paddingLeft: 20,
+          justifyContent: "space-between",
         },
       }}
     >
       <Tab.Screen
-        name="DashBoardHeader"
-        component={DashBoardHeader}
-        initialParams={{ mailid: newmail }}
+        name="DashBoardStack"
+        component={DashBoardStack}
+        // initialParams={{ mailid: newmail }}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
               style={{
                 justifyContent: "center",
                 alignItem: "center",
-                left: 10,
+                // left: 10,
+                // padding: 10,
+                width: "100%",
               }}
             >
               <FontAwesome
                 name="home"
                 size={30}
                 style={{
-                  color: focused ? "#fb5414" : "gray",
+                  color: focused ? "#66ffff" : "white",
                   justifyContent: "center",
-                  left: 20,
+                  paddingLeft: 10,
+                  // left: 20,
                 }}
               />
               <Text
                 style={{
                   fontSize: 12,
                   fontFamily: "Helvetica-Bold",
-                  color: focused ? "#fb5414" : "gray",
+                  color: focused ? "#66ffff" : "white",
+                  // width: "100%",
                 }}
               >
                 Dashboard
@@ -85,22 +74,31 @@ function MyTabs({ route }) {
       />
 
       <Tab.Screen
-        name="Me"
-        component={Me}
+        name="Schedule"
+        component={Schedule}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItem: "center" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItem: "center",
+                width: "100%",
+              }}
+            >
               <FontAwesome
                 name="calendar"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 35 }}
+                style={{
+                  color: focused ? "#66ffff" : "white",
+                  paddingLeft: 10,
+                }}
               />
               <Text
                 style={{
                   fontSize: 12,
                   fontFamily: "Helvetica-Bold",
-                  color: focused ? "#fb5414" : "gray",
-                  left: 18,
+                  color: focused ? "#66ffff" : "white",
+                  // paddingLeft: 5,
                 }}
               >
                 Schedule
@@ -111,23 +109,32 @@ function MyTabs({ route }) {
       />
 
       <Tab.Screen
-        name="StudioStack"
-        component={StudioStack}
+        name="ELearningStack"
+        component={ELearningStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItem: "center" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItem: "center",
+                width: "100%",
+              }}
+            >
               <MaterialCommunityIcons
                 name="newspaper-variant-multiple-outline"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 40 }}
+                style={{
+                  color: focused ? "#66ffff" : "white",
+                  paddingLeft: 10,
+                }}
               />
 
               <Text
                 style={{
                   fontSize: 12,
                   fontFamily: "Helvetica-Bold",
-                  color: focused ? "#fb5414" : "gray",
-                  left: 25,
+                  color: focused ? "#66ffff" : "white",
+                  // paddingLeft: 5,
                 }}
               >
                 E-Learning
@@ -138,24 +145,32 @@ function MyTabs({ route }) {
       />
 
       <Tab.Screen
-        name="Discussion"
-        component={Discussion}
+        name="Contacts"
+        component={Contacts}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItem: "center" }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItem: "center",
+                width: "100%",
+              }}
+            >
               <AntDesign
                 name="contacts"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray", left: 30 }}
+                style={{
+                  color: focused ? "#66ffff" : "white",
+                  paddingLeft: 10,
+                }}
               />
 
               <Text
                 style={{
                   fontSize: 12,
                   fontFamily: "Helvetica-Bold",
-                  color: focused ? "#fb5414" : "gray",
-
-                  left: 20,
+                  color: focused ? "#66ffff" : "white",
+                  paddingLeft: 5,
                 }}
               >
                 Contacts
@@ -166,24 +181,31 @@ function MyTabs({ route }) {
       />
 
       <Tab.Screen
-        name="More"
-        component={More}
+        name="Profile"
+        component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItem: "center" }}>
-              <Feather
-                name="more-horizontal"
+            <View
+              style={{
+                justifyContent: "center",
+                alignItem: "center",
+                width: "100%",
+              }}
+            >
+              <Ionicons
+                name="person"
                 size={30}
-                style={{ color: focused ? "#fb5414" : "gray" }}
+                style={{ color: focused ? "#66ffff" : "white" }}
               />
               <Text
                 style={{
                   fontSize: 12,
                   fontFamily: "Helvetica-Bold",
-                  color: focused ? "#fb5414" : "gray",
+                  color: focused ? "#66ffff" : "white",
+                  // paddingLeft: 5,
                 }}
               >
-                More
+                Profile
               </Text>
             </View>
           ),

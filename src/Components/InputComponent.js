@@ -20,7 +20,7 @@ const InputComponent = ({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "white",
+        // backgroundColor: "white",
       }}
     >
       <TextInput

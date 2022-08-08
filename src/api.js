@@ -55,5 +55,16 @@ export default {
       console.log("key Status", res.status);
       return res;
     },
+
+    UpdateRequest: async (data) => {
+      let res = await axios.put(API_SERVER_URL + "/updateUserProfile/", data, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      });
+      console.log("API Call ===> Update request", res);
+      console.log("key Status", res.status);
+      return res;
+    },
   },
 };

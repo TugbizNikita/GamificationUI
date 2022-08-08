@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { View, BackHandler, ScrollView, Text, FlatList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  View,
+  BackHandler,
+  ScrollView,
+  Text,
+  FlatList,
+  Modal,
+  StyleSheet,
+  alert,
+  TouchableOpacity,
+} from "react-native";
+
+import Toast from "react-native-tiny-toast";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function AssignedExam({ navigation }) {
   const [assigned_exam_data, setAssigned_exam_data] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const Exam =
-    "http://3.215.18.129/getAssessmentData/?login-Id=gupta.sanket007@gmail.com";
+  const authToken = useSelector((state) => state.Reducers.authToken);
+  const userNamee = useSelector((state) => state.Reducers.userName);
+  console.log("authToken=====>", authToken);
+  console.log("userNameasssign=====0000>", userNamee);
+  const Exam = `http://3.215.18.129/getAssessmentData/?login-Id=${userNamee}`;
 
   const ExamData = () => {
     fetch(Exam)
@@ -21,11 +37,6 @@ export default function AssignedExam({ navigation }) {
 
       .catch((error) => {
         console.error(error);
-
-        // if (response.status === 500) {
-        //   alert("NetWork error");
-        // }
-        // console.log("=========>>>>>", response.status === 500);
       });
   };
 
@@ -33,12 +44,15 @@ export default function AssignedExam({ navigation }) {
     ExamData();
   }, []);
 
+  // let assdata = assigned_exam_data;
+
+  //
+
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.navigate("DashBoardHeader");
-        // Return true to stop default back navigaton
-        // Return false to keep default back navigaton
+        navigation.navigate("DashBoard");
+
         return true;
       };
 
@@ -55,15 +69,19 @@ export default function AssignedExam({ navigation }) {
   const Item = ({ item }) => {
     const FinalExamUrl = item.finalExamUrl;
     console.log("finalExamUrl", FinalExamUrl);
-    // let CourseID = item.chapter_url;
+    const typedata = item.type;
+    console.log("type of data===>", typedata);
     return (
       <View
         style={{
           backgroundColor: "white",
-          marginVertical: 5,
+          // marginVertical: 5,
+          top: 0,
+          // bottom: 10,
           width: "100%",
           justifyContent: "center",
           alignItems: "center",
+          flex: 1,
         }}
       >
         <View
@@ -80,56 +98,84 @@ export default function AssignedExam({ navigation }) {
               alignItems: "center",
               backgroundColor: "white",
               width: "70%",
+              backgroundColor: "white",
             }}
           >
             <Text style={{ fontSize: 13 }}>{item.externalExamName}</Text>
           </View>
-          <View
-            style={{
-              width: "20%",
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("FinalExamUrl", { paramKey: FinalExamUrl })
-              }
+
+          {typedata !== "programming" ? (
+            <View
               style={{
-                height: 50,
-                width: 100,
-                borderWidth: 1,
-                borderRadius: 40,
-                backgroundColor: "#0084D6",
+                width: "20%",
+                backgroundColor: "white",
                 justifyContent: "center",
-                borderColor: "gray",
-                elevation: 1,
+                alignItems: "center",
               }}
             >
-              <Text
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("FinalExamUrl", {
+                    paramKey: FinalExamUrl,
+                  })
+                }
                 style={{
-                  textAlign: "center",
-                  color: "white",
-                  fontWeight: "bold",
+                  height: 50,
+                  width: 100,
+                  borderWidth: 1,
+                  borderRadius: 40,
+                  backgroundColor: "#0084D6",
+                  justifyContent: "center",
+                  borderColor: "gray",
+                  elevation: 1,
                 }}
               >
-                Start Exam
-              </Text>
-            </TouchableOpacity>
-          </View>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Start Exam
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View
+              style={{
+                width: "20%",
+                backgroundColor: "white",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                style={{
+                  height: 50,
+                  width: 100,
+                  borderWidth: 1,
+                  borderRadius: 40,
+                  backgroundColor: "#0084D6",
+                  justifyContent: "center",
+                  borderColor: "gray",
+                  elevation: 1,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Start Exam
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
-
-        <View
-          style={{
-            width: "100%",
-            borderWidth: 0.5,
-            top: 10,
-            right: 20,
-            borderColor: "#E5E4E2",
-            elevation: 1,
-          }}
-        ></View>
       </View>
     );
   };
@@ -144,19 +190,87 @@ export default function AssignedExam({ navigation }) {
         alignItems: "center",
       }}
     >
-      {/* <ScrollView
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true}
-        style={{ width: "100%" }}
-      > */}
-      <View style={{ justifyContent: "space-between" }}>
+      <View
+        style={{
+          justifyContent: "space-between",
+          // top: 20,
+          backgroundColor: "white",
+        }}
+      >
         <FlatList
           data={assigned_exam_data}
           renderItem={Item}
           keyExtractor={(item) => item.id}
         />
       </View>
-      {/* </ScrollView> */}
+
+      <View
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Modal
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={{ backgroundColor: "rgba(0,0,0,0.5)", flex: 1 }}>
+            <View style={styles.modalView}>
+              <Text style={{ fontSize: 16, lineHeight: 20 }}>
+                You cannot take this test on your mobile phone. You will have to
+                use a laptop to take it
+              </Text>
+              <View style={{ alignItems: "flex-end", top: 50 }}>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      color: "#0084D6",
+                    }}
+                  >
+                    OK
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  modalView: {
+    margin: 20,
+    height: "30%",
+    width: "90%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    // justifyContent: "center",
+    // alignItems: "center",
+    alignContent: "center",
+    top: 220,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+});
